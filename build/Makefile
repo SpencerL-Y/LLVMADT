@@ -124,17 +124,17 @@ intrinsics_gen/fast:
 .PHONY : intrinsics_gen/fast
 
 #=============================================================================
-# Target rules for targets named llvmadt
+# Target rules for targets named exec
 
 # Build rule for target.
-llvmadt: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 llvmadt
-.PHONY : llvmadt
+exec: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 exec
+.PHONY : exec
 
 # fast build rule for target.
-llvmadt/fast:
-	$(MAKE) -f src/CMakeFiles/llvmadt.dir/build.make src/CMakeFiles/llvmadt.dir/build
-.PHONY : llvmadt/fast
+exec/fast:
+	$(MAKE) -f src/CMakeFiles/exec.dir/build.make src/CMakeFiles/exec.dir/build
+.PHONY : exec/fast
 
 #=============================================================================
 # Target rules for targets named cfa
@@ -184,7 +184,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... intrinsics_gen"
-	@echo "... llvmadt"
+	@echo "... exec"
 	@echo "... cfa"
 	@echo "... converter"
 	@echo "... automata"

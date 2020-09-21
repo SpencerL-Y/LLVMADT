@@ -57,35 +57,22 @@ include src/cfa/CMakeFiles/cfa.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/cfa/CMakeFiles/cfa.dir/flags.make
 
-src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
-src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o: ../src/cfa/Guard.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/Guard.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp
+src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
+src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o: ../src/cfa/CFA.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFA.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp
 
-src/cfa/CMakeFiles/cfa.dir/Guard.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/Guard.cpp.i"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp > CMakeFiles/cfa.dir/Guard.cpp.i
+src/cfa/CMakeFiles/cfa.dir/CFA.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/CFA.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp > CMakeFiles/cfa.dir/CFA.cpp.i
 
-src/cfa/CMakeFiles/cfa.dir/Guard.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/Guard.cpp.s"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp -o CMakeFiles/cfa.dir/Guard.cpp.s
-
-src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
-src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o: ../src/cfa/CFAInstruction.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFAInstruction.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp
-
-src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/CFAInstruction.cpp.i"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp > CMakeFiles/cfa.dir/CFAInstruction.cpp.i
-
-src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/CFAInstruction.cpp.s"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp -o CMakeFiles/cfa.dir/CFAInstruction.cpp.s
+src/cfa/CMakeFiles/cfa.dir/CFA.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/CFA.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp -o CMakeFiles/cfa.dir/CFA.cpp.s
 
 src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
 src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.o: ../src/cfa/CFAState.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.o"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFAState.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAState.cpp
 
 src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.i: cmake_force
@@ -98,7 +85,7 @@ src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.s: cmake_force
 
 src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
 src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.o: ../src/cfa/CFAEdge.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.o"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFAEdge.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp
 
 src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.i: cmake_force
@@ -109,35 +96,48 @@ src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/CFAEdge.cpp.s"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp -o CMakeFiles/cfa.dir/CFAEdge.cpp.s
 
-src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
-src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o: ../src/cfa/CFA.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFA.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp
+src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
+src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o: ../src/cfa/CFAInstruction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/CFAInstruction.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp
 
-src/cfa/CMakeFiles/cfa.dir/CFA.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/CFA.cpp.i"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp > CMakeFiles/cfa.dir/CFA.cpp.i
+src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/CFAInstruction.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp > CMakeFiles/cfa.dir/CFAInstruction.cpp.i
 
-src/cfa/CMakeFiles/cfa.dir/CFA.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/CFA.cpp.s"
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp -o CMakeFiles/cfa.dir/CFA.cpp.s
+src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/CFAInstruction.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp -o CMakeFiles/cfa.dir/CFAInstruction.cpp.s
+
+src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o: src/cfa/CMakeFiles/cfa.dir/flags.make
+src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o: ../src/cfa/Guard.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cfa.dir/Guard.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp
+
+src/cfa/CMakeFiles/cfa.dir/Guard.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cfa.dir/Guard.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp > CMakeFiles/cfa.dir/Guard.cpp.i
+
+src/cfa/CMakeFiles/cfa.dir/Guard.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cfa.dir/Guard.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/cfa && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp -o CMakeFiles/cfa.dir/Guard.cpp.s
 
 # Object files for target cfa
 cfa_OBJECTS = \
-"CMakeFiles/cfa.dir/Guard.cpp.o" \
-"CMakeFiles/cfa.dir/CFAInstruction.cpp.o" \
+"CMakeFiles/cfa.dir/CFA.cpp.o" \
 "CMakeFiles/cfa.dir/CFAState.cpp.o" \
 "CMakeFiles/cfa.dir/CFAEdge.cpp.o" \
-"CMakeFiles/cfa.dir/CFA.cpp.o"
+"CMakeFiles/cfa.dir/CFAInstruction.cpp.o" \
+"CMakeFiles/cfa.dir/Guard.cpp.o"
 
 # External object files for target cfa
 cfa_EXTERNAL_OBJECTS =
 
-src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o
-src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o
+src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o
 src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFAState.cpp.o
 src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFAEdge.cpp.o
-src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFA.cpp.o
+src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/CFAInstruction.cpp.o
+src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/Guard.cpp.o
 src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/build.make
 src/cfa/libcfa.a: src/cfa/CMakeFiles/cfa.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libcfa.a"

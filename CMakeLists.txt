@@ -8,7 +8,6 @@ include_directories(
     ${LLVM_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/include_directories
     ${PROJECT_SOURCE_DIR}/include/cfa
-    ${PROJECT_SOURCE_DIR}/include/converter
     /usr/local/include
     /usr/include
 )

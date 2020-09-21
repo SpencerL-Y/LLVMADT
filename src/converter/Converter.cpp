@@ -14,7 +14,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path){
     for(llvm::Module::iterator m_iter = Mod->begin(); m_iter != Mod->end(); ++m_iter){
         CFA currCFA;
         llvm::Function* currFunc = &*m_iter;
-        currCFA.setName("Func_" + functionId);
+        std::string name = "Func_" + functionId;
+        currCFA.setName(name);
         int stateId = 0;
         //Add states
         for(llvm::Function::iterator f_iter = currFunc->begin(); f_iter != currFunc->end(); ++f_iter){

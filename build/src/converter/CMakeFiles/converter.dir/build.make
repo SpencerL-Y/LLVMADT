@@ -70,17 +70,92 @@ src/converter/CMakeFiles/converter.dir/Converter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/Converter.cpp.s"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/converter/Converter.cpp -o CMakeFiles/converter.dir/Converter.cpp.s
 
+src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.o: src/converter/CMakeFiles/converter.dir/flags.make
+src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.o: ../src/cfa/CFA.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/converter.dir/__/cfa/CFA.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/converter.dir/__/cfa/CFA.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp > CMakeFiles/converter.dir/__/cfa/CFA.cpp.i
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/__/cfa/CFA.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFA.cpp -o CMakeFiles/converter.dir/__/cfa/CFA.cpp.s
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o: src/converter/CMakeFiles/converter.dir/flags.make
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o: ../src/cfa/CFAEdge.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp > CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.i
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp -o CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.s
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o: src/converter/CMakeFiles/converter.dir/flags.make
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o: ../src/cfa/CFAInstruction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp > CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.i
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp -o CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.s
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o: src/converter/CMakeFiles/converter.dir/flags.make
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o: ../src/cfa/CFAState.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAState.cpp
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/converter.dir/__/cfa/CFAState.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAState.cpp > CMakeFiles/converter.dir/__/cfa/CFAState.cpp.i
+
+src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/__/cfa/CFAState.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAState.cpp -o CMakeFiles/converter.dir/__/cfa/CFAState.cpp.s
+
+src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.o: src/converter/CMakeFiles/converter.dir/flags.make
+src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.o: ../src/cfa/Guard.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.o"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/converter.dir/__/cfa/Guard.cpp.o -c /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp
+
+src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/converter.dir/__/cfa/Guard.cpp.i"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp > CMakeFiles/converter.dir/__/cfa/Guard.cpp.i
+
+src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/converter.dir/__/cfa/Guard.cpp.s"
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp -o CMakeFiles/converter.dir/__/cfa/Guard.cpp.s
+
 # Object files for target converter
 converter_OBJECTS = \
-"CMakeFiles/converter.dir/Converter.cpp.o"
+"CMakeFiles/converter.dir/Converter.cpp.o" \
+"CMakeFiles/converter.dir/__/cfa/CFA.cpp.o" \
+"CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o" \
+"CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o" \
+"CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o" \
+"CMakeFiles/converter.dir/__/cfa/Guard.cpp.o"
 
 # External object files for target converter
 converter_EXTERNAL_OBJECTS =
 
 src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/Converter.cpp.o
+src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.o
+src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o
+src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o
+src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o
+src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.o
 src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/build.make
 src/converter/libconverter.a: src/converter/CMakeFiles/converter.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libconverter.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libconverter.a"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && $(CMAKE_COMMAND) -P CMakeFiles/converter.dir/cmake_clean_target.cmake
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src/converter && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/converter.dir/link.txt --verbose=$(VERBOSE)
 

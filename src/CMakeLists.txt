@@ -9,6 +9,6 @@ llvm_map_components_to_libnames(LLVM-10 support core irreader)
 ADD_SUBDIRECTORY(cfa)
 ADD_SUBDIRECTORY(converter)
 ADD_SUBDIRECTORY(automata)
-ADD_EXECUTABLE(llvmadt Main.cpp)
+ADD_EXECUTABLE(exec Main.cpp)
 
-TARGET_LINK_LIBRARIES(llvmadt cfa converter LLVM-10)
+TARGET_LINK_LIBRARIES(exec cfa converter automata LLVM-10)

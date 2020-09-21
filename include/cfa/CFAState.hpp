@@ -4,14 +4,11 @@
 #include <vector>
 #include <list>
 #include <iostream>
-#include "./CFAEdge.hpp"
 #include "./CFAInstruction.hpp"
-#include "./CFA.hpp"
 
 namespace llvmadt{
-class CFAEdge;
-class CFAInstruction;
 class CFA;
+class CFAEdge;
 class CFAState
 {
 private:
@@ -30,7 +27,7 @@ public:
     void setInstruction(CFAInstruction* instructions);
     CFAInstruction* getInstruction();
     std::string toString();
-    void addEdge(int fromId, int toId);
+    void addEdge(CFAEdge* edge);
     std::list<CFAEdge> getEdges();
     bool isBlockFinal();
     void setBlockFinal();
@@ -40,14 +37,6 @@ public:
 
 };
 
-CFAState::CFAState(/* args */)
-{
-    this->instruction = new CFAInstruction();
-}
 
-CFAState::~CFAState()
-{
-    delete(this->instruction);
-}
 }
 #endif

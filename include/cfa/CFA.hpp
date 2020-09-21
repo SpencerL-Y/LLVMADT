@@ -8,8 +8,6 @@
 #include "./CFAState.hpp"
 #include "./CFAEdge.hpp"
 namespace llvmadt{
-class CFAState;
-class CFAEdge;
 class CFA
 {
 private:
@@ -35,20 +33,7 @@ public:
     std::string toString();
 };
 
-CFA::CFA(/* args */)
-{
-    
-}
 
-CFA::~CFA()
-{
-    for(CFAEdge* edge : this->edges){
-        delete(edge);
-    }
-    for(CFAState* state : this->states){
-        delete(state);
-    }
-}
 }
 
 

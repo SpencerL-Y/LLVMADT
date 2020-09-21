@@ -25,15 +25,17 @@ std::string CFAState::toString(){
     return nullptr;
 }
 
-void CFAState::addEdge(int fromId, int toId){
-    if(this->getCfa()->getEdge(fromId, toId) == nullptr){
-        CFAEdge* edge = new CFAEdge();
-        edge->setFromState(this->getCfa()->getState(fromId));
-        edge->setToState(this->getCfa()->getState(toId));
-        this->edges.push_front(edge);
-        this->getCfa()->getEdges().push_front(edge);
-    } else {
-        std::cout << "Error: add edge error, edge exists" << std::endl;
-    }
+void CFAState::addEdge(CFAEdge* edge){
+    this->edges.push_back(edge);
+}
+
+CFAState::CFAState(/* args */)
+{
+    this->instruction = new CFAInstruction();
+}
+
+CFAState::~CFAState()
+{
+    delete(this->instruction);
 }
 }

@@ -17,7 +17,6 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/lib/llvm-10/include"
   "../include_directories"
   "../include/cfa"
-  "../include/converter"
   )
 
 # Targets to which this target links.

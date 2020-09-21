@@ -5,8 +5,6 @@
 #include <string>
 #include <list>
 #include <vector>
-#include "../cfa/CFA.hpp"
-#include "../automata/Automaton.hpp"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/BasicBlock.h"
@@ -17,6 +15,8 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm-10/llvm/ADT/AllocatorList.h"
 
+#include "../cfa/CFA.hpp"
+#include "../automata/Automaton.hpp"
 namespace llvmadt{
 class Converter
 {

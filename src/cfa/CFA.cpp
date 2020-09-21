@@ -62,5 +62,20 @@ std::string toString(){
     return nullptr;
 }
 
+CFA::CFA(/* args */)
+{
+    
+}
+
+CFA::~CFA()
+{
+    for(CFAEdge* edge : this->edges){
+        delete(edge);
+    }
+    for(CFAState* state : this->states){
+        delete(state);
+    }
+}
+
 }
 

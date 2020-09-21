@@ -11,13 +11,6 @@ public:
     ~CFAInstruction();
 };
 
-CFAInstruction::CFAInstruction(/* args */)
-{
-}
-
-CFAInstruction::~CFAInstruction()
-{
-}
 }
 
 #endif

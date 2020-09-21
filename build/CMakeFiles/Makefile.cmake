@@ -59,7 +59,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/intrinsics_gen.dir/DependInfo.cmake"
-  "src/CMakeFiles/llvmadt.dir/DependInfo.cmake"
+  "src/CMakeFiles/exec.dir/DependInfo.cmake"
   "src/cfa/CMakeFiles/cfa.dir/DependInfo.cmake"
   "src/converter/CMakeFiles/converter.dir/DependInfo.cmake"
   "src/automata/CMakeFiles/automata.dir/DependInfo.cmake"

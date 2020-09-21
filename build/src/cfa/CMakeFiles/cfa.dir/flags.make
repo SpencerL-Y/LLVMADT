@@ -6,5 +6,5 @@ CXX_FLAGS =   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/usr/lib/llvm-10/include -I/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include_directories -I/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa -I/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/converter 
+CXX_INCLUDES = -I/usr/lib/llvm-10/include -I/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include_directories -I/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa 
 

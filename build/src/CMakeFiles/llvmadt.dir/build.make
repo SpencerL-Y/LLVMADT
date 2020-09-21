@@ -81,6 +81,7 @@ bin/llvmadt: src/CMakeFiles/llvmadt.dir/Main.cpp.o
 bin/llvmadt: src/CMakeFiles/llvmadt.dir/build.make
 bin/llvmadt: src/cfa/libcfa.a
 bin/llvmadt: src/converter/libconverter.a
+bin/llvmadt: src/automata/libautomata.a
 bin/llvmadt: src/CMakeFiles/llvmadt.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/llvmadt"
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/llvmadt.dir/link.txt --verbose=$(VERBOSE)

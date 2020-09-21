@@ -111,19 +111,19 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/llvmadt.dir/rule:
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/llvmadt.dir/rule
-.PHONY : src/CMakeFiles/llvmadt.dir/rule
+src/CMakeFiles/exec.dir/rule:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/exec.dir/rule
+.PHONY : src/CMakeFiles/exec.dir/rule
 
 # Convenience name for target.
-llvmadt: src/CMakeFiles/llvmadt.dir/rule
+exec: src/CMakeFiles/exec.dir/rule
 
-.PHONY : llvmadt
+.PHONY : exec
 
 # fast build rule for target.
-llvmadt/fast:
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/llvmadt.dir/build.make src/CMakeFiles/llvmadt.dir/build
-.PHONY : llvmadt/fast
+exec/fast:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/exec.dir/build.make src/CMakeFiles/exec.dir/build
+.PHONY : exec/fast
 
 Main.o: Main.cpp.o
 
@@ -131,7 +131,7 @@ Main.o: Main.cpp.o
 
 # target to build an object file
 Main.cpp.o:
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/llvmadt.dir/build.make src/CMakeFiles/llvmadt.dir/Main.cpp.o
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/exec.dir/build.make src/CMakeFiles/exec.dir/Main.cpp.o
 .PHONY : Main.cpp.o
 
 Main.i: Main.cpp.i
@@ -140,7 +140,7 @@ Main.i: Main.cpp.i
 
 # target to preprocess a source file
 Main.cpp.i:
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/llvmadt.dir/build.make src/CMakeFiles/llvmadt.dir/Main.cpp.i
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/exec.dir/build.make src/CMakeFiles/exec.dir/Main.cpp.i
 .PHONY : Main.cpp.i
 
 Main.s: Main.cpp.s
@@ -149,7 +149,7 @@ Main.s: Main.cpp.s
 
 # target to generate assembly for a file
 Main.cpp.s:
-	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/llvmadt.dir/build.make src/CMakeFiles/llvmadt.dir/Main.cpp.s
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/CMakeFiles/exec.dir/build.make src/CMakeFiles/exec.dir/Main.cpp.s
 .PHONY : Main.cpp.s
 
 # Help Target
@@ -160,7 +160,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... llvmadt"
+	@echo "... exec"
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"

@@ -14,17 +14,10 @@ public:
     Guard(/* args */);
     ~Guard();
     std::string getGuardStr();
-    void setGuardStr();
+    void setGuardStr(std::string& str);
     std::string toString();
 };
 
-Guard::Guard(/* args */)
-{
-}
-
-Guard::~Guard()
-{
-}
 }
 
 #endif

@@ -12,13 +12,6 @@ public:
     ~Automaton();
 };
 
-Automaton::Automaton(/* args */)
-{
-}
-
-Automaton::~Automaton()
-{
-}
 }
 
 

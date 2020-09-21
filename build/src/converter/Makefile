@@ -152,6 +152,141 @@ Converter.cpp.s:
 	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/Converter.cpp.s
 .PHONY : Converter.cpp.s
 
+__/cfa/CFA.o: __/cfa/CFA.cpp.o
+
+.PHONY : __/cfa/CFA.o
+
+# target to build an object file
+__/cfa/CFA.cpp.o:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.o
+.PHONY : __/cfa/CFA.cpp.o
+
+__/cfa/CFA.i: __/cfa/CFA.cpp.i
+
+.PHONY : __/cfa/CFA.i
+
+# target to preprocess a source file
+__/cfa/CFA.cpp.i:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.i
+.PHONY : __/cfa/CFA.cpp.i
+
+__/cfa/CFA.s: __/cfa/CFA.cpp.s
+
+.PHONY : __/cfa/CFA.s
+
+# target to generate assembly for a file
+__/cfa/CFA.cpp.s:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFA.cpp.s
+.PHONY : __/cfa/CFA.cpp.s
+
+__/cfa/CFAEdge.o: __/cfa/CFAEdge.cpp.o
+
+.PHONY : __/cfa/CFAEdge.o
+
+# target to build an object file
+__/cfa/CFAEdge.cpp.o:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.o
+.PHONY : __/cfa/CFAEdge.cpp.o
+
+__/cfa/CFAEdge.i: __/cfa/CFAEdge.cpp.i
+
+.PHONY : __/cfa/CFAEdge.i
+
+# target to preprocess a source file
+__/cfa/CFAEdge.cpp.i:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.i
+.PHONY : __/cfa/CFAEdge.cpp.i
+
+__/cfa/CFAEdge.s: __/cfa/CFAEdge.cpp.s
+
+.PHONY : __/cfa/CFAEdge.s
+
+# target to generate assembly for a file
+__/cfa/CFAEdge.cpp.s:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAEdge.cpp.s
+.PHONY : __/cfa/CFAEdge.cpp.s
+
+__/cfa/CFAInstruction.o: __/cfa/CFAInstruction.cpp.o
+
+.PHONY : __/cfa/CFAInstruction.o
+
+# target to build an object file
+__/cfa/CFAInstruction.cpp.o:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.o
+.PHONY : __/cfa/CFAInstruction.cpp.o
+
+__/cfa/CFAInstruction.i: __/cfa/CFAInstruction.cpp.i
+
+.PHONY : __/cfa/CFAInstruction.i
+
+# target to preprocess a source file
+__/cfa/CFAInstruction.cpp.i:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.i
+.PHONY : __/cfa/CFAInstruction.cpp.i
+
+__/cfa/CFAInstruction.s: __/cfa/CFAInstruction.cpp.s
+
+.PHONY : __/cfa/CFAInstruction.s
+
+# target to generate assembly for a file
+__/cfa/CFAInstruction.cpp.s:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAInstruction.cpp.s
+.PHONY : __/cfa/CFAInstruction.cpp.s
+
+__/cfa/CFAState.o: __/cfa/CFAState.cpp.o
+
+.PHONY : __/cfa/CFAState.o
+
+# target to build an object file
+__/cfa/CFAState.cpp.o:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.o
+.PHONY : __/cfa/CFAState.cpp.o
+
+__/cfa/CFAState.i: __/cfa/CFAState.cpp.i
+
+.PHONY : __/cfa/CFAState.i
+
+# target to preprocess a source file
+__/cfa/CFAState.cpp.i:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.i
+.PHONY : __/cfa/CFAState.cpp.i
+
+__/cfa/CFAState.s: __/cfa/CFAState.cpp.s
+
+.PHONY : __/cfa/CFAState.s
+
+# target to generate assembly for a file
+__/cfa/CFAState.cpp.s:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/CFAState.cpp.s
+.PHONY : __/cfa/CFAState.cpp.s
+
+__/cfa/Guard.o: __/cfa/Guard.cpp.o
+
+.PHONY : __/cfa/Guard.o
+
+# target to build an object file
+__/cfa/Guard.cpp.o:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.o
+.PHONY : __/cfa/Guard.cpp.o
+
+__/cfa/Guard.i: __/cfa/Guard.cpp.i
+
+.PHONY : __/cfa/Guard.i
+
+# target to preprocess a source file
+__/cfa/Guard.cpp.i:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.i
+.PHONY : __/cfa/Guard.cpp.i
+
+__/cfa/Guard.s: __/cfa/Guard.cpp.s
+
+.PHONY : __/cfa/Guard.s
+
+# target to generate assembly for a file
+__/cfa/Guard.cpp.s:
+	cd /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/build && $(MAKE) -f src/converter/CMakeFiles/converter.dir/build.make src/converter/CMakeFiles/converter.dir/__/cfa/Guard.cpp.s
+.PHONY : __/cfa/Guard.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -164,6 +299,21 @@ help:
 	@echo "... Converter.o"
 	@echo "... Converter.i"
 	@echo "... Converter.s"
+	@echo "... __/cfa/CFA.o"
+	@echo "... __/cfa/CFA.i"
+	@echo "... __/cfa/CFA.s"
+	@echo "... __/cfa/CFAEdge.o"
+	@echo "... __/cfa/CFAEdge.i"
+	@echo "... __/cfa/CFAEdge.s"
+	@echo "... __/cfa/CFAInstruction.o"
+	@echo "... __/cfa/CFAInstruction.i"
+	@echo "... __/cfa/CFAInstruction.s"
+	@echo "... __/cfa/CFAState.o"
+	@echo "... __/cfa/CFAState.i"
+	@echo "... __/cfa/CFAState.s"
+	@echo "... __/cfa/Guard.o"
+	@echo "... __/cfa/Guard.i"
+	@echo "... __/cfa/Guard.s"
 .PHONY : help
 
 

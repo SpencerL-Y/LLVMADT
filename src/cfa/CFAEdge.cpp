@@ -39,4 +39,14 @@ std::string CFAEdge::toString(){
     //TODO
     return nullptr;
 }
+
+CFAEdge::CFAEdge(/* args */)
+{
+
+}
+
+CFAEdge::~CFAEdge()
+{
+    delete(this->guard);
+}
 }

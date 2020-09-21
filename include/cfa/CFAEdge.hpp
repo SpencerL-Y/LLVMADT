@@ -7,7 +7,6 @@
 #include <unistd.h>
 
 #include "./Guard.hpp"
-#include "./CFAState.hpp"
 
 namespace llvmadt{
 class CFAState;
@@ -33,15 +32,7 @@ public:
 };
 
 
-CFAEdge::CFAEdge(/* args */)
-{
 
-}
-
-CFAEdge::~CFAEdge()
-{
-    delete(this->guard);
-}
 }
 
 #endif

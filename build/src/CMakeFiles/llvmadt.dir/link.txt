@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/llvmadt.dir/Main.cpp.o  -o ../bin/llvmadt  cfa/libcfa.a converter/libconverter.a -lLLVM-10 
+/usr/bin/c++     CMakeFiles/llvmadt.dir/Main.cpp.o  -o ../bin/llvmadt  cfa/libcfa.a converter/libconverter.a automata/libautomata.a -lLLVM-10 

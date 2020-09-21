@@ -1,3 +1,12 @@
 MESSAGE(STATUS "converter This is SOURCE dir " ${PROJECT_SOURCE_DIR})
 
-ADD_LIBRARY(converter Converter.cpp)
+
+SET(cfa_dir
+    ../cfa/CFA.cpp
+    ../cfa/CFAEdge.cpp
+    ../cfa/CFAInstruction.cpp
+    ../cfa/CFAState.cpp
+    ../cfa/Guard.cpp
+)
+
+ADD_LIBRARY(converter Converter.cpp ${cfa_dir})
