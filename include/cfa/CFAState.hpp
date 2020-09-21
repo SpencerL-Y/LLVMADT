@@ -4,9 +4,9 @@
 #include <vector>
 #include <list>
 #include <iostream>
-#include "CFAEdge.hpp"
-#include "CFAInstruction.hpp"
-#include "CFA.hpp"
+#include "./CFAEdge.hpp"
+#include "./CFAInstruction.hpp"
+#include "./CFA.hpp"
 class CFAEdge;
 class CFAInstruction;
 class CFA;
@@ -14,8 +14,8 @@ class CFAState
 {
 private:
     int id;
-    std::list<CFAEdge> edges;
-    CFAInstruction instruction;
+    std::list<CFAEdge*> edges;
+    CFAInstruction* instruction;
     bool blockFinal; // true if is the final instruction of the basicblock
 
     //back pointer
@@ -25,7 +25,7 @@ public:
     ~CFAState();
     int getId();
     void setId(int id);
-    void setInstruction(CFAInstruction& instructions);
+    void setInstruction(CFAInstruction* instructions);
     CFAInstruction* getInstruction();
     std::string toString();
     void addEdge(int fromId, int toId);
@@ -40,10 +40,12 @@ public:
 
 CFAState::CFAState(/* args */)
 {
+    this->instruction = new CFAInstruction();
 }
 
 CFAState::~CFAState()
 {
+    delete(this->instruction);
 }
 
 #endif

@@ -8,6 +8,8 @@
 #include "../cfa/CFA.hpp"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Instruction.h"
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/raw_ostream.h"
@@ -36,8 +38,17 @@ public:
                 BasicBlock* bb = &*f_iter;
                 currCFA.addBlock(stateId);
                 //TODO: more specific translation of instruction to the condition on the edge
-                stateId ++;
+                Instruction* lastInst;
+                for(BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter){
+                    lastInst = &*b_iter;
+                    Instruction* currInst = &*b_iter;
+
+                    //TODO: specify relation between state and instruction here
+
+                    //TODO: add state increasing logic here.
+                }
             }
+
             //Add edges
             for(Function::iterator f_iter = currFunc->begin(); f_iter != currFunc->end(); ++f_iter){
                 BasicBlock* bb = &*f_iter;

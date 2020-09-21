@@ -6,8 +6,8 @@
 #include <vector>
 #include <unistd.h>
 
-#include "Guard.hpp"
-#include "CFAState.hpp"
+#include "./Guard.hpp"
+#include "./CFAState.hpp"
 
 class CFAState;
 class CFAEdge
@@ -16,13 +16,17 @@ private:
     /* data */
     CFAState* fromState;
     CFAState* toState;
-    Guard guard;
+    Guard* guard;
     
 public:
     CFAEdge(/* args */);
     ~CFAEdge();
     CFAState* getFromState();
     CFAState* getToState();
+    void setFromState(CFAState* fromState);
+    void setToState(CFAState* toState);
+    void mkGuard();
+    Guard* getGuard();
     std::string getGuardStr();
     std::string toString();
 };
@@ -30,10 +34,12 @@ public:
 
 CFAEdge::CFAEdge(/* args */)
 {
+
 }
 
 CFAEdge::~CFAEdge()
 {
+    delete(this->guard);
 }
 
 
