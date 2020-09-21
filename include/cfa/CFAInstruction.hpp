@@ -1,6 +1,7 @@
 #ifndef CFAInstruction_hpp
 #define CFAInstruction_hpp
 
+namespace llvmadt{
 class CFAInstruction
 {
 private:
@@ -17,6 +18,6 @@ CFAInstruction::CFAInstruction(/* args */)
 CFAInstruction::~CFAInstruction()
 {
 }
-
+}
 
 #endif

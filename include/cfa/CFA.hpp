@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "./CFAState.hpp"
 #include "./CFAEdge.hpp"
+namespace llvmadt{
 class CFAState;
 class CFAEdge;
 class CFA
@@ -15,6 +16,7 @@ private:
     std::list<CFAState*> states; 
     std::list<CFAEdge*> edges;
     int stateNum;
+    std::string name;
 public:
     CFA(/* args */);
     ~CFA();
@@ -35,6 +37,7 @@ public:
 
 CFA::CFA(/* args */)
 {
+    
 }
 
 CFA::~CFA()
@@ -45,6 +48,7 @@ CFA::~CFA()
     for(CFAState* state : this->states){
         delete(state);
     }
+}
 }
 
 

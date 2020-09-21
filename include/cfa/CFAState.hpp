@@ -7,6 +7,8 @@
 #include "./CFAEdge.hpp"
 #include "./CFAInstruction.hpp"
 #include "./CFA.hpp"
+
+namespace llvmadt{
 class CFAEdge;
 class CFAInstruction;
 class CFA;
@@ -47,5 +49,5 @@ CFAState::~CFAState()
 {
     delete(this->instruction);
 }
-
+}
 #endif

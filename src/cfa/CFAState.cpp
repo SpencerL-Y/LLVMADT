@@ -1,6 +1,7 @@
 #include "../../include/cfa/CFAState.hpp"
 
 
+namespace llvmadt{
 int CFAState::getId(){
     return this->id;
 }
@@ -30,8 +31,9 @@ void CFAState::addEdge(int fromId, int toId){
         edge->setFromState(this->getCfa()->getState(fromId));
         edge->setToState(this->getCfa()->getState(toId));
         this->edges.push_front(edge);
-        this->getEdges().push_front(edge);
+        this->getCfa()->getEdges().push_front(edge);
     } else {
         std::cout << "Error: add edge error, edge exists" << std::endl;
     }
+}
 }

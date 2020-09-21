@@ -9,6 +9,7 @@
 #include "./Guard.hpp"
 #include "./CFAState.hpp"
 
+namespace llvmadt{
 class CFAState;
 class CFAEdge
 {
@@ -41,6 +42,6 @@ CFAEdge::~CFAEdge()
 {
     delete(this->guard);
 }
-
+}
 
 #endif

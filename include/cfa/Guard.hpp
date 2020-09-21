@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <list>
+
+namespace llvmadt{
 class Guard
 {
 private:
@@ -23,6 +25,6 @@ Guard::Guard(/* args */)
 Guard::~Guard()
 {
 }
-
+}
 
 #endif

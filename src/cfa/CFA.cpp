@@ -1,5 +1,6 @@
 #include "../../include/cfa/CFA.hpp"
 
+namespace llvmadt{
 std::list<CFAState*> CFA::getStates(){
     return this->states;   
 }
@@ -43,3 +44,23 @@ CFAEdge* CFA::getEdge(int fromId, int toId){
     }
     return nullptr;
 }
+
+std::list<CFAEdge*>& CFA::getEdges(){
+    return this->edges;
+}
+
+void CFA::setName(std::string name){
+    this->name = name;
+}
+
+std::string CFA::getName(){
+    return this->name;
+}
+
+std::string toString(){
+    //TODO: add later
+    return nullptr;
+}
+
+}
+

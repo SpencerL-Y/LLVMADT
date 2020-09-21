@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.13.4)
+project(LLVMADT)
+
+find_package(LLVM REQUIRED CONFIG)
+
+
+include_directories(
+    ${LLVM_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/include_directories
+    ${PROJECT_SOURCE_DIR}/include/cfa
+    ${PROJECT_SOURCE_DIR}/include/converter
+    /usr/local/include
+    /usr/include
+)
+
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)
+SET (CMAKE_CXX_STANDARD 17)
+
+ADD_SUBDIRECTORY(src)
