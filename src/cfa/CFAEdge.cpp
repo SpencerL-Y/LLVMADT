@@ -42,11 +42,12 @@ std::string CFAEdge::toString(){
 
 CFAEdge::CFAEdge(/* args */)
 {
-
+    this->guard = new Guard();
 }
 
 CFAEdge::~CFAEdge()
 {
+    std::cout << "delete edge\n";  
     delete(this->guard);
 }
 }

@@ -64,19 +64,3 @@ list
 ../../include/cfa/CFA.hpp
 /home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa/CFA.hpp
 
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAEdge.cpp
-../../include/cfa/CFAEdge.hpp
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa/CFAEdge.hpp
-
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAInstruction.cpp
-../../include/cfa/CFAInstruction.hpp
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa/CFAInstruction.hpp
-
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/CFAState.cpp
-../../include/cfa/CFAState.hpp
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa/CFAState.hpp
-
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/src/cfa/Guard.cpp
-../../include/cfa/Guard.hpp
-/home/clexma/Desktop/Disk_D/gitRepos/LLVMADT/include/cfa/Guard.hpp
-

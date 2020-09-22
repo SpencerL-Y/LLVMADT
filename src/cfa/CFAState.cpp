@@ -36,6 +36,7 @@ CFAState::CFAState(/* args */)
 
 CFAState::~CFAState()
 {
+    std::cout << "delete state\n";  
     delete(this->instruction);
 }
 }

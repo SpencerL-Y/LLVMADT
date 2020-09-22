@@ -21,6 +21,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path){
         for(llvm::Function::iterator f_iter = currFunc->begin(); f_iter != currFunc->end(); ++f_iter){
             llvm::BasicBlock* bb = &*f_iter;
             currCFA.addState(stateId);
+            std::cout << "add state " << stateId << std::endl;
             //TODO: more specific translation of instruction to the condition on the edge
             llvm::Instruction* lastInst;
             for(llvm::BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter){
@@ -31,6 +32,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path){
 
                 //TODO: add state increasing logic here.
             }
+            stateId++;
         }
 
         //Add edges
