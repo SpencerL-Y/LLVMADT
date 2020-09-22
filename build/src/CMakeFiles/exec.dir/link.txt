@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/exec.dir/Main.cpp.o  -o ../bin/exec  cfa/libcfa.a converter/libconverter.a automata/libautomata.a -lLLVM-10 

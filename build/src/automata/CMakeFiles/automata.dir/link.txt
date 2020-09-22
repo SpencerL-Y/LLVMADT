@@ -1,2 +1,0 @@
-/usr/bin/ar qc libautomata.a  CMakeFiles/automata.dir/Automaton.cpp.o
-/usr/bin/ranlib libautomata.a
