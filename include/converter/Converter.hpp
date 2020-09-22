@@ -31,9 +31,9 @@ public:
     }
     std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
 
-    static Automaton* convertLTLf2DFA(std::string ltlf);
+    Automaton* convertLTLf2DFA(std::string ltlf);
 
-    static Automaton* convertLTL2BA(std::string ltl);
+    Automaton* convertLTL2BA(std::string ltl);
 };
 }
 #endif

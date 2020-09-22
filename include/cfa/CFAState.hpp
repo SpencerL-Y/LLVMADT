@@ -28,9 +28,9 @@ public:
     CFAInstruction* getInstruction();
     std::string toString();
     void addEdge(CFAEdge* edge);
-    std::list<CFAEdge> getEdges();
+    std::list<CFAEdge*> getEdges();
     bool isBlockFinal();
-    void setBlockFinal();
+    void setBlockFinal(bool final);
 
     // go back to cfa
     CFA* getCfa();

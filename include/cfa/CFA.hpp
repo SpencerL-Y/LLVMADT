@@ -31,6 +31,8 @@ public:
     void setName(std::string name);
     std::string getName();
     std::string toString();
+    bool hasStateId(int id);
+    bool hasEdgeId(int fromId, int toId);
 };
 
 

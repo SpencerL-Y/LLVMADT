@@ -29,6 +29,19 @@ void CFAState::addEdge(CFAEdge* edge){
     this->edges.push_back(edge);
 }
 
+std::list<CFAEdge*> CFAState::getEdges(){
+    return this->edges;
+}
+
+bool CFAState::isBlockFinal(){
+    return this->blockFinal;
+}
+
+void CFAState::setBlockFinal(bool final){
+    this->blockFinal = final;
+}
+
+
 CFAState::CFAState(/* args */)
 {
     this->instruction = new CFAInstruction();
