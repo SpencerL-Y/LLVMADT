@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.13.4)
+
 project(LLVMADT)
 
 find_package(LLVM REQUIRED CONFIG)
+find_package(Z3 REQUIRED CONFIG)
 
 
 include_directories(
@@ -13,6 +15,6 @@ include_directories(
 )
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)
-SET (CMAKE_CXX_STANDARD 17)
-
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 ADD_SUBDIRECTORY(src)

@@ -4,6 +4,8 @@
 
 namespace llvmadt{
 std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path){
+    Z3Test ts;
+    ts.testFunction();
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);

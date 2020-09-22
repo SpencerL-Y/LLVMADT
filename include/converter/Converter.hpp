@@ -16,6 +16,7 @@
 #include "llvm-10/llvm/ADT/AllocatorList.h"
 
 #include "../cfa/CFA.hpp"
+#include "../cfa/Z3Test.hpp"
 #include "../automata/Automaton.hpp"
 namespace llvmadt{
 class Converter

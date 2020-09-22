@@ -7,6 +7,7 @@ SET(cfa_dir
     ../cfa/CFAInstruction.cpp
     ../cfa/CFAState.cpp
     ../cfa/Guard.cpp
+    ../cfa/Z3Test.cpp
 )
 
 ADD_LIBRARY(converter Converter.cpp ${cfa_dir})
