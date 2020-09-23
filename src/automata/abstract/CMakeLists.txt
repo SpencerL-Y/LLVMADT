@@ -1,0 +1,1 @@
+ADD_LIBRARY(abstract_automaton Automaton.cpp)

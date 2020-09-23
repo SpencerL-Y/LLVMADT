@@ -41,6 +41,13 @@ void CFAState::setBlockFinal(bool final){
     this->blockFinal = final;
 }
 
+z3::context* CFAState::getContext(){
+    return this->c;
+}
+
+void CFAState::setContext(z3::context* c){
+    this->c = c;
+}
 
 CFAState::CFAState(/* args */)
 {

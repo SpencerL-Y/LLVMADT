@@ -17,7 +17,7 @@
 
 #include "../cfa/CFA.hpp"
 #include "../cfa/Z3Test.hpp"
-#include "../automata/Automaton.hpp"
+#include "../automata/abstract/Automaton.hpp"
 namespace llvmadt{
 class Converter
 {

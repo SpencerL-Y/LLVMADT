@@ -5,6 +5,7 @@
 #include <list>
 #include <iostream>
 #include "./CFAInstruction.hpp"
+#include "z3++.h"
 
 namespace llvmadt{
 class CFA;
@@ -19,6 +20,8 @@ private:
 
     //back pointer
     CFA* cfa;
+    z3::context* c;
+    
 public:
     CFAState(/* args */);
     ~CFAState();
@@ -31,6 +34,8 @@ public:
     std::list<CFAEdge*> getEdges();
     bool isBlockFinal();
     void setBlockFinal(bool final);
+    z3::context* getContext();
+    void setContext(z3::context* c);
 
     // go back to cfa
     CFA* getCfa();

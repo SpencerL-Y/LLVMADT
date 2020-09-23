@@ -4,17 +4,18 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <z3++.h>
 
 namespace llvmadt{
 class Guard
 {
 private:
-    std::string guardStr;
+    z3::expr* guardExpr;
 public:
-    Guard(/* args */);
+    Guard();
     ~Guard();
     std::string getGuardStr();
-    void setGuardStr(std::string& str);
+    void setGuard(z3::expr* expr);
     std::string toString();
 };
 

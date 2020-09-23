@@ -32,6 +32,7 @@ void CFA::addState(CFAState* state){
             return;
         }
     }
+    state->setContext(this->c);
     this->states.push_front(state);
     this->stateNum ++;
 }
@@ -65,6 +66,7 @@ void CFA::addEdge(int fromId, int toId){
         CFAEdge* ne = new CFAEdge();
         ne->setFromState(this->getState(fromId));
         ne->setToState(this->getState(toId));
+        ne->setContext(this->c);
         this->edges.push_front(ne);
         this->getState(fromId)->addEdge(ne);
     }
@@ -106,7 +108,7 @@ std::string toString(){
 
 CFA::CFA(/* args */)
 {
-    
+    this->c = new z3::context();
 }
 
 CFA::~CFA()
@@ -117,6 +119,7 @@ CFA::~CFA()
     for(CFAState* state : this->states){
         delete(state);
     }
+    delete(this->c);
 }
 
 }

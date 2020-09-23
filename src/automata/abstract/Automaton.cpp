@@ -1,4 +1,4 @@
-#include "../../include/automata/Automaton.hpp"
+#include "../../../include/automata/abstract/Automaton.hpp"
 
 
 namespace llvmadt{

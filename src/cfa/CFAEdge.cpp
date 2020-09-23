@@ -18,7 +18,7 @@ void CFAEdge::setToState(CFAState* toState){
     this->toState = toState;
 }
 
-void CFAEdge::mkGuard(){
+void CFAEdge::mkGuard(z3::expr expr){
     if(this->guard != nullptr){
         delete(this->guard);
     }
@@ -38,6 +38,14 @@ std::string CFAEdge::getGuardStr(){
 std::string CFAEdge::toString(){
     //TODO
     return nullptr;
+}
+
+z3::context* CFAEdge::getContext(){
+    return this->c;
+}
+
+void CFAEdge::setContext(z3::context* c){
+    this->c = c;
 }
 
 CFAEdge::CFAEdge(/* args */)

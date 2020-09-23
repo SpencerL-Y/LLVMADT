@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "./CFAState.hpp"
 #include "./CFAEdge.hpp"
+#include "z3++.h"
 namespace llvmadt{
 class CFA
 {
@@ -15,6 +16,8 @@ private:
     std::list<CFAEdge*> edges;
     int stateNum;
     std::string name;
+    z3::context* c;
+    
 public:
     CFA(/* args */);
     ~CFA();
@@ -33,6 +36,7 @@ public:
     std::string toString();
     bool hasStateId(int id);
     bool hasEdgeId(int fromId, int toId);
+    z3::context* getContext();
 };
 
 

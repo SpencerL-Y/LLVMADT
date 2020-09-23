@@ -3,17 +3,19 @@
 
 namespace llvmadt{
     std::string Guard::getGuardStr(){
-        return this->guardStr;
+        std::string guardStr = this->guardExpr->to_string();
+        return guardStr;
     }
 
-    void Guard::setGuardStr(std::string& str){
-        this->guardStr = str;
+    void Guard::setGuard(z3::expr* expr){
+        this->guardExpr = expr;
     }
 
     std::string Guard::toString(){
-        return nullptr;
+        std::string str = "Guard: " + this->getGuardStr() + "\n";
+        return str;
     }
-
+    
     Guard::Guard(){
 
     }
