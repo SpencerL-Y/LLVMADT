@@ -13,6 +13,9 @@ namespace llvmadt{
 
     template <class A>
     void Letter<A>::setContent(A* content){
+        if(this->content != nullptr){
+            delete(content);
+        }
         this->content = content;
     }
 
