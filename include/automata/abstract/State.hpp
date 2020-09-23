@@ -7,18 +7,19 @@
 #include <list>
 #include <vector>
 #include "./Transition.hpp"
-#include "./Letter.hpp"
+#include "../alphabet/Alphabet.hpp"
 
 
 namespace llvmadt{
+template<class A>
 class State
 {
 protected:
     int id;
-    std::list<Transition*> stateTransitions;
+    std::list<Transition<A>*> stateTransitions;
 public:
-    void addTransition(Transition* tran);
-    void delTransition(int from, Letter* l, int to);
+    void addTransition(Transition<A>* tran);
+    void delTransition(int from, Letter<A>* l, int to);
     void getId();
     void setId(int id);
     State(/* args */);

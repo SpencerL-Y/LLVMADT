@@ -5,16 +5,17 @@
 #include <iostream>
 #include <list>
 #include <vector>
-#include "./Alphabet.hpp"
+#include "../alphabet/Alphabet.hpp"
 
 namespace llvmadt{
-class State;
+template <class A> class State;
+template <class A>
 class Transition
 {
 protected:
-    State* fromState;
-    Letter* letter;
-    State* toState;
+    State<A>* fromState;
+    Letter<A>* letter;
+    State<A>* toState;
 public:
     Transition(/* args */);
     ~Transition();

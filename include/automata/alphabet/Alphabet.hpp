@@ -7,13 +7,17 @@
 #include <vector>
 
 #include "./Letter.hpp"
-
 namespace llvmadt{
+
+template<class A>
 class Alphabet
 {
 protected:
-    /* data */
+    std::list<Letter<A>*> letters;
 public:
+    void addLetter(A* content);
+    Letter<A>* getLetter(int id);
+    std::string toString();
     Alphabet(/* args */);
     ~Alphabet();
 };

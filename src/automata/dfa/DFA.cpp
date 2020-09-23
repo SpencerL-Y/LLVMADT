@@ -1,5 +1,4 @@
-#include "../../include/automata/DFA.hpp"
-
+#include "../../../include/automata/dfa/DFA.hpp"
 namespace llvmadt{
 
 DFA::DFA(){

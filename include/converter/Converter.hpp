@@ -18,6 +18,9 @@
 #include "../cfa/CFA.hpp"
 #include "../cfa/Z3Test.hpp"
 #include "../automata/abstract/Automaton.hpp"
+#include "../automata/buchi/BA.hpp"
+#include "../automata/dfa/DFA.hpp"
+#include "../automata/alphabet/LetterType.hpp"
 namespace llvmadt{
 class Converter
 {
@@ -32,9 +35,9 @@ public:
     }
     std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
 
-    Automaton* convertLTLf2DFA(std::string ltlf);
+    Automaton<LetterType>* convertLTLf2DFA(std::string ltlf);
 
-    Automaton* convertLTL2BA(std::string ltl);
+    Automaton<LetterType>* convertLTL2BA(std::string ltl);
 };
 }
 #endif

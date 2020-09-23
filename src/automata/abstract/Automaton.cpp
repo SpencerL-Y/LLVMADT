@@ -2,12 +2,12 @@
 
 
 namespace llvmadt{
-
-Automaton::Automaton(/* args */)
+template <class A>
+Automaton<A>::Automaton(/* args */)
 {
 }
-
-Automaton::~Automaton()
+template <class A>
+Automaton<A>::~Automaton()
 {
 }
 }

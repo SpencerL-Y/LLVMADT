@@ -1,0 +1,1 @@
+ADD_LIBRARY(alphabet Alphabet.cpp Letter.cpp)
