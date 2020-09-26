@@ -20,6 +20,7 @@ protected:
 public:
     Transition(Alphabet<A>* alphabet);
     Transition(State<A>* from, Letter<A>* l, State<A>* to);
+    //Transition(State<A>* from, Letter<A>* l, State<A>* to, Alphabet<A>* alpha);
     Transition(/* args */);
     ~Transition();
 
@@ -28,7 +29,7 @@ public:
     State<A>* getFromState();
     State<A>* getToState();
     Letter<A>* getLetter();
-    
+
 };
 
 }

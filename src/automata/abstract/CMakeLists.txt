@@ -1,1 +1,1 @@
-ADD_LIBRARY(abstract_automaton Automaton.cpp)
+ADD_LIBRARY(abstract_automaton Automaton.cpp Path.cpp State.cpp Transition.cpp Word.cpp)

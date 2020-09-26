@@ -25,10 +25,13 @@ public:
     void appendStemLetter(Letter<A>* letter);
     Letter<A>& getStemLetter(int pos);
     void delLoopLetter(int pos);
-    Letter<A>& appendLoopLetter(Letter<A>* letter);
+    void appendLoopLetter(Letter<A>* letter);
+    Letter<A>& getLoopLetter(int pos);
     Alphabet<A>& getAlphabet();
     void setAlphabet(Alphabet<A>* alpha);
+    bool isFinite();
     virtual void toString()=0;
+    
 };
 
 } // namespace llvmadt

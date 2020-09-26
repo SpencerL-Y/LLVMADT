@@ -23,6 +23,7 @@ protected:
 public:
     void addTransition(Transition<A>* tran)=0;
     void delTransition(int from, Letter<A>* l, int to)=0;
+    std::list<Transition<A>*>& getStateTransitions();
     int getId();
     void setId(int id);
     bool isAccState();
