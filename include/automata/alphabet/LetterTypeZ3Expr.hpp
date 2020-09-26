@@ -20,6 +20,7 @@ public:
     z3::expr* getExpression();
     void setExpression(z3::expr* expr);
     LetterTypeZ3Expr(/* args */);
+    LetterTypeZ3Expr(z3::expr* expr);
     ~LetterTypeZ3Expr();
 };
 

@@ -1,12 +1,14 @@
 #ifndef DFAState_hpp
 #define DFAState_hpp
-#include <iostream>
 #include <stdlib.h>
+#include <iostream>
+#include <list>
+#include <vector>
 #include "../abstract/State.hpp"
 namespace llvmadt
 {
-
-class DFAState : public State
+template <class A>
+class DFAState : public State<A>
 {
 private:
 

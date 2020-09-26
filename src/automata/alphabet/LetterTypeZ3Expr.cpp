@@ -5,6 +5,9 @@ namespace llvmadt{
 
     }
 
+    LetterTypeZ3Expr::LetterTypeZ3Expr(z3::expr* expr){
+        this->expression = expr;
+    }
     LetterTypeZ3Expr::~LetterTypeZ3Expr(){
         delete(this->expression);
     }

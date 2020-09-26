@@ -4,7 +4,8 @@
 
 
 namespace llvmadt{
-    class DFATrans : public Transition
+    template <class A>
+    class DFATrans : public Transition<A>
     {
     private:
         /* data */
