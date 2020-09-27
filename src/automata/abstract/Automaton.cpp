@@ -48,5 +48,30 @@ void Automaton<A>::setName(std::string name){
 }
 
 
+template <class A>
+bool Automaton<A>::hasState(int id){
+    for(State<A>* s : this->states){
+        if(s->getId() == id){
+            return true;
+        }
+    }
+    return false;
+}
 
+
+
+template <class A>
+State<A>* Automaton<A>::getState(int id){
+    for(State<A>* s : this->states){
+        if(s->getId() == id){
+            return s;
+        }
+    }
+    return nullptr;
+}
+
+template <class A>
+bool Automaton<A>::hasTransition(int from, Letter<A>* l, int to){
+    return this->getState(from)->hasTransition(from, l, to);
+}
 }

@@ -4,6 +4,8 @@
 
 
 namespace llvmadt{
+    template <class T>
+    class DFAState;
     template <class A>
     class DFATrans : public Transition<A>
     {
@@ -11,7 +13,10 @@ namespace llvmadt{
         /* data */
     public:
         DFATrans(/* args */);
+        DFATrans(Alphabet<A>* alphabet);
+        DFATrans(DFAState<A>* from, Letter<A>* l, DFAState<A>* to);
         ~DFATrans();
+        
     };
 }
 

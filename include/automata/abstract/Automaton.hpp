@@ -17,7 +17,7 @@ protected:
     std::string name;
     std::list<State<A>*> states;
     std::list<State<A>*> accStates;
-    std::list<State<A>*> initState;
+    State<A>* initState;
     std::list<Transition<A>*> transitions;
     Alphabet<A>* alphabet;
 public:
@@ -27,9 +27,14 @@ public:
     virtual void delState(int id)=0;
     virtual void addTransition(int fromId, Letter<A>* l,  int toId)=0;
     virtual void delTransition(int fromId, Letter<A>* l, int toId)=0;
-    virtual Path<A>* runOnWord(Word<A>* word)=0;
+    virtual Path<A>* runOnWordOutPath(Word<A>* word)=0;
+    virtual bool runOnWordOutResult(Word<A>* word)=0;
+    virtual std::list<State<A>*>& getStates()=0;
     virtual State<A>* getInitState()=0;
-    virtual std::list<State<A>*> getAccStates()=0;
+    virtual std::list<State<A>*>& getAccStates()=0;
+    State<A>* getState(int id);
+    bool hasState(int id);
+    bool hasTransition(int from, Letter<A>* l, int to);
     void setName(std::string name);
     std::string getName();
     Alphabet<A>* getAlphabet();

@@ -38,6 +38,22 @@ void State<A>::setInit(){
 }
 
 
+template <class A>
+bool State<A>::hasTransition(int from, Letter<A>* l, int to){
+    if(!(this->alphabet == l->getAlphabet())){
+        std::cout << "error hasTransition, inconsistent alphabet" << std::endl; 
+        return false;
+    }
+    for(Transition<A>* e : this->stateTransitions){
+        if(e->getFromState()->getId() == from &&
+           e->getLetter()->getId() == l->getId()&& 
+           e->getToState()->getId() == to){
+               return true;
+           }
+    }
+    return false;
+}
+
 template<class A>
 Alphabet<A>* State<A>::getAlphabet(){
     return this->alphabet;

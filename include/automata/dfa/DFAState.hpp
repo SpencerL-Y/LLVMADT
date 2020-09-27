@@ -13,7 +13,13 @@ class DFAState : public State<A>
 private:
 
 public:
-    DFAState(/* args */);
+
+    void addTransition(Transition<A>* tran);
+    void delTransition(int from, Letter<A>* l, int to);
+    DFAState<A>* executeLetter(Letter<A>* l);
+    std::string toString();
+    DFAState();
+    DFAState(Alphabet<A>* alphabet);
     ~DFAState();
 };
     

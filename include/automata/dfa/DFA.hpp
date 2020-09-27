@@ -9,15 +9,19 @@ template<class A>
 class DFA : public Automaton<A>
 {
 private:
-    virtual void addState(int id);
-    virtual void addInitState(int id);
-    virtual void addAccState(int id);
-    virtual void delState(int id);
-    virtual void addTransition(int fromId, Letter<A>* l,  int toId);
-    virtual void delTransition(int fromId, Letter<A>* l, int toId);
-    virtual Path<A>* runOnWord(Word<A>* word);
-    virtual State<A>* getInitState();
-    virtual std::list<State<A>*> getAccStates();
+    void addState(int id);
+    void addInitState(int id);
+    void addAccState(int id);
+    void delState(int id);
+    void addTransition(int fromId, Letter<A>* l,  int toId);
+    void delTransition(int fromId, Letter<A>* l, int toId);
+    Path<A>* runOnWordOutPath(Word<A>* word);
+    bool runOnWordOutResult(Word<A>* word);
+    State<A>* getInitState();
+    std::list<State<A>*> getAccStates();
+
+    DFAState<A>* executeLetter(DFAState<A>* currentState, Letter<A>* l);
+
 public:
     DFA(/* args */);
     ~DFA();

@@ -30,7 +30,7 @@ public:
     Alphabet<A>& getAlphabet();
     void setAlphabet(Alphabet<A>* alpha);
     bool isFinite();
-    virtual void toString()=0;
+    std::string toString();
     
 };
 
