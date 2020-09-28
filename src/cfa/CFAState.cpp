@@ -59,4 +59,8 @@ CFAState::~CFAState()
     std::cout << "delete state\n";  
     delete(this->instruction);
 }
+
+CFA* CFAState::getCfa(){
+    return this->cfa;
+}
 }
