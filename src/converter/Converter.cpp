@@ -52,4 +52,12 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path){
     }
     return cfaList;
 }
+
+Automaton<LetterType>* Converter::convertLTLf2DFA(std::string ltlfStr){
+    spot::parsed_formula pf = spot::parse_infix_psl(ltlfStr);
+    if(pf.format_errors(std::cerr)){
+        return nullptr;
+    }
+    spot::twa_graph_ptr aut = spot::ltl_to_tgba_fm(pf.f, spot::make_bdd_dict());
+} 
 }

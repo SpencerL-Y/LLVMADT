@@ -21,6 +21,13 @@
 #include "../automata/buchi/BA.hpp"
 #include "../automata/dfa/DFA.hpp"
 #include "../automata/alphabet/LetterType.hpp"
+#include <spot/tl/parse.hh>
+#include <spot/twaalgos/translate.hh>
+#include <spot/twaalgos/hoa.hh>
+#include <spot/twaalgos/ltl2tgba_fm.hh>
+#include <spot/twaalgos/sccfilter.hh>
+#include <spot/twaalgos/minimize.hh>
+#include <spot/twaalgos/stripacc.hh>
 namespace llvmadt{
 class Converter
 {
