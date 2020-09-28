@@ -62,7 +62,7 @@ std::list<CFAEdge*>& CFA::getEdges(){
 }
 
 void CFA::addEdge(int fromId, int toId){
-    if(this->hasStateId(fromId) && this->hasStateId(toId) && this->hasEdgeId(fromId, toId)){
+    if(this->hasStateId(fromId) && this->hasStateId(toId) && !this->hasEdgeId(fromId, toId)){
         CFAEdge* ne = new CFAEdge();
         ne->setFromState(this->getState(fromId));
         ne->setToState(this->getState(toId));
@@ -71,6 +71,34 @@ void CFA::addEdge(int fromId, int toId){
         this->getState(fromId)->addEdge(ne);
     }
 }
+
+
+void CFA::addEdge(CFAState* fromState, z3::expr guard_expr, CFAState* toState){
+    if(this->hasStateId(fromState->getId()) && this->hasStateId(toState->getId()) && 
+       !this->hasEdgeId(fromState->getId(), toState->getId()) && 
+       fromState->getCfa() == this && toState->getCfa() == this){
+           CFAEdge* ne = new CFAEdge();
+           ne->setFromState(fromState);
+           ne->setToState(toState);
+           ne->setContext(this->c);
+           ne->mkGuard(guard_expr);
+           this->edges.push_front(ne);
+           
+       }
+}
+
+void CFA::addEdge(int fromId, z3::expr guard_expr, int toId){
+    if(this->hasStateId(fromId) && this->hasStateId(toId) && !this->hasEdgeId(fromId, toId)){
+        CFAEdge* ne = new CFAEdge();
+        ne->setFromState(this->getState(fromId));
+        ne->setToState(this->getState(toId));
+        ne->setContext(this->c);
+        ne->mkGuard(guard_expr);
+        this->edges.push_front(ne);
+        this->getState(fromId)->addEdge(ne);
+    }
+}
+
 
 bool CFA::hasStateId(int id){
     for(CFAState* state : this->states){
@@ -101,9 +129,13 @@ std::string CFA::getName(){
     return this->name;
 }
 
-std::string toString(){
+std::string CFA::toString(){
     //TODO: add later
     return nullptr;
+}
+
+void CFA::setContext(z3::context* c){
+    this->c = c;
 }
 
 CFA::CFA(/* args */)
