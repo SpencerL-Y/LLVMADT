@@ -73,21 +73,9 @@ void CFA::addEdge(int fromId, int toId){
 }
 
 
-void CFA::addEdge(CFAState* fromState, z3::expr guard_expr, CFAState* toState){
-    if(this->hasStateId(fromState->getId()) && this->hasStateId(toState->getId()) && 
-       !this->hasEdgeId(fromState->getId(), toState->getId()) && 
-       fromState->getCfa() == this && toState->getCfa() == this){
-           CFAEdge* ne = new CFAEdge();
-           ne->setFromState(fromState);
-           ne->setToState(toState);
-           ne->setContext(this->c);
-           ne->mkGuard(guard_expr);
-           this->edges.push_front(ne);
-           
-       }
-}
 
-void CFA::addEdge(int fromId, z3::expr guard_expr, int toId){
+
+void CFA::addEdge(int fromId, z3::expr* guard_expr, int toId){
     if(this->hasStateId(fromId) && this->hasStateId(toId) && !this->hasEdgeId(fromId, toId)){
         CFAEdge* ne = new CFAEdge();
         ne->setFromState(this->getState(fromId));

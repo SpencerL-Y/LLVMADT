@@ -18,12 +18,13 @@ void CFAEdge::setToState(CFAState* toState){
     this->toState = toState;
 }
 
-void CFAEdge::mkGuard(z3::expr expr){
+void CFAEdge::mkGuard(z3::expr* expr){
     if(this->guard != nullptr){
         delete(this->guard);
     }
     Guard* g = new Guard();
     this->guard = g;
+    g->setGuard(expr);
 }
 
 Guard* CFAEdge::getGuard(){

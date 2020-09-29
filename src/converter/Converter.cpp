@@ -93,8 +93,10 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                 if (currInst != bb->getTerminator())
                 {
                     z3::expr E = T.extractConstraints(currInst, &MStr, &c);
-                    // std::cout << "expr: " << E << '\n';
-                    currCFA->addEdge(currID, E, currID + 1);
+                    std::cout << "id: " << currID << '\n';
+                    std::cout << "expr: " << E << '\n';
+                    int nexID = currID + 1;
+                    currCFA->addEdge(currID, &E,  nexID);
                 }
                 else
                 {
@@ -110,10 +112,10 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
 
                 // llvm::errs() << "Pred: " << Pred->getName() << "\n";
                 z3::expr EBR = T.extractTBranch(bb, succ, &c);
-                // std::cout << "brID: " << brID << '\n';
-                // std::cout << "br expr: " << EBR << '\n'; 
-                // std::cout << "nexID: " << nexID << '\n';
-                currCFA->addEdge(brID, EBR, nexID);
+                std::cout << "brID: " << brID << '\n';
+                std::cout << "br expr: " << EBR << '\n'; 
+                std::cout << "nexID: " << nexID << '\n';
+                currCFA->addEdge(brID, &EBR, nexID);
             }
            
         }
@@ -147,14 +149,22 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
 
             int fId = fromState->getId();
             int toId = toState->getId();
-            // std::string guardStr = guard->getGuardStr();
+            std::string guardStr = guard->getGuardStr();
             // z3::expr E = c.bool_val(true);
             // guard->setGuard(&E);
             // guard->getGuardStr();
 
-            std::cout << "from state: " << fId <<  " to state: " << toId << " guard: "  << '\n';
+            std::cout << "from state: " << fId <<  " to state: " << toId << " guard: " << guardStr << '\n';
         }
     }
     return cfaList;
 }
+
+Automaton<LetterType>* Converter::convertLTLf2DFA(std::string ltlfStr){
+    spot::parsed_formula pf = spot::parse_infix_psl(ltlfStr);
+    if(pf.format_errors(std::cerr)){
+        return nullptr;
+    }
+    spot::twa_graph_ptr aut = spot::ltl_to_tgba_fm(pf.f, spot::make_bdd_dict());
+} 
 }

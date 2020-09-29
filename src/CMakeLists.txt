@@ -20,5 +20,5 @@ ADD_EXECUTABLE(exec Main.cpp)
 TARGET_INCLUDE_DIRECTORIES(exec PRIVATE ${Z3_CXX_INCLUDE_DIRS})
 
 
-TARGET_LINK_LIBRARIES(exec cfa converter abstract_automaton alphabet buchi dfa LLVM-10 ${Z3_LIBRARIES})
+TARGET_LINK_LIBRARIES(exec cfa converter abstract_automaton alphabet buchi dfa automata_util LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so")
 
