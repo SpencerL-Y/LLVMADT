@@ -1,0 +1,1 @@
+ADD_LIRARIES(automata_util PathSampler.cpp)

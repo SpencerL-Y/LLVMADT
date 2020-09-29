@@ -28,7 +28,7 @@ public:
     CFAState* getToState();
     void setFromState(CFAState* fromState);
     void setToState(CFAState* toState);
-    void mkGuard(z3::expr expr);
+    void mkGuard(z3::expr* expr);
     Guard* getGuard();
     std::string getGuardStr();
     std::string toString();

@@ -28,8 +28,8 @@ public:
     void addState(CFAState* state);
     CFAState* getState(int id);
     void addEdge(int fromId, int toId);
-    void addEdge(CFAState* fromState, z3::expr guard_expr, CFAState* toState);
-    void addEdge(int fromId, z3::expr guard_expr, int toId);
+    void addEdge(CFAState* fromState, z3::expr* guard_expr, CFAState* toState);
+    void addEdge(int fromId, z3::expr* guard_expr, int toId);
     CFAEdge* getEdge(int fromId, int toId);
     std::list<CFAEdge*>& getEdges();
     void setName(std::string name);
