@@ -1,1 +1,1 @@
-ADD_LIRARIES(automata_util PathSampler.cpp)
+ADD_LIBRARY(automata_util PathSampler.cpp)
