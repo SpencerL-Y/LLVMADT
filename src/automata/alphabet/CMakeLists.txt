@@ -1,1 +1,0 @@
-ADD_LIBRARY(alphabet  Letter.cpp LetterType.cpp LetterTypeInt.cpp LetterTypeZ3Expr.cpp Alphabet.cpp)
