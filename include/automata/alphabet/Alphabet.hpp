@@ -19,6 +19,8 @@ public:
     void addLetter(A* content);
     Letter<A>* getLetter(int id);
     Letter<A>* getLetter(std::string keyStr);
+    std::map<std::string, Letter<A>*>* getLetters();
+    int getLettersSize();
     std::string toString();
     Alphabet(/* args */);
     ~Alphabet();

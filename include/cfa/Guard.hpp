@@ -17,6 +17,7 @@ public:
     std::string getGuardStr();
     void setGuard(z3::expr* expr);
     std::string toString();
+    z3::expr* getExpr();
 };
 
 }

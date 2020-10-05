@@ -66,6 +66,25 @@ void DFA<A>::addAccState(int id){
 }
 
 template <class A>
+void DFA<A>::addInitAccState(int id){
+    for(State<A>* state : this->states){
+        if(state->getId() == id){
+            std::cout << "add init state error, state already exists" << std::endl;
+            return;
+        }
+    }
+    
+    State<A>* ns = new DFAState<A>();
+    ns->setId(id);
+    ns->setAlphabet(this->getAlphabet);
+    ns->setAcc();
+    ns->setInit();
+    this->states.push_back(ns);
+    this->accStates.push_back(ns);
+    this->initState = ns;
+}
+
+template <class A>
 void DFA<A>::delState(int id){
     if(!this->hasState(id)){
         std::cout << "del state error, state not exists" << std::endl;
@@ -143,7 +162,7 @@ Path<A>* DFA<A>::runOnWordOutPath(Word<A>* word){
         std::cout << "run on word error, alphabet not consistent" << std::endl;
         return nullptr;
     }
-    Path<A>* path = new Path(word);
+    Path<A>* path = new Path<A>(word);
     DFAState<A>* currentState = this->initState;
     DFAState<A>* temp = currentState;
     path->appendStemState(temp);
@@ -170,6 +189,21 @@ bool DFA<A>::runOnWordOutResult(Word<A>* word){
     } else {
         return false;
     }
+}
+
+template <class A>
+std::list<State<A>*>& DFA<A>::getStates(){
+    return &this->states;
+}
+
+template <class A>
+State<A>* DFA<A>::getInitState(){
+    return this->initState;
+}
+
+template <class A>
+std::list<State<A>*>& DFA<A>::getAccStates(){
+    return &this->accStates;
 }
 
 template <class A>

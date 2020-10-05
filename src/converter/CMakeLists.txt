@@ -10,4 +10,27 @@ SET(cfa_dir
     ../cfa/Z3Test.cpp
 )
 
-ADD_LIBRARY(converter Converter.cpp myTranslate.cpp ${cfa_dir})
+SET(dfa_dir
+    ../automata/dfa/DFA.cpp
+    ../automata/dfa/DFAState.cpp
+    ../automata/dfa/DFATrans.cpp
+)
+
+SET(alphabet_dir
+    ../automata/alphabet/Alphabet.cpp
+    ../automata/alphabet/Letter.cpp
+    ../automata/alphabet/LetterType.cpp
+    ../automata/alphabet/LetterTypeInt.cpp
+    ../automata/alphabet/LetterTypeZ3Expr.cpp
+)
+
+SET(abstract_dir
+    ../automata/abstract/Automaton.cpp
+    ../automata/abstract/Path.cpp
+    ../automata/abstract/State.cpp
+    ../automata/abstract/Transition.cpp
+    ../automata/abstract/Word.cpp
+)
+
+
+ADD_LIBRARY(converter Converter.cpp myTranslate.cpp ${cfa_dir} ${abstract_dir}  ${dfa_dir} ${alphabet_dir} )

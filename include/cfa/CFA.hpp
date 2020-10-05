@@ -9,10 +9,15 @@
 #include "./CFAEdge.hpp"
 #include "z3++.h"
 namespace llvmadt{
+// CFA is an intermediate automata data structure used for storing the information of IR CFGs
+
 class CFA
 {
 private:
+    // a state is a valuation of variables
+    // startstate : indexed with 0
     std::list<CFAState*> states; 
+    // edge can be regarded as change of valuation
     std::list<CFAEdge*> edges;
     int stateNum;
     std::string name;

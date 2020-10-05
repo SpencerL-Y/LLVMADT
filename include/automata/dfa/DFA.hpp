@@ -12,13 +12,15 @@ private:
     void addState(int id);
     void addInitState(int id);
     void addAccState(int id);
+    void addInitAccState(int id);
     void delState(int id);
     void addTransition(int fromId, Letter<A>* l,  int toId);
     void delTransition(int fromId, Letter<A>* l, int toId);
     Path<A>* runOnWordOutPath(Word<A>* word);
     bool runOnWordOutResult(Word<A>* word);
+    std::list<State<A>*>& getStates();
     State<A>* getInitState();
-    std::list<State<A>*> getAccStates();
+    std::list<State<A>*>& getAccStates();
 
     DFAState<A>* executeLetter(DFAState<A>* currentState, Letter<A>* l);
 

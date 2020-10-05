@@ -12,13 +12,13 @@ add_definitions(${LLVM_DEFINITIONS})
 
 llvm_map_components_to_libnames(LLVM-10 support core irreader)
 
-ADD_SUBDIRECTORY(cfa)
 ADD_SUBDIRECTORY(converter)
+ADD_SUBDIRECTORY(cfa)
 ADD_SUBDIRECTORY(automata)
 ADD_EXECUTABLE(exec Main.cpp)
 
 TARGET_INCLUDE_DIRECTORIES(exec PRIVATE ${Z3_CXX_INCLUDE_DIRS})
 
 
-TARGET_LINK_LIBRARIES(exec cfa converter abstract_automaton alphabet buchi dfa automata_util LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so")
+TARGET_LINK_LIBRARIES(exec cd cfa abstract_automaton alphabet buchi dfa automata_util converter LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so")
 

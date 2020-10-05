@@ -12,8 +12,12 @@ namespace llvmadt{
     }
 
     std::string Guard::toString(){
-        std::string str = "Guard: " + this->getGuardStr() + "\n";
+        std::string str = "Guard:" + this->getGuardStr();
         return str;
+    }
+
+    z3::expr* Guard::getExpr(){
+        return this->guardExpr;
     }
     
     Guard::Guard(){

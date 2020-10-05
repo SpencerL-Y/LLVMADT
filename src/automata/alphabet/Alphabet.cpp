@@ -49,7 +49,19 @@ namespace llvmadt{
         result += "}\n";
         return result;
     }
+    template <class A>
+    std::map<std::string, Letter<A>*>* Alphabet<A>::getLetters(){
+        return &this->letters;
+    }
 
+
+
+    template <class A>
+    int Alphabet<A>::getLettersSize(){
+        return this->letters.size();
+    }
+    
+    
     template <class A>
     Alphabet<A>::~Alphabet(){
         for(Letter<A>* l : this->letters){
