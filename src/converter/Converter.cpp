@@ -166,5 +166,21 @@ Automaton<LetterType>* Converter::convertLTLf2DFA(std::string ltlfStr){
         return nullptr;
     }
     spot::twa_graph_ptr aut = spot::ltl_to_tgba_fm(pf.f, spot::make_bdd_dict());
-} 
+}
+
+
+Automaton<LetterType>* Converter::convertCFA2DFA(CFA* cfa){
+
+    Alphabet<LetterTypeZ3Expr>* z3ExprAlphabet = new Alphabet();
+
+    Automaton<LetterType>* resultDFA = new DFA();
+    for(CFAState* cs : cfa->getStates()){
+        resultDFA->addAccState(cs->getId());
+    }
+
+    for(CFAEdge* edge : cfa->getEdges()){
+        resultDFA->addTransition(edge->getFromState()->getId(), nullptr, edge->getToState()->getId());
+    }
+}
+
 }

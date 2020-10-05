@@ -8,6 +8,10 @@ namespace llvmadt{
 
     template <class A>
     void Alphabet<A>::addLetter(A* content){
+        if(this->letters.find(content->toString()) != this->letters.end()){
+            std::cout << "alphabet add letter error, key already exists" << std::endl;
+            return;
+        }
         Letter<A>* nl = new Letter<A>();
         nl->setId(this->letters.size());
         this->letters.push_back(nl);
@@ -15,19 +19,28 @@ namespace llvmadt{
 
     template <class A>
     Letter<A>* Alphabet<A>::getLetter(int id){
-        for(Letter<A>* l : this->letters){
-            if(l->getId() == id){
-                return l;
+        for(auto iter=this->letters.begin(); iter != this->letters.end(); ++iter){
+            if(iter->second->getId() == id){
+                return iter->second;
             }
         }
+    }
+
+    template <class A>
+    Letter<A>* Alphabet<A>::getLetter(std::string keyStr){
+        auto iter = this->letters.find(keyStr);
+        if(iter != this->letters.end()){
+            return iter->second;
+        }
+        return nullptr;
     }
 
     template <class A>
     std::string Alphabet<A>::toString(){
         std::string result = "Alphabet: {";
         int i = 0;
-        for(Letter<A>* l : this->letters){
-            result += l->toString();
+        for(auto iter = this->letters.begin(); iter != this-letters.end(); ++iter){
+            result += iter->second->toString();
             if(i < this->letters.size() - 1){
                 result += ", ";
             }

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <list>
+#include <map>
 #include <vector>
 
 #include "./Letter.hpp"
@@ -13,10 +14,11 @@ template<class A>
 class Alphabet
 {
 protected:
-    std::list<Letter<A>*> letters;
+    std::map<std::string, Letter<A>*> letters;
 public:
     void addLetter(A* content);
     Letter<A>* getLetter(int id);
+    Letter<A>* getLetter(std::string keyStr);
     std::string toString();
     Alphabet(/* args */);
     ~Alphabet();

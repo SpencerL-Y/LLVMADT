@@ -45,6 +45,11 @@ public:
     Automaton<LetterType>* convertLTLf2DFA(std::string ltlf);
 
     Automaton<LetterType>* convertLTL2BA(std::string ltl);
+
+
+    Automaton<LetterType>* convertCFA2DFA(CFA* cfa);
+
+    Automaton<LetterType>* convertCFA2BA(CFA* cfa);
 };
 }
 #endif

@@ -26,9 +26,9 @@ namespace llvmadt{
 
     template <class A>
     std::string Letter<A>::toString(){
-        std::string result = "Letter: {";
+        std::string result = "Letter:{";
         result += this->content->toString();
-        result += "}\n";
+        result += "}";
         return result;
     }
 
