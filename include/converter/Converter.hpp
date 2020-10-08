@@ -48,13 +48,13 @@ public:
     }
     std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
 
-    Automaton<LetterType>* convertLTLf2DFA(std::string ltlf);
+    Automaton* convertLTLf2DFA(std::string ltlf);
 
-    Automaton<LetterType>* convertLTL2BA(std::string ltl);
+    Automaton* convertLTL2BA(std::string ltl);
 
-    Automaton<LetterTypeZ3Expr>* convertCFA2DFA(CFA* cfa);
+    Automaton* convertCFA2DFA(CFA* cfa);
 
-    Automaton<LetterType>* convertCFA2BA(CFA* cfa);
+    Automaton* convertCFA2BA(CFA* cfa);
 };
 }
 #endif

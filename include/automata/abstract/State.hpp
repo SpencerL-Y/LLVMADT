@@ -6,36 +6,38 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <set>
 #include "./Transition.hpp"
 #include "../alphabet/Alphabet.hpp"
 
 
 namespace llvmadt{
-template<class A>
+
 class State
 {
 protected:
     int id;
-    std::list<Transition<A>*> stateTransitions;
+    std::set<Transition*> stateTransitions;
     bool isAccept;
     bool isInit;
-    Alphabet<A>* alphabet;
+    Alphabet* alphabet;
 public:
-    void addTransition(Transition<A>* tran)=0;
-    void delTransition(int from, Letter<A>* l, int to)=0;
-    std::string toString()=0;
-    std::list<Transition<A>*>& getStateTransitions();
+    virtual void addTransition(Transition* tran)=0;
+    virtual void delTransition(int from, Letter* l, int to)=0;
+    virtual void delTransition(Transition* tran)=0;
+    virtual std::string toString()=0;
+    std::set<Transition*>& getStateTransitions();
     int getId();
     void setId(int id);
     bool isAccState();
     void setAcc();
     bool isInitialState();
     void setInit(); 
-    bool hasTransition(int from, Letter<A>* l, int to);
-    Alphabet<A>* getAlphabet();
-    void setAlphabet(Alphabet<A>* alpha);
+    bool hasTransition(int from, Letter* l, int to);
+    Alphabet* getAlphabet();
+    void setAlphabet(Alphabet* alpha);
     State(/* args */);
-    State(Alphabet<A>* alpha);
+    State(Alphabet* alpha);
     ~State();
 };
 

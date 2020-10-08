@@ -8,18 +8,19 @@
 #include <vector>
 
 #include "./Letter.hpp"
+#include "./LetterType.hpp"
 namespace llvmadt{
 
-template<class A>
+
 class Alphabet
 {
 protected:
-    std::map<std::string, Letter<A>*> letters;
+    std::map<std::string, Letter*> letters;
 public:
-    void addLetter(A* content);
-    Letter<A>* getLetter(int id);
-    Letter<A>* getLetter(std::string keyStr);
-    std::map<std::string, Letter<A>*>* getLetters();
+    void addLetter(LetterType* content);
+    Letter* getLetter(int id);
+    Letter* getLetter(std::string keyStr);
+    std::map<std::string, Letter*>* getLetters();
     int getLettersSize();
     std::string toString();
     Alphabet(/* args */);

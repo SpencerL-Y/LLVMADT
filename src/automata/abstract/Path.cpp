@@ -3,41 +3,41 @@
 
 namespace llvmadt{
     
-template <class A>
-Path<A>::Path(){
-    this->word = new Word<A>();
+
+Path::Path(){
+    this->word = new Word();
 }
 
 
-template <class A>
-Path<A>::Path(Alphabet<A>* alpha){
+
+Path::Path(Alphabet* alpha){
     this->alphabet = alpha;
-    this->word = new Word<A>();
+    this->word = new Word();
 }
 
-template <class A>
-Path<A>::Path(Word<A>* word){
+
+Path::Path(Word* word){
     this->alphabet = word->getAlphabet();
     this->word = word;
 }
 
-template <class A>
-Path<A>::~Path(){
+
+Path::~Path(){
     delete(this->word);
 }
 
-template <class A>
-std::list<State<A>*>& Path<A>::getStemStates(){
+
+std::vector<State*>& Path::getStemStates(){
     return this->stemStates;
 }
 
-template <class A>
-State<A>* Path<A>::getStemState(int pos){
+
+State* Path::getStemState(int pos){
     return this->stemStates[pos];
 }
 
-template <class A>
-void Path<A>::appendStemLetter(Letter<A>* letter){
+
+void Path::appendStemLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->word->appendStemLetter(letter);
     } else {
@@ -45,8 +45,8 @@ void Path<A>::appendStemLetter(Letter<A>* letter){
     }
 }
 
-template <class A>
-void Path<A>::appendStemState(State<A>* state){
+
+void Path::appendStemState(State* state){
     if(state->getAlphabet() == this->alphabet){
         this->stemStates.push_back(state);
     } else {
@@ -55,24 +55,24 @@ void Path<A>::appendStemState(State<A>* state){
 }
 
 
-template <class A>
-Word<A>* Path<A>::getStemWord(){
+
+Word* Path::getStemWord(){
     return this->word;
 }
 
 
-template <class A>
-std::list<State<A>*>& Path<A>::getLoopStates(){
+
+std::vector<State*>& Path::getLoopStates(){
     return this->loopStates;
 }
 
-template <class A>
-State<A>* Path<A>::getLoopState(int pos){
-    return this->LoopStates[pos];
+
+State* Path::getLoopState(int pos){
+    return this->loopStates[pos];
 }
 
-template <class A>
-void Path<A>::appendLoopLetter(Letter<A>* letter){
+
+void Path::appendLoopLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->word->appendLoopLetter(letter);
     } else {
@@ -80,8 +80,8 @@ void Path<A>::appendLoopLetter(Letter<A>* letter){
     }
 }
 
-template <class A>
-void Path<A>::appendLoopState(State<A>* state){
+
+void Path::appendLoopState(State* state){
     if(state->getAlphabet() == this->alphabet){
         this->loopStates.push_back(state);
     } else {
@@ -90,19 +90,23 @@ void Path<A>::appendLoopState(State<A>* state){
 }
 
 
-template <class A>
-Word<A>* Path<A>::getLoopWord(){
+
+Word* Path::getLoopWord(){
     return this->word;
 }
 
-template <class A>
-Alphabet<A>* Path<A>::getAlphabet(){
+
+Alphabet* Path::getAlphabet(){
     return this->alphabet;
 }
 
-template <class A>
-void Path<A>::setAlphabet(Alphabet<A>* alphabet){
+
+void Path::setAlphabet(Alphabet* alphabet){
     this->alphabet = alphabet;
+}
+
+std::string Path::toString(){
+    
 }
 
 }

@@ -2,55 +2,55 @@
 
 
 namespace llvmadt{
-template <class A>
-Automaton<A>::Automaton(/* args */)
+
+Automaton::Automaton(/* args */)
 {
     
 }
-template <class A>
-Automaton<A>::~Automaton()
+
+Automaton::~Automaton()
 {
-    for(Transition<A>* t : this->transitions){
+    for(Transition* t : this->transitions){
         delete(t);
     }
 
-    for(State<A>* s : this->states){
+    for(State* s : this->states){
         delete(s);
     }
 }
 
-template <class A>
-Automaton<A>::Automaton(Alphabet<A>* alphabet){
+
+Automaton::Automaton(Alphabet* alphabet){
     this->alphabet = alphabet;
 }
 
 
 
-template <class A>
-Alphabet<A>* Automaton<A>::getAlphabet(){
+
+Alphabet* Automaton::getAlphabet(){
     return this->alphabet;
 }
 
 
-template <class A>
-void Automaton<A>::setAlphabet(Alphabet<A>* alphabet){
+
+void Automaton::setAlphabet(Alphabet* alphabet){
     this->alphabet = alphabet;
 }
 
-template <class A>
-std::string Automaton<A>::getName(){
+
+std::string Automaton::getName(){
     return this->name;
 }
 
-template <class A>
-void Automaton<A>::setName(std::string name){
+
+void Automaton::setName(std::string name){
     this->name = name;
 }
 
 
-template <class A>
-bool Automaton<A>::hasState(int id){
-    for(State<A>* s : this->states){
+
+bool Automaton::hasState(int id){
+    for(State* s : this->states){
         if(s->getId() == id){
             return true;
         }
@@ -60,9 +60,9 @@ bool Automaton<A>::hasState(int id){
 
 
 
-template <class A>
-State<A>* Automaton<A>::getState(int id){
-    for(State<A>* s : this->states){
+
+State* Automaton::getState(int id){
+    for(State* s : this->states){
         if(s->getId() == id){
             return s;
         }
@@ -70,8 +70,8 @@ State<A>* Automaton<A>::getState(int id){
     return nullptr;
 }
 
-template <class A>
-bool Automaton<A>::hasTransition(int from, Letter<A>* l, int to){
+
+bool Automaton::hasTransition(int from, Letter* l, int to){
     return this->getState(from)->hasTransition(from, l, to);
 }
 }

@@ -4,42 +4,43 @@
 #include <stdlib.h>
 #include <iostream>
 #include <list>
+#include <set>
 #include <vector>
 #include "./State.hpp"
 #include "./Word.hpp"
 
 namespace llvmadt{
 
-template <class A>
+
 class Path
 {
 protected:
-    std::list<State<A>*> stemStates;
-    std::list<State<A>*> loopStates;
-    Word<A>* word;
-    Alphabet<A>* alphabet;
+    std::vector<State*> stemStates;
+    std::vector<State*> loopStates;
+    Word* word;
+    Alphabet* alphabet;
     /* data */
 public:
     Path(/* args */);
-    Path(Alphabet<A>* alpha);
-    Path(Word<A>* word);
+    Path(Alphabet* alpha);
+    Path(Word* word);
     ~Path();
-    std::list<State<A>*>& getStemStates();
-    State<A>* getStemState(int pos);
-    void appendStemLetter(Letter<A>* letter);
-    void appendStemState(State<A>* state);
-    Word<A>* getStemWord();
+    std::vector<State*>& getStemStates();
+    State* getStemState(int pos);
+    void appendStemLetter(Letter* letter);
+    void appendStemState(State* state);
+    Word* getStemWord();
 
 
-    std::list<State<A>*>& getLoopStates();
-    State<A>* getLoopState(int pos);
-    void appendLoopLetter(Letter<A>* letter);
-    void appendLoopState(State<A>* state);
-    Word<A>* getLoopWord();
+    std::vector<State*>& getLoopStates();
+    State* getLoopState(int pos);
+    void appendLoopLetter(Letter* letter);
+    void appendLoopState(State* state);
+    Word* getLoopWord();
 
-    Alphabet<A>* getAlphabet();
-    void setAlphabet(Alphabet<A>* alphabet);
-    virtual std::string toString()=0;
+    Alphabet* getAlphabet();
+    void setAlphabet(Alphabet* alphabet);
+    std::string toString();
 };
 }
 

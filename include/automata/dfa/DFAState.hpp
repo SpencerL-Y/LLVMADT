@@ -7,19 +7,20 @@
 #include "../abstract/State.hpp"
 namespace llvmadt
 {
-template <class A>
-class DFAState : public State<A>
+
+class DFAState : public State
 {
 private:
 
 public:
 
-    void addTransition(Transition<A>* tran);
-    void delTransition(int from, Letter<A>* l, int to);
-    DFAState<A>* executeLetter(Letter<A>* l);
+    void addTransition(Transition* tran);
+    void delTransition(int from, Letter* l, int to);
+    void delTransition(Transition* tran);
+    DFAState* executeLetter(Letter* l);
     std::string toString();
     DFAState();
-    DFAState(Alphabet<A>* alphabet);
+    DFAState(Alphabet* alphabet);
     ~DFAState();
 };
     

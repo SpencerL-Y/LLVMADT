@@ -2,43 +2,46 @@
 
 
 namespace llvmadt{
-    template <class A>
-    int Letter<A>::getId(){
+    
+    int Letter::getId(){
         return this->id;
     }
-    template <class A>
-    void Letter<A>::setId(int id){
+    
+    void Letter::setId(int id){
         this->id = id;
     }
 
-    template <class A>
-    void Letter<A>::setContent(A* content){
+    
+    void Letter::setContent(LetterType* content){
         if(this->content != nullptr){
             delete(content);
         }
         this->content = content;
     }
 
-    template <class A>
-    A* Letter<A>::getContent(){
+    
+    LetterType* Letter::getContent(){
         return this->content;
     }
 
-    template <class A>
-    std::string Letter<A>::toString(){
+    
+    std::string Letter::toString(){
         std::string result = "Letter:{";
         result += this->content->toString();
         result += "}";
         return result;
     }
 
-    template <class A>
-    Letter<A>::Letter(){
+    Alphabet* Letter::getAlphabet(){
+        return this->alpha;
+    }
+    
+    Letter::Letter(){
 
     }
 
-    template <class A>
-    Letter<A>::~Letter(){
+    
+    Letter::~Letter(){
         delete(this->content);
     }
 

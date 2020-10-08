@@ -3,39 +3,40 @@
 
 namespace llvmadt{
     
-template<class A>
-Word<A>::Word(){
+
+Word::Word(){
 
 }
 
 
-template<class A>
-Word<A>::~Word(){
+
+Word::~Word(){
 
 }
 
 
-template<class A>
-std::list<Letter<A>*>& Word<A>::getWordStem(){
+
+std::vector<Letter*>& Word::getWordStem(){
     return this->wordStem;
 }
 
 
-template<class A>
-std::list<Letter<A>*>& Word<A>::getWordLoop(){
+
+std::vector<Letter*>& Word::getWordLoop(){
     return this->wordLoop;
 }
 
 
-template<class A>
-void Word<A>::delStemLetter(int pos){
-    this->wordStem.erase(pos);
+
+void Word::delStemLetter(int pos){
+    std::vector<Letter*>::iterator iter = this->wordStem.begin() + pos;
+    this->wordStem.erase(iter);
 }
 
 
-template<class A>
-void Word<A>::appendStemLetter(Letter<A>* letter){
-    if(letter->getAlphabet() == this->getAlphabet){
+
+void Word::appendStemLetter(Letter* letter){
+    if(letter->getAlphabet() == this->getAlphabet()){
         this->wordStem.push_back(letter);
     } else {
         std::cout << "appendStemLetter error, alphabet inconsistent" << std::endl;
@@ -43,32 +44,36 @@ void Word<A>::appendStemLetter(Letter<A>* letter){
 }
 
 
-template<class A>
-Letter<A>& Word<A>::getStemLetter(int pos){
+
+Letter* Word::getStemLetter(int pos){
     return this->wordStem[pos];
 }
 
 
 
-template<class A>
-void Word<A>::delLoopLetter(int pos){
-    this->wordStem.erase(pos);
+
+void Word::delLoopLetter(int pos){
+    std::vector<Letter*>::iterator iter = this->wordStem.begin() + pos;
+    this->wordStem.erase(iter);
 }
 
 
-template<class A>
-void Word<A>::appendLoopLetter(Letter<A>* letter){
-    if(letter->getAlphabet() == this->getAlphabet){
+
+void Word::appendLoopLetter(Letter* letter){
+    if(letter->getAlphabet() == this->getAlphabet()){
         this->wordLoop.push_back(letter);
     } else {
         std::cout << "appendStemLetter error, alphabet inconsistent" << std::endl;
     }
 }
 
+Alphabet* Word::getAlphabet(){
+    return this->alphabet;
+}
 
-template<class A>
-Letter<A>& Word<A>::getLoopLetter(int pos){
-    return this->wordLooph[pos];
+
+Letter* Word::getLoopLetter(int pos){
+    return this->wordLoop[pos];
 }
 
 

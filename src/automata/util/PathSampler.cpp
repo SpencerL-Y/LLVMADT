@@ -1,33 +1,33 @@
 #include "../../../include/automata/util/PathSampler.hpp"
 
 namespace llvmadt{
-    template<class A>
-    PathSampler<A>::PathSampler(/* args */){
+    
+    PathSampler::PathSampler(/* args */){
 
     }
 
-    template<class A>
-    PathSampler<A>::PathSampler(Automaton<A>* automaton){
+    
+    PathSampler::PathSampler(Automaton* automaton){
         this->automaton = automaton;
     }
     
-    template<class A>
-    PathSampler<A>::~PathSampler(){
+    
+    PathSampler::~PathSampler(){
 
     }
     
-    template<class A>
-    Automaton<A>* PathSampler<A>::getAutomaton(){
-        return this->automaotn;
+    
+    Automaton* PathSampler::getAutomaton(){
+        return this->automaton;
     }
 
-    template<class A>
-    void PathSampler<A>::setAutomaton(Automaton<A>* automaton){;;
+    
+    void PathSampler::setAutomaton(Automaton* automaton){;;
         this->automaton = automaton;
     }
 
-    template<class A>
-    Path<A>* samplePathEven(State<A>* startState){
-        Path<A> path;
+    
+    Path* samplePathEven(State* startState){
+        Path path;
     }
 }

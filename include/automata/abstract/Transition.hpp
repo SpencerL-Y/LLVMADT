@@ -8,27 +8,27 @@
 #include "../alphabet/Alphabet.hpp"
 
 namespace llvmadt{
-template <class T> class State;
-template <class A>
+class State;
+
 class Transition
 {
 protected:
-    State<A>* fromState;
-    Letter<A>* letter;
-    State<A>* toState;
-    Alphabet<A>* alphabet;
+    State* fromState;
+    Letter* letter;
+    State* toState;
+    Alphabet* alphabet;
 public:
-    Transition(Alphabet<A>* alphabet);
-    Transition(State<A>* from, Letter<A>* l, State<A>* to);
-    //Transition(State<A>* from, Letter<A>* l, State<A>* to, Alphabet<A>* alpha);
+    Transition(Alphabet* alphabet);
+    Transition(State* from, Letter* l, State* to);
+    //Transition(State* from, Letter* l, State* to, Alphabet* alpha);
     Transition(/* args */);
     ~Transition();
 
-    Alphabet<A>* getAlphabet();
-    void setAlphabet(Alphabet<A>* alphabet);
-    State<A>* getFromState();
-    State<A>* getToState();
-    Letter<A>* getLetter();
+    Alphabet* getAlphabet();
+    void setAlphabet(Alphabet* alphabet);
+    State* getFromState();
+    State* getToState();
+    Letter* getLetter();
 
 };
 

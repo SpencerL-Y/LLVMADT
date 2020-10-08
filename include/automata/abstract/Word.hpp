@@ -9,26 +9,26 @@
 #include "../alphabet/Alphabet.hpp"
 namespace llvmadt
 {
-template<class A>
+
 class Word
 {
 protected:
-    std::list<Letter<A>*> wordStem;
-    std::list<Letter<A>*> wordLoop;
-    Alphabet<A>* alphabet;
+    std::vector<Letter*> wordStem;
+    std::vector<Letter*> wordLoop;
+    Alphabet* alphabet;
 public:
     Word(/* args */);
     ~Word();
-    std::list<Letter<A>*>& getWordStem();
-    std::list<Letter<A>*>& getWordLoop();
+    std::vector<Letter*>& getWordStem();
+    std::vector<Letter*>& getWordLoop();
     void delStemLetter(int pos);
-    void appendStemLetter(Letter<A>* letter);
-    Letter<A>& getStemLetter(int pos);
+    void appendStemLetter(Letter* letter);
+    Letter* getStemLetter(int pos);
     void delLoopLetter(int pos);
-    void appendLoopLetter(Letter<A>* letter);
-    Letter<A>& getLoopLetter(int pos);
-    Alphabet<A>& getAlphabet();
-    void setAlphabet(Alphabet<A>* alpha);
+    void appendLoopLetter(Letter* letter);
+    Letter* getLoopLetter(int pos);
+    Alphabet* getAlphabet();
+    void setAlphabet(Alphabet* alpha);
     bool isFinite();
     std::string toString();
     

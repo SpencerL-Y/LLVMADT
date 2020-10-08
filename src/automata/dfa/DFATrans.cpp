@@ -1,24 +1,25 @@
 #include "../../../include/automata/dfa/DFATrans.hpp"
 
 namespace llvmadt{
-    template <class A>
-    DFATrans<A>::DFATrans(){
+    
+    DFATrans::DFATrans(){
 
     }
-    template <class A>
-    DFATrans<A>::DFATrans(Alphabet<A>* alphabet){
+    
+    DFATrans::DFATrans(Alphabet* alphabet){
         this->alphabet = alphabet;
     }
 
-    template <class A>
-    DFATrans<A>::DFATrans(DFAState<A>* from, Letter<A>* l, DFAState<A>* to){
-        this->fromState = from;
+    
+    DFATrans::DFATrans(State* from, Letter* l, State* to){
+        this->fromState = (State*)from;
         this->letter = l;
-        this->toState = to;
+        this->toState = (State*)to;
         this->alphabet = l->getAlphabet();
     }
-    template <class A>
-    DFATrans<A>::~DFATrans(){
+    
+
+    DFATrans::~DFATrans(){
         
     }
 }

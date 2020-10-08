@@ -3,14 +3,14 @@
 
 namespace llvmadt{
     
-template<class A>
-Transition<A>::Transition(Alphabet<A>* Alphabet){
+
+Transition::Transition(Alphabet* Alphabet){
     this->alphabet = alphabet;
 }
 
 
-template<class A>
-Transition<A>::Transition(State<A>* from, Letter<A>* l, State<A>* to){
+
+Transition::Transition(State* from, Letter* l, State* to){
     this->fromState = from;
     this->toState = to;
     this->letter = l;
@@ -18,38 +18,38 @@ Transition<A>::Transition(State<A>* from, Letter<A>* l, State<A>* to){
 }
 
 
-template<class A>
-Transition<A>::Transition(){
+
+Transition::Transition(){
 
 }
 
 
-template<class A>
-Transition<A>::~Transition(){
+
+Transition::~Transition(){
 
 }
 
 
-template<class A>
-Alphabet<A>* Transition<A>::getAlphabet(){
+
+Alphabet* Transition::getAlphabet(){
     return this->alphabet;
 }
 
 
-template<class A>
-State<A>* Transition<A>::getFromState(){
+
+State* Transition::getFromState(){
     return this->fromState;
 }
 
 
-template<class A>
-State<A>* Transition<A>::getToState(){
-    return this->toState();
+
+State* Transition::getToState(){
+    return this->toState;
 }
 
 
-template<class A>
-Letter<A>* Transition<A>::getLetter(){
+
+Letter* Transition::getLetter(){
     return this->letter;
 }
 

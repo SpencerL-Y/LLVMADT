@@ -4,17 +4,17 @@
 
 
 namespace llvmadt{
-    template <class T>
     class DFAState;
-    template <class A>
-    class DFATrans : public Transition<A>
+    
+    class DFATrans : public Transition
     {
     private:
         /* data */
     public:
         DFATrans(/* args */);
-        DFATrans(Alphabet<A>* alphabet);
-        DFATrans(DFAState<A>* from, Letter<A>* l, DFAState<A>* to);
+        DFATrans(Alphabet* alphabet);
+        DFATrans(State* from, Letter* l, State* to);
+        DFATrans(int fromId, Letter* l, int toId);
         ~DFATrans();
         
     };

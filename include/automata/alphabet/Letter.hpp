@@ -5,23 +5,25 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include "./LetterType.hpp"
+
 namespace llvmadt{
 
-template<class A> class Alphabet;
-template<class A>
+class Alphabet;
+
 class Letter
 {
 protected:
     int id;
-    A* content;
-    Alphabet<A>* alpha;
+    LetterType* content;
+    Alphabet* alpha;
 public:
     int getId();
     void setId(int id);
-    void setContent(A* content);
-    A* getContent();
+    void setContent(LetterType* content);
+    LetterType* getContent();
     std::string toString();
-    Alphabet<A>* getAlphabet();
+    Alphabet* getAlphabet();
     Letter(/* args */);
     ~Letter();
 };

@@ -1,64 +1,74 @@
 #include "../../../include/automata/dfa/DFAState.hpp"
 
 namespace llvmadt{
-    template <class A>
-    void DFAState<A>::addTransition(Transition<A>* tran){
+    
+    void DFAState::addTransition(Transition* tran){
         if(tran->getFromState()->getId() == this->id && 
            tran->getAlphabet() == this->alphabet &&
            !this->hasTransition(tran->getFromState()->getId(), tran->getLetter(), tran->getToState()->getId())
            ){
-               this->stateTransitions.push_back(tran);
+               this->stateTransitions.insert(tran);
            }
     }
-    template <class A>
-    void DFAState<A>::delTransition(int from, Letter<A>* l, int to){
+    
+    void DFAState::delTransition(int from, Letter* l, int to){
         if(!this->hasTransition(from, l, to)){
             std::cout << "error del transition, transition not exist" << std::endl;
             return;
         }
-        int eraseId = 0;
-        for(Transition<A>* tran : this->stateTransitions){
+        for(Transition* tran : this->stateTransitions){
             if(from == tran->getFromState()->getId() &&
                to == tran->getToState()->getId()&&
                l->getId() == tran->getLetter()->getId()){
-                    this->stateTransitions.erase(eraseId);
-                    return;
-               }
-            eraseId++;
+                this->stateTransitions.erase(tran);
+                delete(tran);
+                return;
+            }
         }
     }
 
-    template <class A>
-    std::string DFAState<A>::toString(){
+    void DFAState::delTransition(Transition* tran){
+        if(!this->hasTransition(tran->getFromState()->getId(), tran->getLetter(), tran->getToState()->getId())){
+            std::cout << "error del transition, transition not exist" << std::endl;
+            return;
+        }
+        this->stateTransitions.erase(tran);
+        delete(tran);
+    }
+
+    
+    std::string DFAState::toString(){
         std::string outStr = "";
-        outStr += "DFAState " + this->getId() + "\n";
+        outStr += "DFAState ";
+        outStr += this->getId();
+        outStr += "\n";
         return outStr;
     }
 
-    template <class A>
-    DFAState<A>::DFAState(Alphabet<A>* alphabet){
+    
+    DFAState::DFAState(Alphabet* alphabet){
         this->alphabet = alphabet;
     }
 
-    template <class A>
-    DFAState<A>::DFAState(){
+    
+    DFAState::DFAState(){
 
     }
 
-    template <class A>
-    DFAState<A>::~DFAState(){
+    
+    DFAState::~DFAState(){
 
     }
 
-    template <class A>
-    DFAState<A>* DFAState<A>::executeLetter(Letter<A>* l){
+    
+    DFAState* DFAState::executeLetter(Letter* l){
         if(this->alphabet != l->getAlphabet()){
             std::cout << "execute error, alphabet inconsistent" << std::endl;
             return nullptr;
         }
-        for(Transition<A>* tran : this->stateTransitions){
+        for(Transition* tran : this->stateTransitions){
             if(tran->getLetter()->getId() == l->getId()){
-                return tran->getToState();
+                return (DFAState*)tran->getToState();
             }
         }
         return nullptr;

@@ -1,24 +1,25 @@
 #include "../../../include/automata/alphabet/Alphabet.hpp"
 
 namespace llvmadt{
-    template <class A>
-    Alphabet<A>::Alphabet(){
+    
+    Alphabet::Alphabet(){
 
     }
 
-    template <class A>
-    void Alphabet<A>::addLetter(A* content){
+    
+    void Alphabet::addLetter(LetterType* content){
         if(this->letters.find(content->toString()) != this->letters.end()){
             std::cout << "alphabet add letter error, key already exists" << std::endl;
             return;
         }
-        Letter<A>* nl = new Letter<A>();
+        Letter* nl = new Letter();
         nl->setId(this->letters.size());
-        this->letters.push_back(nl);
+        nl->setContent(content);
+        this->letters[content->toString()] = nl;
     }
 
-    template <class A>
-    Letter<A>* Alphabet<A>::getLetter(int id){
+    
+    Letter* Alphabet::getLetter(int id){
         for(auto iter=this->letters.begin(); iter != this->letters.end(); ++iter){
             if(iter->second->getId() == id){
                 return iter->second;
@@ -26,8 +27,8 @@ namespace llvmadt{
         }
     }
 
-    template <class A>
-    Letter<A>* Alphabet<A>::getLetter(std::string keyStr){
+    
+    Letter* Alphabet::getLetter(std::string keyStr){
         auto iter = this->letters.find(keyStr);
         if(iter != this->letters.end()){
             return iter->second;
@@ -35,11 +36,11 @@ namespace llvmadt{
         return nullptr;
     }
 
-    template <class A>
-    std::string Alphabet<A>::toString(){
+    
+    std::string Alphabet::toString(){
         std::string result = "Alphabet: {";
         int i = 0;
-        for(auto iter = this->letters.begin(); iter != this-letters.end(); ++iter){
+        for(auto iter = this->letters.begin(); iter != this->letters.end(); ++iter){
             result += iter->second->toString();
             if(i < this->letters.size() - 1){
                 result += ", ";
@@ -49,23 +50,23 @@ namespace llvmadt{
         result += "}\n";
         return result;
     }
-    template <class A>
-    std::map<std::string, Letter<A>*>* Alphabet<A>::getLetters(){
+    
+    std::map<std::string, Letter*>* Alphabet::getLetters(){
         return &this->letters;
     }
 
 
 
-    template <class A>
-    int Alphabet<A>::getLettersSize(){
+    
+    int Alphabet::getLettersSize(){
         return this->letters.size();
     }
     
     
-    template <class A>
-    Alphabet<A>::~Alphabet(){
-        for(Letter<A>* l : this->letters){
-            delete(l);
+    
+    Alphabet::~Alphabet(){
+        for(auto iter = this->letters.begin(); iter != this->letters.end(); ++iter){
+            delete(iter->second);
         }
     }
 }

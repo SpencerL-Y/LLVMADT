@@ -3,48 +3,48 @@
 
 namespace llvmadt{
 
-template<class A>
-int State<A>::getId(){
+
+int State::getId(){
     return this->id;
 }
 
-template<class A>
-void State<A>::setId(int id){
+
+void State::setId(int id){
     this->id = id;
 }
 
 
-template<class A>
-bool State<A>::isAccState(){
+
+bool State::isAccState(){
     return this->isAccept;
 }
 
 
-template<class A>
-void State<A>::setAcc(){
+
+void State::setAcc(){
     this->isAccept = true;
 }
 
 
-template<class A>
-bool State<A>::isInitialState(){
+
+bool State::isInitialState(){
     return this->isInit;
 }
 
 
-template<class A>
-void State<A>::setInit(){
+
+void State::setInit(){
     this->isInit = true;
 }
 
 
-template <class A>
-bool State<A>::hasTransition(int from, Letter<A>* l, int to){
+
+bool State::hasTransition(int from, Letter* l, int to){
     if(!(this->alphabet == l->getAlphabet())){
         std::cout << "error hasTransition, inconsistent alphabet" << std::endl; 
         return false;
     }
-    for(Transition<A>* e : this->stateTransitions){
+    for(Transition* e : this->stateTransitions){
         if(e->getFromState()->getId() == from &&
            e->getLetter()->getId() == l->getId()&& 
            e->getToState()->getId() == to){
@@ -54,14 +54,14 @@ bool State<A>::hasTransition(int from, Letter<A>* l, int to){
     return false;
 }
 
-template<class A>
-Alphabet<A>* State<A>::getAlphabet(){
+
+Alphabet* State::getAlphabet(){
     return this->alphabet;
 }
 
 
-template<class A>
-void State<A>::setAlphabet(Alphabet<A>* alpha){
+
+void State::setAlphabet(Alphabet* alpha){
     if(this->alphabet != nullptr){
         this->alphabet = alpha;
     } else {
@@ -71,25 +71,25 @@ void State<A>::setAlphabet(Alphabet<A>* alpha){
 }
 
 
-template<class A>
-State<A>::State(){
+
+State::State(){
 
 }
 
 
-template<class A>
-State<A>::State(Alphabet<A>* alpha){
+
+State::State(Alphabet* alpha){
     this->alphabet = alpha;
 }
 
 
-template<class A>
-State<A>::~State(){
+
+State::~State(){
 
 }
 
-template<class A>
-std::list<Transition<A>*>& State<A>::getStateTransitions(){
+
+std::set<Transition*>& State::getStateTransitions(){
     return this->stateTransitions;
 }
 

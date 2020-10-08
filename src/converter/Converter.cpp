@@ -160,7 +160,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
     return cfaList;
 }
 
-Automaton<LetterType>* Converter::convertLTLf2DFA(std::string ltlfStr){
+Automaton* Converter::convertLTLf2DFA(std::string ltlfStr){
     spot::parsed_formula pf = spot::parse_infix_psl(ltlfStr);
     if(pf.format_errors(std::cerr)){
         return nullptr;
@@ -169,11 +169,11 @@ Automaton<LetterType>* Converter::convertLTLf2DFA(std::string ltlfStr){
 }
 
 
-Automaton<LetterTypeZ3Expr>* Converter::convertCFA2DFA(CFA* cfa){
+Automaton* Converter::convertCFA2DFA(CFA* cfa){
 
-    Alphabet<LetterTypeZ3Expr>* z3ExprAlphabet = new Alphabet<LetterTypeZ3Expr>();
+    Alphabet* z3ExprAlphabet = new Alphabet();
 
-    Automaton<LetterTypeZ3Expr>* resultDFA = new DFA<LetterTypeZ3Expr>();
+    Automaton* resultDFA = new DFA();
     for(CFAState* cs : cfa->getStates()){
         // all states of the program are accepting
         if(cs->getId() == 0){
@@ -184,7 +184,7 @@ Automaton<LetterTypeZ3Expr>* Converter::convertCFA2DFA(CFA* cfa){
     }
 
     for(CFAEdge* edge : cfa->getEdges()){
-        Letter<LetterTypeZ3Expr>* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
         if(l == nullptr){
             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr());
             z3ExprAlphabet->addLetter(z3l);
@@ -199,8 +199,7 @@ Automaton<LetterTypeZ3Expr>* Converter::convertCFA2DFA(CFA* cfa){
 }
 
 
-Automaton<LetterType>* Converter::convertLTL2BA(std::string ltl){
-    DFA<LetterType> dfa;
+Automaton* Converter::convertLTL2BA(std::string ltl){
 }
 
 }

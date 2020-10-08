@@ -9,18 +9,18 @@
 #include "../abstract/Path.hpp"
 
 namespace llvmadt{
-template <class A>
+
 class PathSampler
 {
 private:
-    Automaton<A>* automaton;
+    Automaton* automaton;
 public:
     PathSampler(/* args */);
-    PathSampler(Automaton<A>* automaton);
+    PathSampler(Automaton* automaton);
     ~PathSampler();
-    Automaton<A>* getAutomaton();
-    void setAutomaton(Automaton<A>* automaton);
-    Path<A>* samplePathEven(State<A>* startState);
+    Automaton* getAutomaton();
+    void setAutomaton(Automaton* automaton);
+    Path* samplePathEven(State* startState);
 };
 
 

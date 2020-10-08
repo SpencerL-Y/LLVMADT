@@ -5,8 +5,8 @@
 #include "../dfa/DFATrans.hpp"
 
 namespace llvmadt{
-template<class A>
-class DFA : public Automaton<A>
+
+class DFA : public Automaton
 {
 private:
     void addState(int id);
@@ -14,15 +14,15 @@ private:
     void addAccState(int id);
     void addInitAccState(int id);
     void delState(int id);
-    void addTransition(int fromId, Letter<A>* l,  int toId);
-    void delTransition(int fromId, Letter<A>* l, int toId);
-    Path<A>* runOnWordOutPath(Word<A>* word);
-    bool runOnWordOutResult(Word<A>* word);
-    std::list<State<A>*>& getStates();
-    State<A>* getInitState();
-    std::list<State<A>*>& getAccStates();
+    void addTransition(int fromId, Letter* l,  int toId);
+    void delTransition(int fromId, Letter* l, int toId);
+    Path* runOnWordOutPath(Word* word);
+    bool runOnWordOutResult(Word* word);
+    std::set<State*>& getStates();
+    State* getInitState();
+    std::set<State*>& getAccStates();
 
-    DFAState<A>* executeLetter(DFAState<A>* currentState, Letter<A>* l);
+    DFAState* executeLetter(DFAState* currentState, Letter* l);
 
 public:
     DFA(/* args */);
