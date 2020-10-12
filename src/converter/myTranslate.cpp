@@ -8,7 +8,7 @@ using namespace llvm;
 
 namespace llvmadt{
 
-z3::expr Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::context *C)
+z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::context *C)
 {
     StoreMap *M = MStr;
     // z3::expr insExp;
@@ -38,7 +38,8 @@ z3::expr Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::con
         return extractCmp(CI, C);
     }
 
-    z3::expr E = C->bool_val(true);
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
     return E;
 }
 
@@ -72,7 +73,7 @@ void Translator::extractStore(const StoreInst *SI, StoreMap *MStr)
     // errs() << *SI << '\n';
 }
 
-z3::expr Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::context *C)
+z3::expr* Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::context *C)
 {
     // %tmp
     std::string Lop1Name = LI->getName();
@@ -82,7 +83,8 @@ z3::expr Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::contex
     std::string Lop2Name = From->getName();
     std::string secValue;
 
-    z3::expr E = C->bool_val(true);
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
    
     // get value in %x
     for(StoreMap::iterator Iter = MStr->begin(); Iter != MStr->end(); Iter++)
@@ -102,15 +104,16 @@ z3::expr Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::contex
                 // std::cout << "int Lop2: " << secValue.data() << '\n';
             }
 
-            E = Lop1 == Lop2;
+            *E = Lop1 == Lop2;
         }
     }
     return E;
 }
 
-z3::expr Translator::extractBinaryOperator(const BinaryOperator *inst, z3::context *C)
+z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::context *C)
 {
-    z3::expr E = C->bool_val(true);
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
 
     const Value *Op1 = inst->getOperand(0);
     const Value *Op2 = inst->getOperand(1);
@@ -134,21 +137,21 @@ z3::expr Translator::extractBinaryOperator(const BinaryOperator *inst, z3::conte
 
     if (inst->getOpcode() == Instruction:: Add)
     {
-        E = (BO == BO1 + BO2);
+        *E = (BO == BO1 + BO2);
     }
     else if (inst->getOpcode() == Instruction:: Sub)
     {
-        E = (BO == BO1 - BO2);
+        *E = (BO == BO1 - BO2);
     }
 
     else if (inst->getOpcode() == Instruction:: Mul)
     {
-        E = (BO == BO1 * BO2);
+        *E = (BO == BO1 * BO2);
     }
 
     else if (inst->getOpcode() == Instruction:: SDiv)
     {
-        E = (BO == BO1 / BO2);
+        *E = (BO == BO1 / BO2);
     }
     else
     {
@@ -157,9 +160,10 @@ z3::expr Translator::extractBinaryOperator(const BinaryOperator *inst, z3::conte
     return E;
 }
 
-z3::expr Translator::extractCmp(const ICmpInst *CI, z3::context *C)
+z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
 {
-    z3::expr E = C->bool_val(true);
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
 
     const Value *Op1 = CI->getOperand(0);
     const Value *Op2 = CI->getOperand(1);
@@ -184,27 +188,27 @@ z3::expr Translator::extractCmp(const ICmpInst *CI, z3::context *C)
 
     if (CI->getPredicate() == CmpInst::ICMP_EQ)
     {
-        E = (CMP == (OP1 == OP2));
+        *E = (CMP == (OP1 == OP2));
     }
     else if (CI->getPredicate() == CmpInst::ICMP_NE)
     {
-        E = (CMP == OP1 != OP2);
+        *E = (CMP == OP1 != OP2);
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SGT)
     {
-        E = (CMP == OP1 > OP2);
+        *E = (CMP == OP1 > OP2);
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SGE)
     {
-        E = (CMP == OP1 >= OP2);
+        *E = (CMP == OP1 >= OP2);
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SLT)
     {
-        E = (CMP == OP1 < OP2);
+        *E = (CMP == OP1 < OP2);
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SLE)
     {
-        E = (CMP == OP1 <= OP2);
+        *E = (CMP == OP1 <= OP2);
     }
     else
     {
@@ -213,10 +217,11 @@ z3::expr Translator::extractCmp(const ICmpInst *CI, z3::context *C)
     return E;    
 }
 
-z3::expr Translator::extractTBranch(BasicBlock *curBB, BasicBlock *nexBB, z3::context *C)
+z3::expr* Translator::extractTBranch(BasicBlock *curBB, BasicBlock *nexBB, z3::context *C)
 {
     const Instruction *TTInst = curBB->getTerminator();
-    z3::expr E = C->bool_val(true);
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
     // errs() << "TTInst: " << TTInst->getOperand(0)->getName() << '\n';
     if (const BranchInst *BI = dyn_cast<BranchInst>(TTInst))
     {
@@ -231,12 +236,12 @@ z3::expr Translator::extractTBranch(BasicBlock *curBB, BasicBlock *nexBB, z3::co
             if (nexBB->getName() == TB->getName())
             {
                 // E = C->int_const(BrName.data());
-                E = C->bool_const(BrName.data());
+                *E = C->bool_const(BrName.data());
             }
             else if (nexBB->getName() == FB->getName())
             {
 
-                E = !C->bool_const(BrName.data());
+                *E = !C->bool_const(BrName.data());
             }
         }
     }

@@ -43,13 +43,13 @@ class Translator {
 
         typedef std::map<std::string, std::string> BBMap;
    
-        z3::expr extractConstraints(llvm::Instruction* I, StoreMap* MStr, z3::context* C);
+        z3::expr* extractConstraints(llvm::Instruction* I, StoreMap* MStr, z3::context* C);
 
         void extractStore(const llvm::StoreInst *SI, StoreMap *MStr);
-        z3::expr extractLoad(const llvm::LoadInst *LI,  StoreMap *MStr, z3::context *C);
-        z3::expr extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
-        z3::expr extractCmp(const llvm::ICmpInst *CI, z3::context *C);
-        z3::expr extractTBranch(llvm::BasicBlock *curBB, llvm::BasicBlock *preSampleBB, z3::context *C);
+        z3::expr* extractLoad(const llvm::LoadInst *LI,  StoreMap *MStr, z3::context *C);
+        z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
+        z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C);
+        z3::expr* extractTBranch(llvm::BasicBlock *curBB, llvm::BasicBlock *preSampleBB, z3::context *C);
 
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);
