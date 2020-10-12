@@ -126,6 +126,10 @@ void CFA::setContext(z3::context* c){
     this->c = c;
 }
 
+z3::context* CFA::getContext(){
+    return this->c;
+}
+
 CFA::CFA(/* args */)
 {
     this->c = new z3::context();
