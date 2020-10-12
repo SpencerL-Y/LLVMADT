@@ -22,6 +22,11 @@ namespace llvmadt{
         return this->K;
     }
 
+    void TestSampler::setSampleNum()
+    {
+        this->K = 4;
+    }
+
     void TestSampler::setAutomaton(Automaton* automaton){;;
         this->automaton = automaton;
     }
@@ -61,6 +66,7 @@ namespace llvmadt{
             succ.push_back(*iter);
         }
 
+        setSampleNum();
         // resample currState less than K times
         if (Count[currState] < getSampleNum())
         {

@@ -26,6 +26,7 @@ public:
 
     // typedef std::vector<State<A>*> PathVector;
     int getSampleNum();
+    void setSampleNum();
     typedef std::map<State*, int> VisitCount;
     typedef std::vector<Transition* > succTrans;
     bool recursiveSort(State* currState, Path* path, VisitCount Count);
