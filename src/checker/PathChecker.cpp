@@ -64,11 +64,10 @@ namespace llvmadt
                 for(Letter* l : path.getStemLetters()){
                     solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
                     if(solver.check() == z3::unsat){
-                        return true;
+                        return false;
                     }
                 }
-
-
+                return true;
             } else if(tlutil.isGFp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_GF(f);
             } else if(tlutil.isFGp(f)){
