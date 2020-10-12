@@ -15,6 +15,7 @@ namespace llvmadt{
         Letter* nl = new Letter();
         nl->setId(this->letters.size());
         nl->setContent(content);
+        nl->setAlphabet(this);
         this->letters[content->toString()] = nl;
     }
 

@@ -179,6 +179,7 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
     Alphabet* z3ExprAlphabet = new Alphabet();
 
     Automaton* resultDFA = new DFA();
+    resultDFA->setAlphabet(z3ExprAlphabet);
     for(CFAState* cs : cfa->getStates()){
         // all states of the program are accepting
         if(cs->getId() == 0){
@@ -188,16 +189,16 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
         }
     }
 
-    // for(CFAEdge* edge : cfa->getEdges()){
-    //     Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-    //     if(l == nullptr){
-    //         LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
-    //         z3ExprAlphabet->addLetter(z3l);
-    //         l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-    //     }
-    //     resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
+    for(CFAEdge* edge : cfa->getEdges()){
+        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+        if(l == nullptr){
+            LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
+            z3ExprAlphabet->addLetter(z3l);
+            l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+        }
+        resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         
-    // }
+    }
 
     resultDFA->setName(cfa->getName());
     return resultDFA;

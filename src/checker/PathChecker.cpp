@@ -57,7 +57,8 @@ namespace llvmadt
                 z3::context* ctx = ((LetterTypeZ3Expr*)path.getStemLetter(0))->getContext();
                 z3::expr tempFormula = ctx->bool_val(true) && prop;
                 z3::solver solver(*ctx);
-                if(solver.check(tempFormula) == z3::unsat){
+                solver.add(tempFormula);
+                if(solver.check() == z3::unsat){
                     return false;
                 }
                 for(Letter* l : path.getStemLetters()){
@@ -74,11 +75,11 @@ namespace llvmadt
                 z3::expr prop = tlutil.extractSimpleFormula_FG(f);
             } else {
                 std::cout << "path property checking error: property too complex." << std::endl;
-                return nullptr;
+                return false;
             }
         } else {
             std::cout << "path property checking error: property too complex." << std::endl;
-            return nullptr;
+            return false;
         }
     }
 } // namespace llvmadt

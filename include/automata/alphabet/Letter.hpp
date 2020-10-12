@@ -24,6 +24,7 @@ public:
     LetterType* getContent();
     std::string toString();
     Alphabet* getAlphabet();
+    void setAlphabet(Alphabet* alpha);
     Letter(/* args */);
     ~Letter();
 };

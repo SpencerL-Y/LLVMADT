@@ -35,6 +35,10 @@ namespace llvmadt{
     Alphabet* Letter::getAlphabet(){
         return this->alpha;
     }
+
+    void Letter::setAlphabet(Alphabet* alpha){
+        this->alpha = alpha;
+    }
     
     Letter::Letter(){
 
