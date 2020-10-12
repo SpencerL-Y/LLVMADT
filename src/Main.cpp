@@ -37,6 +37,8 @@ int main(int argc, char** argv){
     // std::cout << "name: " << cfa->getName() << '\n';
 
     Automaton* dfa = converter.convertCFA2DFA(cfa);
+
+    std::cout << "dfa name: " << dfa->getName() << '\n';
     std::cout << "init state id: " << dfa->getInitState()->getId() << '\n';
     
 
