@@ -49,7 +49,7 @@ public:
     ~Converter(){
 
     }
-    std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
+    std::list<CFA*> convertLLVM2CFAs(std::string ll_path, z3::context *C);
 
     Automaton* convertLTLf2DFA(std::string ltlf);
 

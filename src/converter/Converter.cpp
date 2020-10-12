@@ -5,7 +5,7 @@
 
 namespace llvmadt{
 
-std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
+std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
 {
     Translator T;
 
@@ -27,10 +27,10 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
         Translator::StoreMap MStr;
         Translator::BBMap BBID;
 
-        z3::config cfg;
-        cfg.set("auto_config", true);
-        z3::context c(cfg);
-        z3::solver s(c);
+        // z3::config cfg;
+        // cfg.set("auto_config", true);
+        // z3::context c(cfg);
+        // z3::solver s(c);
 
         CFA* currCFA = new CFA();
         llvm::Function* currFunc = &*m_iter;
@@ -92,7 +92,9 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                 llvm::Instruction* currInst = &*b_iter;
                 if (currInst != bb->getTerminator())
                 {
-                    z3::expr* E = T.extractConstraints(currInst, &MStr, &c);
+                    // z3::expr* E = new z3::expr(c);
+                    // E = T.extractConstraints(currInst, &MStr, &c);
+                    z3::expr* E = T.extractConstraints(currInst, &MStr, c);
                     // *E = c.bool(true);
                     std::cout << "id: " << currID << '\n';
                     std::cout << "expr: " << *E << '\n';
@@ -112,7 +114,9 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                 int nexID = std::stoi(BBID[nexName]);
 
                 // llvm::errs() << "Pred: " << Pred->getName() << "\n";
-                z3::expr* EBR = T.extractTBranch(bb, succ, &c);
+                // z3::expr* EBR = new z3::expr(c);
+                // EBR = T.extractTBranch(bb, succ, &c);
+                z3::expr* EBR = T.extractTBranch(bb, succ, c);
                 std::cout << "brID: " << brID << '\n';
                 std::cout << "br expr: " << *EBR << '\n'; 
                 std::cout << "nexID: " << nexID << '\n';
