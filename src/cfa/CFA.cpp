@@ -1,7 +1,7 @@
 #include "../../include/cfa/CFA.hpp"
 
 namespace llvmadt{
-std::list<CFAState*> CFA::getStates(){
+std::list<CFAState*>& CFA::getStates(){
     return this->states;   
 }
 

@@ -32,12 +32,7 @@ Guard* CFAEdge::getGuard(){
 }
 
 std::string CFAEdge::getGuardStr(){
-    //TODO
-    return nullptr;
-}
-
-std::string CFAEdge::toString(){
-    //TODO
+    std::string result = this->guard->getGuardStr();
     return nullptr;
 }
 

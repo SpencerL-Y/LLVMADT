@@ -26,7 +26,7 @@ private:
 public:
     CFA(/* args */);
     ~CFA();
-    std::list<CFAState*> getStates();
+    std::list<CFAState*>& getStates();
     void setStates(std::list<CFAState*>& states);
     int getStateNum();
     void addState(int id);

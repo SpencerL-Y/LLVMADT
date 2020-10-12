@@ -55,7 +55,18 @@ namespace llvmadt
             } else if(tlutil.isGp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_G(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path.getStemLetter(0))->getContext();
-                z3::expr tempFormula = ctx->0
+                z3::expr tempFormula = ctx->bool_val(true) && prop;
+                z3::solver solver(*ctx);
+                if(solver.check(tempFormula) == z3::unsat){
+                    return false;
+                }
+                for(Letter* l : path.getStemLetters()){
+                    solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
+                    if(solver.check() == z3::unsat){
+                        return true;
+                    }
+                }
+
 
             } else if(tlutil.isGFp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_GF(f);

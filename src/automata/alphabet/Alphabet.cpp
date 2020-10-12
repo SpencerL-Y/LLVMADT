@@ -51,8 +51,8 @@ namespace llvmadt{
         return result;
     }
     
-    std::map<std::string, Letter*>* Alphabet::getLetters(){
-        return &this->letters;
+    std::map<std::string, Letter*>& Alphabet::getLetters(){
+        return this->letters;
     }
 
 

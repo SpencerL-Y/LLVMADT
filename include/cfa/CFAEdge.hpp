@@ -31,7 +31,6 @@ public:
     void mkGuard(z3::expr* expr);
     Guard* getGuard();
     std::string getGuardStr();
-    std::string toString();
     z3::context* getContext();
     void setContext(z3::context* c);
 };

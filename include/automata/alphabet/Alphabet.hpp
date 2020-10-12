@@ -20,7 +20,7 @@ public:
     void addLetter(LetterType* content);
     Letter* getLetter(int id);
     Letter* getLetter(std::string keyStr);
-    std::map<std::string, Letter*>* getLetters();
+    std::map<std::string, Letter*>& getLetters();
     int getLettersSize();
     std::string toString();
     Alphabet(/* args */);
