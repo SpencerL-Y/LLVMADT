@@ -16,6 +16,8 @@ llvm_map_components_to_libnames(LLVM-10 support core irreader)
 ADD_SUBDIRECTORY(automata)
 ADD_SUBDIRECTORY(cfa)
 ADD_SUBDIRECTORY(converter)
+ADD_SUBDIRECTORY(logic)
+ADD_SUBDIRECTORY(checker)
 
 ADD_EXECUTABLE(exec Main.cpp)
 

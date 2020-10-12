@@ -34,7 +34,10 @@
 #include "../automata/alphabet/LetterTypeChar.hpp"
 namespace llvmadt{
 
-
+// converter is used for several conversion between data structures:
+// 1.LTL, LTLf, TWA from spot
+// 2.CFA
+// 3.DFA, BA
 class Converter
 {
 private:

@@ -7,6 +7,7 @@
 #include <z3++.h>
 
 namespace llvmadt{
+// Guard for the CFAEdge, where currently is a z3 expression converted from the LLVM IR
 class Guard
 {
 private:

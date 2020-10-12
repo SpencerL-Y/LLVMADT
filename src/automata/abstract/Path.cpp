@@ -106,6 +106,7 @@ void Path::setAlphabet(Alphabet* alphabet){
 }
 
 std::string Path::toString(){
+    std::string outStr = "";
     
 }
 
