@@ -191,12 +191,13 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
 
     for(CFAEdge* edge : cfa->getEdges()){
         Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
-        l->setAlphabet(z3ExprAlphabet);
+        
         if(l == nullptr){
             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
             z3ExprAlphabet->addLetter(z3l);
             l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
         }
+        l->setAlphabet(z3ExprAlphabet);
         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         
     }
