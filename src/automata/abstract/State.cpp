@@ -40,7 +40,7 @@ void State::setInit(){
 
 
 bool State::hasTransition(int from, Letter* l, int to){
-    if(!(this->alphabet == l->getAlphabet())){
+    if(!(this->alphabet != l->getAlphabet())){
         std::cout << "error hasTransition, inconsistent alphabet" << std::endl; 
         return false;
     }
@@ -67,7 +67,7 @@ void State::setAlphabet(Alphabet* alpha){
     } else if(this->alphabet != alpha){
         std::cout << "Alphabet exists, set error" << std::endl;   
     } else {
-        
+
     }
     
 }
