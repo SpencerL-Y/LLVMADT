@@ -57,7 +57,7 @@ CFAEdge* CFA::getEdge(int fromId, int toId){
     return nullptr;
 }
 
-std::list<CFAEdge*>& CFA::getEdges(){
+std::list<CFAEdge*> CFA::getEdges(){
     return this->edges;
 }
 

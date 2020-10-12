@@ -23,8 +23,8 @@ void CFAEdge::mkGuard(z3::expr* expr){
         delete(this->guard);
     }
     Guard* g = new Guard();
-    this->guard = g;
     g->setGuard(expr);
+    this->guard = g;
 }
 
 Guard* CFAEdge::getGuard(){
