@@ -29,7 +29,7 @@ void CFAState::addEdge(CFAEdge* edge){
     this->edges.push_back(edge);
 }
 
-std::list<CFAEdge*> CFAState::getEdges(){
+std::list<CFAEdge*>& CFAState::getEdges(){
     return this->edges;
 }
 

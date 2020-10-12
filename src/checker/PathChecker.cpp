@@ -55,7 +55,7 @@ namespace llvmadt
             } else if(tlutil.isGp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_G(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path.getStemLetter(0))->getContext();
-                z3::tex
+                z3::expr tempFormula = ctx->0
 
             } else if(tlutil.isGFp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_GF(f);

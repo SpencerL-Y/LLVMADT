@@ -32,7 +32,7 @@ public:
     CFAInstruction* getInstruction();
     std::string toString();
     void addEdge(CFAEdge* edge);
-    std::list<CFAEdge*> getEdges();
+    std::list<CFAEdge*>& getEdges();
     bool isBlockFinal();
     void setBlockFinal(bool final);
     z3::context* getContext();
