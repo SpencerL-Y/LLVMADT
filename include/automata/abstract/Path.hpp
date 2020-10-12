@@ -29,7 +29,11 @@ public:
     State* getStemState(int pos);
     void appendStemLetter(Letter* letter);
     void appendStemState(State* state);
-    Word* getStemWord();
+    Word* getWord();
+    std::vector<Letter*>& getStemLetters();
+    std::vector<Letter*>& getLoopLetters();
+    Letter* getStemLetter(int position);
+    Letter* getLoopLetter(int position);
 
 
     std::vector<State*>& getLoopStates();

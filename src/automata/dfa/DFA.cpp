@@ -22,7 +22,9 @@ void DFA::addState(int id){
     }
     State* ns = new DFAState();
     ns->setId(id);
-    ns->setAlphabet(this->getAlphabet());
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
     this->states.insert(ns);
 }
 
@@ -42,7 +44,9 @@ void DFA::addInitState(int id){
     
     State* ns = new DFAState();
     ns->setId(id);
-    ns->setAlphabet(this->getAlphabet());
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
     ns->setInit();
     this->states.insert(ns);
     this->initState = ns;
@@ -59,7 +63,9 @@ void DFA::addAccState(int id){
     
     State* ns = new DFAState();
     ns->setId(id);
-    ns->setAlphabet(this->getAlphabet());
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
     ns->setAcc();
     this->states.insert(ns);
     this->accStates.insert(ns);
@@ -76,7 +82,10 @@ void DFA::addInitAccState(int id){
     
     State* ns = new DFAState();
     ns->setId(id);
-    ns->setAlphabet(this->getAlphabet());
+    
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
     ns->setAcc();
     ns->setInit();
     this->states.insert(ns);

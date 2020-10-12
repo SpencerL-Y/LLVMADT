@@ -56,11 +56,25 @@ void Path::appendStemState(State* state){
 
 
 
-Word* Path::getStemWord(){
+Word* Path::getWord(){
     return this->word;
 }
 
 
+std::vector<Letter*>& Path::getStemLetters(){
+    return this->word->getWordStem();
+}
+
+std::vector<Letter*>& Path::getLoopLetters(){
+    return this->word->getWordLoop();
+}
+
+Letter* Path::getStemLetter(int position){
+    return this->word->getWordStem().at(position);
+}
+Letter* Path::getLoopLetter(int position){
+    return this->word->getWordLoop().at(position);
+}
 
 std::vector<State*>& Path::getLoopStates(){
     return this->loopStates;

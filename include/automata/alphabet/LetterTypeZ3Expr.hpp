@@ -15,13 +15,17 @@ class LetterTypeZ3Expr : public LetterType
 {
 private:
     z3::expr* expression;
+    z3::context* context;
 public:
     std::string toString();
     z3::expr* getExpression();
-    void setExpression(z3::expr* expr);
+    z3::context* getContext();
+    void setExpression(z3::expr* expr, z3::context* context);
     LetterTypeZ3Expr(/* args */);
-    LetterTypeZ3Expr(z3::expr* expr);
+    LetterTypeZ3Expr(z3::expr* expr, z3::context* context);
+    LetterTypeZ3Expr(z3::context* context);
     ~LetterTypeZ3Expr();
+    
 };
 
 

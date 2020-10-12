@@ -5,7 +5,8 @@ namespace llvmadt{
 
     }
 
-    LetterTypeZ3Expr::LetterTypeZ3Expr(z3::expr* expr){
+    LetterTypeZ3Expr::LetterTypeZ3Expr(z3::expr* expr, z3::context* context){
+        this->context = context;
         this->expression = expr;
     }
     LetterTypeZ3Expr::~LetterTypeZ3Expr(){
@@ -16,11 +17,16 @@ namespace llvmadt{
         return this->expression->to_string();
     }
 
+    z3::context* LetterTypeZ3Expr::getContext(){
+        return this->context;
+    }
+
     z3::expr* LetterTypeZ3Expr::getExpression(){
         return this->expression;
     }
 
-    void LetterTypeZ3Expr::setExpression(z3::expr* expr){
+    void LetterTypeZ3Expr::setExpression(z3::expr* expr, z3::context* context){
+        this->context = context;
         if(this->expression != nullptr){
             delete(this->expression);
         }

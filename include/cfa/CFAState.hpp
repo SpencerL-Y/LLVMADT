@@ -10,6 +10,7 @@
 namespace llvmadt{
 class CFA;
 class CFAEdge;
+// State for CFA automaton
 class CFAState
 {
 private:
@@ -39,7 +40,6 @@ public:
 
     // go back to cfa
     CFA* getCfa();
-
 };
 
 

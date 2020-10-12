@@ -9,6 +9,7 @@ namespace llvmadt{
 class DFA : public Automaton
 {
 private:
+public:
     void addState(int id);
     void addInitState(int id);
     void addAccState(int id);
@@ -24,7 +25,6 @@ private:
 
     DFAState* executeLetter(DFAState* currentState, Letter* l);
 
-public:
     DFA(/* args */);
     ~DFA();
 };
