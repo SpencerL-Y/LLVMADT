@@ -96,8 +96,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
                     // E = T.extractConstraints(currInst, &MStr, &c);
                     z3::expr* E = T.extractConstraints(currInst, &MStr, c);
                     // *E = c.bool(true);
-                    std::cout << "id: " << currID << '\n';
-                    std::cout << "expr: " << *E << '\n';
+                    // std::cout << "id: " << currID << '\n';
+                    // std::cout << "expr: " << *E << '\n';
                     int nexID = currID + 1;
                     currCFA->addEdge(currID, E,  nexID);
                 }
@@ -117,9 +117,9 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
                 // z3::expr* EBR = new z3::expr(c);
                 // EBR = T.extractTBranch(bb, succ, &c);
                 z3::expr* EBR = T.extractTBranch(bb, succ, c);
-                std::cout << "brID: " << brID << '\n';
-                std::cout << "br expr: " << *EBR << '\n'; 
-                std::cout << "nexID: " << nexID << '\n';
+                // std::cout << "brID: " << brID << '\n';
+                // std::cout << "br expr: " << *EBR << '\n'; 
+                // std::cout << "nexID: " << nexID << '\n';
                 currCFA->addEdge(brID, EBR, nexID);
             }
            
@@ -190,11 +190,11 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
     }
 
     for(CFAEdge* edge : cfa->getEdges()){
-        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
         if(l == nullptr){
             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
             z3ExprAlphabet->addLetter(z3l);
-            l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+            l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
         }
         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         

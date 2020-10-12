@@ -4,6 +4,7 @@
 namespace llvmadt{
     std::string Guard::getGuardStr(){
         std::string guardStr = this->guardExpr->to_string();
+        // std::cout << "gs: " << guardStr << '\n';
         return guardStr;
     }
 

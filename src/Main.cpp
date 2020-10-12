@@ -17,23 +17,23 @@ int main(int argc, char** argv){
 
     std::cout << "..........main.............." << '\n';
 
-    for(it = Edges.rbegin(); it != Edges.rend(); it++)
-    {
-        CFAEdge* currEdge = *it;
+    // for(it = Edges.rbegin(); it != Edges.rend(); it++)
+    // {
+    //     CFAEdge* currEdge = *it;
 
-        CFAState* fromState = currEdge->getFromState();
-        CFAState* toState = currEdge->getToState();
-        Guard* guard = currEdge->getGuard();
+    //     CFAState* fromState = currEdge->getFromState();
+    //     CFAState* toState = currEdge->getToState();
+    //     Guard* guard = currEdge->getGuard();
 
-        int fId = fromState->getId();
-        int toId = toState->getId();
-        std::string guardStr = guard->getGuardStr();
-        // z3::expr E = c.bool_val(true);
-        // guard->setGuard(&E);
-        // guard->getGuardStr();
+    //     int fId = fromState->getId();
+    //     int toId = toState->getId();
+    //     std::string guardStr = guard->getGuardStr();
+    //     // z3::expr E = c.bool_val(true);
+    //     // guard->setGuard(&E);
+    //     // guard->getGuardStr();
        
-        std::cout << "from state: " << fId <<  " to state: " << toId << " guard: " << guardStr << '\n';
-    } 
+    //     std::cout << "from state: " << fId <<  " to state: " << toId << " guard: " << guardStr << '\n';
+    // } 
     // std::cout << "name: " << cfa->getName() << '\n';
 
     Automaton* dfa = converter.convertCFA2DFA(cfa);
