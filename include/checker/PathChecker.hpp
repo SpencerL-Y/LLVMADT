@@ -24,7 +24,7 @@ namespace llvmadt
         ~PathChecker();
 
         z3::model* checkPathFeasibility(Path& path);
-        z3::model* checkPathProperty(Path& path, std::string ltlStr);
+        bool checkPathProperty(Path& path, std::string ltlStr);
     };
     
     

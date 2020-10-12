@@ -62,7 +62,7 @@ Alphabet* State::getAlphabet(){
 
 
 void State::setAlphabet(Alphabet* alpha){
-    if(this->alphabet != nullptr){
+    if(this->alphabet == nullptr){
         this->alphabet = alpha;
     } else {
         std::cout << "Alphabet exists, set error" << std::endl;   

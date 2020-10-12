@@ -28,7 +28,7 @@ namespace llvmadt
         }
     }
 
-    z3::model* PathChecker::checkPathProperty(Path& path, std::string ltlStr){
+    bool PathChecker::checkPathProperty(Path& path, std::string ltlStr){
         // return  true if the path satisfy the ltl formula 
         // false if the path is infeasible or the property is violated OR the formula is too complex
         spot::parsed_formula pf = spot::parse_infix_psl(ltlStr);
@@ -43,15 +43,20 @@ namespace llvmadt
                 tempFormula = tempFormula && (!prop);
                 solver.add(tempFormula);
                 if(solver.check() == z3::unsat){
-                    return nullptr;
-                } 
+                    return true;
+                }
                 for(Letter* l : path.getStemLetters()){
                     solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
-                    
+                    if(solver.check() == z3::unsat){
+                        return true;
+                    }
                 }
-                return &solver.get_model();
+                return false;
             } else if(tlutil.isGp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_G(f);
+                z3::context* ctx = ((LetterTypeZ3Expr*)path.getStemLetter(0))->getContext();
+                z3::tex
+
             } else if(tlutil.isGFp(f)){
                 z3::expr prop = tlutil.extractSimpleFormula_GF(f);
             } else if(tlutil.isFGp(f)){
