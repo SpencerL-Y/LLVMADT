@@ -70,11 +70,12 @@ namespace llvmadt{
         std::cout << "K = " << getSampleNum() << '\n';
         std::cout << "currState count = " << Count[currState] << '\n';
         std::cout << "tran size: " << size << '\n';
+        path->setAlphabet(currState->getAlphabet());
 
         // resample currState less than K times
         if (Count[currState] < getSampleNum())
         {
-            path->setAlphabet(currState->getAlphabet());
+            
             path->appendStemState(currState);
 
             if (size == 0)
