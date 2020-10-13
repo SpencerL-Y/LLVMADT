@@ -15,7 +15,20 @@ int main(int argc, char** argv){
     // std::set<CFAEdge*>::reverse_iterator it;
     // std::set<CFAEdge*> Edges = cfa->getEdges();
 
-    std::cout << "..........main.............." << '\n';
+    std::cout << "......................main..........................." << '\n';
+
+    std::cout << "...................var test begin................." << '\n';
+    std::set<std::string> VarNames = cfa->getVarNames();
+    std::set<std::string>::iterator i;
+  
+    for (i = VarNames.begin(); i != VarNames.end(); i++)
+    {
+        std::string currVar = *i;
+        std::cout << "Var: " << currVar << '\n';
+    }
+
+    std::cout << "...................var test end................." << '\n';
+
 
     // for(it = Edges.rbegin(); it != Edges.rend(); it++)
     // {
@@ -47,7 +60,7 @@ int main(int argc, char** argv){
     std::cout << ".............path................." << '\n';
     std::vector<State*>::iterator it;
     std::vector<State*> states = path->getStemStates();
-    std::cout << states.size() << '\n';
+  
     for (it = states.begin(); it != states.end(); it++)
     {
         State* currState = *it;

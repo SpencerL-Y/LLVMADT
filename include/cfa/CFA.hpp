@@ -20,6 +20,7 @@ private:
     std::set<CFAState*> states; 
     // edge can be regarded as change of valuation
     std::set<CFAEdge*> edges;
+    std::set<std::string> VarNames;
     int stateNum;
     std::string name;
     z3::context* c;
@@ -45,6 +46,9 @@ public:
     bool hasEdgeId(int fromId, int toId);
     z3::context* getContext();
     void setContext(z3::context* c);
+
+    void setVarNames(std::set<std::string>& varNames);
+    std::set<std::string> getVarNames();
 };
 
 

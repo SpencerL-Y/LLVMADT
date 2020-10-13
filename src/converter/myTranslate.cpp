@@ -11,6 +11,10 @@ namespace llvmadt{
 z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::context *C)
 {
     StoreMap *M = MStr;
+    if(const AllocaInst *AI = dyn_cast<AllocaInst>(I))
+    {
+        extractAlloca(AI);
+    }
     // z3::expr insExp;
     // store
     if (const StoreInst *SI = dyn_cast<StoreInst>(I))
@@ -43,6 +47,12 @@ z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::co
     return E;
 }
 
+void Translator::extractAlloca(const AllocaInst *AI)
+{
+    std::string varName = AI->getName();
+    setVar(varName);
+}
+
 // store "From" "to"
 // store 0 *%x
 void Translator::extractStore(const StoreInst *SI, StoreMap *MStr)
@@ -53,6 +63,8 @@ void Translator::extractStore(const StoreInst *SI, StoreMap *MStr)
 
     std::string toNameStr = To->getName();
     std::string fromNameStr = getName(From);
+
+    setVar(toNameStr);
 
     StoreStack tmpToReg;
     tmpToReg.push(fromNameStr);
@@ -300,6 +312,18 @@ bool Translator::isNum(std::string str)
     }  
     return true;  
 }
+
+void Translator::setVar(std::string varName)
+{
+    this->variableNames.insert(varName);
+}
+
+std::set<std::string> Translator::getVar()
+{
+    return this->variableNames;
+}
+
+
 
 }
 

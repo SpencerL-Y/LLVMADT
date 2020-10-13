@@ -130,6 +130,16 @@ z3::context* CFA::getContext(){
     return this->c;
 }
 
+void CFA::setVarNames(std::set<std::string>& varNames)
+{
+    this->VarNames = varNames;
+}
+
+std::set<std::string> CFA::getVarNames()
+{
+    return this->VarNames;
+}
+
 CFA::CFA(/* args */)
 {
     this->c = new z3::context();

@@ -26,7 +26,6 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
     {
         Translator::StoreMap MStr;
         Translator::BBMap BBID;
-
         // z3::config cfg;
         // cfg.set("auto_config", true);
         // z3::context c(cfg);
@@ -124,6 +123,9 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
             }
            
         }
+        std::set<std::string> varNames = T.getVar();
+        currCFA->setVarNames(varNames);
+        // currCFA->setVarNames()
         functionId ++;
         cfaList.push_back(currCFA);
 
