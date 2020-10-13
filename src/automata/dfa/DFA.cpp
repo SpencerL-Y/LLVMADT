@@ -118,7 +118,6 @@ void DFA::delState(int id){
 
 
 void DFA::addTransition(int fromId, Letter* l, int toId){
-        std::cout << "here5" << std::endl;
     if(l->getAlphabet() != this->alphabet){
         std::cout << "add transition error, inconsistent alphabet" << std::endl;
         return;
@@ -127,14 +126,10 @@ void DFA::addTransition(int fromId, Letter* l, int toId){
         std::cout << "add transition error, transition exists" << std::endl;
         return;
     }
-
-        std::cout << "here6" << std::endl;
     DFATrans* dfat = new DFATrans(this->getState(fromId), l, this->getState(toId));
 
-        std::cout << "here7" << std::endl;
     this->transitions.insert(dfat);
 
-        std::cout << "here8" << std::endl;
     this->getState(fromId)->addTransition(dfat);
 }
 

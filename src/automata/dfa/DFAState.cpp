@@ -10,6 +10,16 @@ namespace llvmadt{
                this->stateTransitions.insert(tran);
            }
            else {
+               if(tran->getFromState()->getId() == this->id){
+                   std::cout << "from id same";
+               }
+               if(tran->getAlphabet() == this->alphabet){
+                   std::cout << "alphabet same";
+               }
+               if(!this->hasTransition(tran->getFromState()->getId(), tran->getLetter(), tran->getToState()->getId())){
+                   std::cout << "transition not exists" << std::endl;
+               }
+
                std::cout << "add transition error" << std::endl;
            }
     }
