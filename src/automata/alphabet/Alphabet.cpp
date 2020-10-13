@@ -8,14 +8,19 @@ namespace llvmadt{
 
     
     void Alphabet::addLetter(LetterType* content){
+        std::cout << content->toString();
+       
         if(this->letters.find(content->toString()) != this->letters.end()){
             std::cout << "alphabet add letter error, key already exists" << std::endl;
             return;
         }
-        Letter* nl = new Letter();
+        Letter* nl = new Letter();            
         nl->setId(this->letters.size());
+  
         nl->setContent(content);
-        nl->setAlphabet(this);
+        nl->setAlphabet(this);std::cout << "test" << std::endl;
+        std::cout << content->toString();
+        std::cout << "test" << std::endl;
         this->letters[content->toString()] = nl;
     }
 
@@ -27,6 +32,7 @@ namespace llvmadt{
             }
         }
     }
+
 
     
     Letter* Alphabet::getLetter(std::string keyStr){

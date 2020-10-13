@@ -1,11 +1,11 @@
 #include "../../include/cfa/CFA.hpp"
 
 namespace llvmadt{
-std::list<CFAState*>& CFA::getStates(){
+std::set<CFAState*>& CFA::getStates(){
     return this->states;   
 }
 
-void CFA::setStates(std::list<CFAState*>& states){
+void CFA::setStates(std::set<CFAState*>& states){
     this->states = states;
 }
 
@@ -22,7 +22,7 @@ void CFA::addState(int id){
     }
     CFAState* ns = new CFAState();
     ns->setId(id);
-    this->states.push_front(ns);
+    this->states.insert(ns);
 }
 
 void CFA::addState(CFAState* state){
@@ -33,7 +33,7 @@ void CFA::addState(CFAState* state){
         }
     }
     state->setContext(this->c);
-    this->states.push_front(state);
+    this->states.insert(state);
     this->stateNum ++;
 }
 
@@ -57,7 +57,7 @@ CFAEdge* CFA::getEdge(int fromId, int toId){
     return nullptr;
 }
 
-std::list<CFAEdge*> CFA::getEdges(){
+std::set<CFAEdge*>& CFA::getEdges(){
     return this->edges;
 }
 
@@ -67,7 +67,7 @@ void CFA::addEdge(int fromId, int toId){
         ne->setFromState(this->getState(fromId));
         ne->setToState(this->getState(toId));
         ne->setContext(this->c);
-        this->edges.push_front(ne);
+        this->edges.insert(ne);
         this->getState(fromId)->addEdge(ne);
     }
 }
@@ -82,7 +82,7 @@ void CFA::addEdge(int fromId, z3::expr* guard_expr, int toId){
         ne->setToState(this->getState(toId));
         ne->setContext(this->c);
         ne->mkGuard(guard_expr);
-        this->edges.push_front(ne);
+        this->edges.insert(ne);
         this->getState(fromId)->addEdge(ne);
     }
 }

@@ -125,7 +125,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
            
         }
         functionId ++;
-        cfaList.push_front(currCFA);
+        cfaList.push_back(currCFA);
 
         std::cout << "................CFA INFORMATION......................" << '\n';
 
@@ -141,10 +141,10 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
         //     int id = currState->getId();
         //     std::cout << id << '\n';
         // }
-        std::list<CFAEdge*>::reverse_iterator it;
-        std::list<CFAEdge*> Edges = currCFA->getEdges();
+        std::set<CFAEdge*>::iterator it;
+        std::set<CFAEdge*> Edges = currCFA->getEdges();
     
-        for(it = Edges.rbegin(); it != Edges.rend(); it++)
+        for(it = Edges.begin(); it != Edges.end(); it++)
         {
             CFAEdge* currEdge = *it;
 
@@ -180,24 +180,36 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
 
     Automaton* resultDFA = new DFA();
     resultDFA->setAlphabet(z3ExprAlphabet);
-    for(CFAState* cs : cfa->getStates()){
+    std::set<llvmadt::CFAState*>::iterator it;
+    for(it=cfa->getStates().begin(); it!=cfa->getStates().end(); it++){
+        CFAState* cs = *it;
         // all states of the program are accepting
         if(cs->getId() == 0){
             resultDFA->addInitAccState(cs->getId());
         } else {
             resultDFA->addAccState(cs->getId());
         }
+        std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
     }
 
-    for(CFAEdge* edge : cfa->getEdges()){
-        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
+    std::set<CFAEdge*>::iterator it2;
+    for(it2 = cfa->getEdges().begin(); it2 != cfa->getEdges().end(); ++it2){
+        CFAEdge* edge = *it2;
+        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
         if(l == nullptr){
+        std::cout << edge->getGuard()->getExpr()->to_string()<< std::endl;
             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
+            
             z3ExprAlphabet->addLetter(z3l);
-            l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
+            //std::cout << edge->getGuard()->toString() << std::endl;
+            l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+            l->setAlphabet(z3ExprAlphabet);
+        } else {
+            l->setAlphabet(z3ExprAlphabet);
         }
         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         
+        std::cout << "here00" << std::endl;
     }
 
     resultDFA->setName(cfa->getName());

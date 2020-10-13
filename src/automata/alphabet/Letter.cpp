@@ -14,7 +14,8 @@ namespace llvmadt{
     
     void Letter::setContent(LetterType* content){
         if(this->content != nullptr){
-            delete(content);
+            std::cout << "error set content error" << std::endl;
+            return;
         }
         this->content = content;
     }

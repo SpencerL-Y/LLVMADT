@@ -7,13 +7,11 @@
 using namespace llvmadt;
 int main(int argc, char** argv){
     z3::context c;
-
     Converter converter;
     std::list<CFA*> cfalist = converter.convertLLVM2CFAs(argv[1], &c);
-
     CFA *cfa = cfalist.front();
-    std::list<CFAEdge*>::reverse_iterator it;
-    std::list<CFAEdge*> Edges = cfa->getEdges();
+    std::set<CFAEdge*>::reverse_iterator it;
+    std::set<CFAEdge*> Edges = cfa->getEdges();
 
     std::cout << "..........main.............." << '\n';
 
