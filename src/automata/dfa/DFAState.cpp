@@ -9,6 +9,9 @@ namespace llvmadt{
            ){
                this->stateTransitions.insert(tran);
            }
+           else {
+               std::cout << "add transition error" << std::endl;
+           }
     }
     
     void DFAState::delTransition(int from, Letter* l, int to){
