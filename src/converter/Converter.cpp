@@ -194,6 +194,7 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
         if(l == nullptr){
             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
             z3ExprAlphabet->addLetter(z3l);
+               std::cout << "5" << '\n';
             l = z3ExprAlphabet->getLetter(edge->getGuard()->getGuardStr());
         }
         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
