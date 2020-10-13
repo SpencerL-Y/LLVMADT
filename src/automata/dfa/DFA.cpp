@@ -22,7 +22,7 @@ void DFA::addState(int id){
     }
     State* ns = new DFAState();
     ns->setId(id);
-    if(this->getAlphabet() == nullptr){
+    if(this->getAlphabet() != nullptr){
         ns->setAlphabet(this->getAlphabet());
     }
     this->states.insert(ns);
@@ -31,7 +31,7 @@ void DFA::addState(int id){
 
 
 void DFA::addInitState(int id){
-    if(this->getInitState() == nullptr){
+    if(this->getInitState() != nullptr){
         std::cout << "add init state error, only one init state allowed" << std::endl;
         return;
     }
@@ -63,7 +63,7 @@ void DFA::addAccState(int id){
     
     State* ns = new DFAState();
     ns->setId(id);
-    if(this->getAlphabet() == nullptr){
+    if(this->getAlphabet() != nullptr){
         ns->setAlphabet(this->getAlphabet());
     }
     ns->setAcc();
@@ -83,7 +83,7 @@ void DFA::addInitAccState(int id){
     State* ns = new DFAState();
     ns->setId(id);
     
-    if(this->getAlphabet() == nullptr){
+    if(this->getAlphabet() != nullptr){
         ns->setAlphabet(this->getAlphabet());
     }
     ns->setAcc();
