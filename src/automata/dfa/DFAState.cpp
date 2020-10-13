@@ -65,7 +65,7 @@ namespace llvmadt{
 
     
     DFAState::DFAState(){
-
+        this->alphabet = nullptr;
     }
 
     

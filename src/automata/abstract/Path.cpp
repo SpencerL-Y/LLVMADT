@@ -6,6 +6,7 @@ namespace llvmadt{
 
 Path::Path(){
     this->word = new Word();
+    this->alphabet = nullptr;
 }
 
 
@@ -13,6 +14,7 @@ Path::Path(){
 Path::Path(Alphabet* alpha){
     this->alphabet = alpha;
     this->word = new Word();
+    this->word->setAlphabet(this->alphabet);
 }
 
 
@@ -41,7 +43,7 @@ void Path::appendStemLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->word->appendStemLetter(letter);
     } else {
-        std::cout << "append stem letter error, alphabet inconsistent" << std::endl;
+        std::cout << "path append stem letter error, alphabet inconsistent" << std::endl;
     }
 }
 
@@ -121,6 +123,7 @@ Alphabet* Path::getAlphabet(){
 
 void Path::setAlphabet(Alphabet* alphabet){
     this->alphabet = alphabet;
+    this->word->setAlphabet(alphabet);
 }
 
 std::string Path::toString(){

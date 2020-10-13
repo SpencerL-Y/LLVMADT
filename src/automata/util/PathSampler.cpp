@@ -33,6 +33,7 @@ namespace llvmadt{
 
     Path* PathSampler::samplePathEven(State* startState){
         Path* path = new Path();
+        path->setAlphabet(startState->getAlphabet());
         PathSampler::VisitCount Count;
         Count[startState] = 0;
 
@@ -70,7 +71,7 @@ namespace llvmadt{
         std::cout << "K = " << getSampleNum() << '\n';
         std::cout << "currState count = " << Count[currState] << '\n';
         std::cout << "tran size: " << size << '\n';
-        path->setAlphabet(currState->getAlphabet());
+        //path->setAlphabet(currState->getAlphabet());
 
         // resample currState less than K times
         if (Count[currState] < getSampleNum())
@@ -87,6 +88,7 @@ namespace llvmadt{
                 Transition* trans = succ[rand() % size];
                 toState = trans->getToState();
                 letter = trans->getLetter();
+                std::cout << ((LetterTypeZ3Expr*)letter->getContent())->getExpression()->to_string() << std::endl;
                 path->appendStemLetter(letter);
 
                 bool x = recursiveSort(toState, path, Count);

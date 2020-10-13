@@ -18,9 +18,8 @@ namespace llvmadt{
         nl->setId(this->letters.size());
   
         nl->setContent(content);
-        nl->setAlphabet(this);std::cout << "test" << std::endl;
-        std::cout << content->toString();
-        std::cout << "test" << std::endl;
+        nl->setAlphabet(this);
+        std::cout << content->toString() << std::endl;
         this->letters[content->toString()] = nl;
     }
 

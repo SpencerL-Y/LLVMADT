@@ -5,7 +5,7 @@ namespace llvmadt{
     
 
 Word::Word(){
-
+    this->alphabet = nullptr;
 }
 
 
@@ -39,7 +39,7 @@ void Word::appendStemLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->wordStem.push_back(letter);
     } else {
-        std::cout << "appendStemLetter error, alphabet inconsistent" << std::endl;
+        std::cout << "word stem appendStemLetter error, alphabet inconsistent" << std::endl;
     }
 }
 
@@ -63,7 +63,7 @@ void Word::appendLoopLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->wordLoop.push_back(letter);
     } else {
-        std::cout << "appendStemLetter error, alphabet inconsistent" << std::endl;
+        std::cout << "word loop appendStemLetter error, alphabet inconsistent" << std::endl;
     }
 }
 
@@ -71,6 +71,10 @@ Alphabet* Word::getAlphabet(){
     return this->alphabet;
 }
 
+
+void Word::setAlphabet(Alphabet* alpha){
+    this->alphabet = alpha;
+}
 
 Letter* Word::getLoopLetter(int pos){
     return this->wordLoop[pos];
