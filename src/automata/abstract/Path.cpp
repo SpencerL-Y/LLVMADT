@@ -50,6 +50,10 @@ void Path::appendStemState(State* state){
     if(state->getAlphabet() == this->alphabet){
         this->stemStates.push_back(state);
     } else {
+        std::cout << "state: " << state->getId() << '\n';
+        std::cout << "alphabet: " << state->getAlphabet() << '\n';
+        std::cout << "this: " << this->alphabet << '\n';
+        
          std::cout << "append stem state error, alphabet inconsistent" << std::endl;
     }
 }

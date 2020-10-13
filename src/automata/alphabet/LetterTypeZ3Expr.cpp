@@ -6,6 +6,9 @@ namespace llvmadt{
     }
 
     LetterTypeZ3Expr::LetterTypeZ3Expr(z3::expr* expr, z3::context* context){
+        if(expr == nullptr || context == nullptr){
+            std::cout << "error null ptr z3Expr letter type" << std::endl;
+        }
         this->context = context;
         this->expression = expr;
     }

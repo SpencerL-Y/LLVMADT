@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <list>
+#include <set>
 #include <unistd.h>
 #include "./CFAState.hpp"
 #include "./CFAEdge.hpp"
@@ -16,9 +17,9 @@ class CFA
 private:
     // a state is a valuation of variables
     // startstate : indexed with 0
-    std::list<CFAState*> states; 
+    std::set<CFAState*> states; 
     // edge can be regarded as change of valuation
-    std::list<CFAEdge*> edges;
+    std::set<CFAEdge*> edges;
     int stateNum;
     std::string name;
     z3::context* c;
@@ -26,8 +27,8 @@ private:
 public:
     CFA(/* args */);
     ~CFA();
-    std::list<CFAState*>& getStates();
-    void setStates(std::list<CFAState*>& states);
+    std::set<CFAState*>& getStates();
+    void setStates(std::set<CFAState*>& states);
     int getStateNum();
     void addState(int id);
     void addState(CFAState* state);
@@ -36,7 +37,7 @@ public:
     void addEdge(CFAState* fromState, z3::expr* guard_expr, CFAState* toState);
     void addEdge(int fromId, z3::expr* guard_expr, int toId);
     CFAEdge* getEdge(int fromId, int toId);
-    std::list<CFAEdge*> getEdges();
+    std::set<CFAEdge*>& getEdges();
     void setName(std::string name);
     std::string getName();
     std::string toString();

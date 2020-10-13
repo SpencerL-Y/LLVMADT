@@ -13,7 +13,7 @@ namespace llvmadt{
     }
 
     std::string Guard::toString(){
-        std::string str = "Guard:" + this->getGuardStr();
+        std::string str = this->getGuardStr();
         return str;
     }
 

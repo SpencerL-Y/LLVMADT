@@ -9,6 +9,7 @@
 
 #include "./Letter.hpp"
 #include "./LetterType.hpp"
+#include "./LetterTypeZ3Expr.hpp"
 namespace llvmadt{
 
 
