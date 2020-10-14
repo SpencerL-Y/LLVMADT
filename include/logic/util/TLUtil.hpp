@@ -39,6 +39,7 @@ namespace llvmadt
         z3::context* getContext();
         void setContext(z3::context* c);
         void addApZ3ExprMap(std::string apStr, z3::expr* z3Expression);
+        z3::expr* mapApStr2Z3Expr(std::string apStr);
         TLUtil(z3::context* c);
         TLUtil();
         ~TLUtil();

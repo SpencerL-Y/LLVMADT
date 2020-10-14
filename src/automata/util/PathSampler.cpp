@@ -2,7 +2,7 @@
 
 namespace llvmadt{
     PathSampler::PathSampler(/* args */){
-
+        this->automaton = nullptr;
     }
 
     PathSampler::PathSampler(Automaton* automaton){

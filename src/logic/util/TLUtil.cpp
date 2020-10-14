@@ -26,7 +26,7 @@ namespace llvmadt
     bool TLUtil::isSimpleLTL(spot::formula& f){
         if(f.kind() == spot::op::ap){
             return true;
-        } else if(f.kind() == spot::op::Not || f.kind() == spot::op::G || f.kind() == spot::op::F){
+        } else if(f.kind() == spot::op::G || f.kind() == spot::op::F){
             spot::formula f0 = f[0];
             return this->isSimpleLTL(f0);
         }
@@ -135,5 +135,15 @@ namespace llvmadt
         p.first = apStr;
         p.second = z3Expression;
         this->apStr2Z3ExprMap.insert(p);
+    }
+
+    z3::expr* TLUtil::mapApStr2Z3Expr(std::string apStr){
+        auto i = this->apStr2Z3ExprMap.find(apStr);
+        if(i != this->apStr2Z3ExprMap.end()){
+            return i->second;
+        } else {
+            std::cout << "error: ap str not found" << std::endl;
+            return nullptr;
+        }
     }
 } // namespace llvmadt
