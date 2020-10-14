@@ -8,9 +8,8 @@ using namespace llvm;
 
 namespace llvmadt{
 
-z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::context *C)
+z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C)
 {
-    StoreMap *M = MStr;
     if(const AllocaInst *AI = dyn_cast<AllocaInst>(I))
     {
         extractAlloca(AI);
@@ -19,13 +18,13 @@ z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::co
     // store
     if (const StoreInst *SI = dyn_cast<StoreInst>(I))
     {
-       return extractStore(SI, M, C);
+       return extractStore(SI, C);
     }
 
     // %tmp = load %x
     if (const LoadInst *LI = dyn_cast<LoadInst>(I))
     {
-        return extractLoad(LI, M, C);
+        return extractLoad(LI, C);
     }
 
     //  binary operations
@@ -55,7 +54,7 @@ void Translator::extractAlloca(const AllocaInst *AI)
 
 // store "From" "to"
 // store 0 *%x
-z3::expr* Translator::extractStore(const StoreInst *SI, StoreMap *MStr, z3::context *C)
+z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
 {
     const Value *From = SI->getValueOperand();
     const Value *To = SI->getPointerOperand();
@@ -66,9 +65,26 @@ z3::expr* Translator::extractStore(const StoreInst *SI, StoreMap *MStr, z3::cont
 
     setVar(toNameStr);
 
-    MStr->insert(std::make_pair(toNameStr, fromNameStr));
+    std::map<std::string, int>* varIndex =  &getIndex(); //new std::map<std::string, int>;
+    // *varIndex = getIndex();
+    if (varIndex->find(toNameStr) == varIndex->end())
+    {
+        varIndex->insert(make_pair(toNameStr, 0));
+        Translator::setVarIndex(*varIndex);
+        std::cout << "store var index: " << varIndex->find(toNameStr)->first << " " <<  varIndex->find(toNameStr)->second << '\n';
+    }
+    else
+    {
+        varIndex->find(toNameStr)->second++;
+        std::cout << "store var index: " << varIndex->find(toNameStr)->first << " " <<  varIndex->find(toNameStr)->second << '\n';
+        Translator::setVarIndex(*varIndex);
+    }
+    
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
+
+    std::string index = std::to_string(varIndex->find(toNameStr)->second);
+    toNameStr = toNameStr + index;
 
     z3::expr Sop1 = C->int_const(toNameStr.data());
     z3::expr Sop2 = C->int_const(fromNameStr.data());
@@ -86,7 +102,7 @@ z3::expr* Translator::extractStore(const StoreInst *SI, StoreMap *MStr, z3::cont
     // errs() << *SI << '\n';
 }
 
-z3::expr* Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::context *C)
+z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C)
 {
     // %tmp
     std::string Lop1Name = LI->getName();
@@ -94,20 +110,16 @@ z3::expr* Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::conte
     // %x
     const Value *From = LI->getPointerOperand();
     std::string Lop2Name = From->getName();
-    std::string secValue;
 
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
-   
-    // secValue = MStr->find(Lop2Name)->second;
+
+    std::map<std::string, int>* varIndex =  &getIndex();
+    std::string index = std::to_string(varIndex->find(Lop2Name)->second);
+    Lop2Name = Lop2Name + index;
+
     z3::expr Lop1 = C->int_const(Lop1Name.data());
     z3::expr Lop2 = C->int_const(Lop2Name.data());
-    // if (isNum(secValue))
-    // {
-    //     // std::cout << "int: " << secValue << '\n';
-    //     Lop2 = C->int_val(std::stoi(secValue));
-    //     // std::cout << "int Lop2: " << secValue.data() << '\n';
-    // }
 
     *E = Lop1 == Lop2;
 
@@ -315,7 +327,15 @@ std::set<std::string> Translator::getVar()
     return this->variableNames;
 }
 
+void Translator::setVarIndex(std::map<std::string, int> varIndex)
+{
+    this->varIndex = varIndex;
+}
 
+std::map<std::string, int>& Translator::getIndex()
+{
+    return this->varIndex;
+}
 
 }
 

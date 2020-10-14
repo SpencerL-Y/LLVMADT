@@ -16,6 +16,7 @@ int main(int argc, char** argv){
     // std::set<CFAEdge*> Edges = cfa->getEdges();
 
     std::cout << "......................main..........................." << '\n';
+    std::cout << '\n';
 
     std::cout << "...................var test begin................." << '\n';
     std::set<std::string> VarNames = cfa->getVarNames();

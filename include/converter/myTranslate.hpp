@@ -39,18 +39,17 @@ namespace llvmadt{
 class Translator {
     protected:
         std::set<std::string> variableNames;
-        std::map<std::string, std::string> varIndex; // (var, index)
+        std::map<std::string, int> varIndex; // (var, index)
 
     public:
 
-        typedef std::map<std::string, std::string> StoreMap; //  (reg, value)
         typedef std::map<std::string, std::string> BBMap;
    
-        z3::expr* extractConstraints(llvm::Instruction* I, StoreMap* MStr, z3::context* C);
+        z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C);
 
         void extractAlloca(const llvm::AllocaInst  *AI);
-        z3::expr* extractStore(const llvm::StoreInst *SI, StoreMap *MStr, z3::context *C);
-        z3::expr* extractLoad(const llvm::LoadInst *LI,  StoreMap *MStr, z3::context *C);
+        z3::expr* extractStore(const llvm::StoreInst *SI, z3::context *C);
+        z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C);
         z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
         z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C);
         z3::expr* extractTBranch(llvm::BasicBlock *curBB, llvm::BasicBlock *preSampleBB, z3::context *C);
@@ -61,8 +60,8 @@ class Translator {
         void setVar(std::string varName);
         std::set<std::string> getVar();
 
-        // void setIndex(std::string varName, std::string varIndex);
-        // std::map<std::string, std::string> getIndex();
+        void setVarIndex(std::map<std::string, int> varIndex);
+        std::map<std::string, int>& getIndex();
 
         bool isNum(std::string str); 
 

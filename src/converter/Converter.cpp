@@ -24,7 +24,6 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
 
     for(llvm::Module::iterator m_iter = Mod->begin(); m_iter != Mod->end(); ++m_iter)
     {
-        Translator::StoreMap MStr;
         Translator::BBMap BBID;
         // z3::config cfg;
         // cfg.set("auto_config", true);
@@ -93,7 +92,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
                 {
                     // z3::expr* E = new z3::expr(c);
                     // E = T.extractConstraints(currInst, &MStr, &c);
-                    z3::expr* E = T.extractConstraints(currInst, &MStr, c);
+                    z3::expr* E = T.extractConstraints(currInst, c);
                     // *E = c.bool(true);
                     // std::cout << "id: " << currID << '\n';
                     // std::cout << "expr: " << *E << '\n';
@@ -125,7 +124,16 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
         }
         std::set<std::string> varNames = T.getVar();
         currCFA->setVarNames(varNames);
-        // currCFA->setVarNames()
+
+        std::cout << "..................varIndex..................." << '\n';
+        std::map<std::string, int>* v = new std::map<std::string, int>;
+        *v = T.getIndex();
+        std::map<std::string, int>::iterator i;
+        for(i = v->begin(); i != v->end(); ++i)
+        {
+            std::cout << "var: " << (*i).first << " k:" << (*i).second << '\n';
+        }
+
         functionId ++;
         cfaList.push_back(currCFA);
 
