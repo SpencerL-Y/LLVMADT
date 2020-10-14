@@ -39,18 +39,17 @@ namespace llvmadt{
 class Translator {
     protected:
         std::set<std::string> variableNames;
+        std::map<std::string, std::string> varIndex; // (var, index)
 
     public:
 
-        typedef std::stack<std::string> StoreStack;
-        typedef std::map<std::string, std::stack<std::string>> StoreMap;
-
+        typedef std::map<std::string, std::string> StoreMap; //  (reg, value)
         typedef std::map<std::string, std::string> BBMap;
    
         z3::expr* extractConstraints(llvm::Instruction* I, StoreMap* MStr, z3::context* C);
 
         void extractAlloca(const llvm::AllocaInst  *AI);
-        void extractStore(const llvm::StoreInst *SI, StoreMap *MStr);
+        z3::expr* extractStore(const llvm::StoreInst *SI, StoreMap *MStr, z3::context *C);
         z3::expr* extractLoad(const llvm::LoadInst *LI,  StoreMap *MStr, z3::context *C);
         z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
         z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C);
@@ -62,6 +61,8 @@ class Translator {
         void setVar(std::string varName);
         std::set<std::string> getVar();
 
+        // void setIndex(std::string varName, std::string varIndex);
+        // std::map<std::string, std::string> getIndex();
 
         bool isNum(std::string str); 
 

@@ -19,7 +19,7 @@ z3::expr* Translator::extractConstraints(Instruction *I,  StoreMap *MStr, z3::co
     // store
     if (const StoreInst *SI = dyn_cast<StoreInst>(I))
     {
-       extractStore(SI, M);
+       return extractStore(SI, M, C);
     }
 
     // %tmp = load %x
@@ -55,7 +55,7 @@ void Translator::extractAlloca(const AllocaInst *AI)
 
 // store "From" "to"
 // store 0 *%x
-void Translator::extractStore(const StoreInst *SI, StoreMap *MStr)
+z3::expr* Translator::extractStore(const StoreInst *SI, StoreMap *MStr, z3::context *C)
 {
     const Value *From = SI->getValueOperand();
     const Value *To = SI->getPointerOperand();
@@ -66,20 +66,21 @@ void Translator::extractStore(const StoreInst *SI, StoreMap *MStr)
 
     setVar(toNameStr);
 
-    StoreStack tmpToReg;
-    tmpToReg.push(fromNameStr);
+    MStr->insert(std::make_pair(toNameStr, fromNameStr));
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
 
-    // x: toNameStr        
-    // if exist (x, stack"x"), push fromNameStr to stack"x"
-    // else insert (x, tmpToReg)
-    for(StoreMap::iterator Iter = MStr->begin(); Iter != MStr->end(); Iter++)
+    z3::expr Sop1 = C->int_const(toNameStr.data());
+    z3::expr Sop2 = C->int_const(fromNameStr.data());
+    if (isNum(fromNameStr))
     {
-        if (Iter->first == toNameStr)
-        {
-            Iter->second.push(fromNameStr);
-        }
+        // std::cout << "int: " << secValue << '\n';
+        Sop2 = C->int_val(std::stoi(fromNameStr));
+        // std::cout << "int Lop2: " << secValue.data() << '\n';
     }
-    MStr->insert(std::make_pair(toNameStr, tmpToReg));
+
+    *E = Sop1 == Sop2;
+    return E;
 
     // errs() << "Store MStr[]: toNameStr: " << toNameStr << " fromNameStr: " << fromNameStr << '\n'; 
     // errs() << *SI << '\n';
@@ -98,27 +99,18 @@ z3::expr* Translator::extractLoad(const LoadInst *LI,  StoreMap *MStr, z3::conte
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
    
-    // get value in %x
-    for(StoreMap::iterator Iter = MStr->begin(); Iter != MStr->end(); Iter++)
-    {
-        // std::cout << Iter->first << " " << Iter->second << '\n';
-        if (Lop2Name == Iter->first)
-        {
-            secValue = Iter->second.top();
-            // std::cout << "second: " << Iter->second << '\n';
-            z3::expr Lop1 = C->int_const(Lop1Name.data());
-            z3::expr Lop2 = C->int_const(secValue.data());
+    // secValue = MStr->find(Lop2Name)->second;
+    z3::expr Lop1 = C->int_const(Lop1Name.data());
+    z3::expr Lop2 = C->int_const(Lop2Name.data());
+    // if (isNum(secValue))
+    // {
+    //     // std::cout << "int: " << secValue << '\n';
+    //     Lop2 = C->int_val(std::stoi(secValue));
+    //     // std::cout << "int Lop2: " << secValue.data() << '\n';
+    // }
 
-            if (isNum(secValue))
-            {
-                // std::cout << "int: " << secValue << '\n';
-                Lop2 = C->int_val(std::stoi(secValue));
-                // std::cout << "int Lop2: " << secValue.data() << '\n';
-            }
+    *E = Lop1 == Lop2;
 
-            *E = Lop1 == Lop2;
-        }
-    }
     return E;
 }
 
