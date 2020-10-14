@@ -3,18 +3,28 @@
 #include <stdlib.h>
 #include <vector>
 #include <list>
+#include <set>
 #include <iostream>
 #include "./PathChecker.hpp"
-#include "../automata/util/TestSampler.hpp"
+#include "../automata/util/PathSampler.hpp"
+#include "../automata/abstract/Automaton.hpp"
+#include "../automata/dfa/DFA.hpp"
 
 namespace llvmadt
 {
 class CheckerSampleBased
 {
 private:
-    /* data */
+    PathChecker* pathChecker;
+    std::set<std::string> varNames;
+    Automaton* automaton;
+
 public:
-    CheckerSampleBased(/* args */);
+    CheckerSampleBased(PathChecker* pathChecker, std::set<std::string> varName);
+    void setAutomaton(DFA* dfa);
+    PathChecker* getPathChecker();
+    std::set<std::string> getVarNames();
+    bool checkProperty()
     ~CheckerSampleBased();
 }; // namespace llvmadt
 

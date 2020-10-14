@@ -128,4 +128,12 @@ namespace llvmadt
             }
         }
     }
+
+
+    void TLUtil::addApZ3ExprMap(std::string apStr, z3::expr* z3Expression){
+        std::pair<std::string, z3::expr*> p;
+        p.first = apStr;
+        p.second = z3Expression;
+        this->apStr2Z3ExprMap.insert(p);
+    }
 } // namespace llvmadt

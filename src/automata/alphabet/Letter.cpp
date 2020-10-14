@@ -42,7 +42,7 @@ namespace llvmadt{
     }
     
     Letter::Letter(){
-
+        this->content = nullptr;
     }
 
     

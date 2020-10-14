@@ -21,6 +21,8 @@ namespace llvmadt
     {
     private:
         z3::context* c;
+        // this is a map the ap name of LTL formula to the z3 expression used for verification
+        std::map<std::string, z3::expr*> apStr2Z3ExprMap;
     public:
         /*To judge whether the formula is of the form: p::= Gp, Not p, Fp */
         bool isSimpleLTL(spot::formula& pf);
@@ -36,6 +38,7 @@ namespace llvmadt
 
         z3::context* getContext();
         void setContext(z3::context* c);
+        void addApZ3ExprMap(std::string apStr, z3::expr* z3Expression);
         TLUtil(z3::context* c);
         TLUtil();
         ~TLUtil();
