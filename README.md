@@ -37,5 +37,13 @@ z3表达式。问题的核心：语法和语义。。
 # 10月15日
 
 ## Clexma
+- 处理昨天的问题，增加了存llvm::Instruction*的LetterTypeInst
 
 ## Fengwz
+
+- 处理昨天的问题，将Converter中的LLVM2CFA修改，可以得到边上记录llvm::Instruction*并且状态上有Basicblock名称的CFA
+
+## 需要继续解决的问题
+- Converter中的CFA2DFA需要Clexma修改为Inst，Inst到Z3表达式的转换的使用需要Fengwz之后修改PathSampler并和PathChecker对接。
+## Mark
+- 今天进度缓慢的原因是parseIRFile得到的数据结构必须放在Main函数中，如果放在局部变量里传不出来。
