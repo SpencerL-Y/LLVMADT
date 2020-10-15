@@ -11,6 +11,7 @@ SET(alphabet_dir
     alphabet/LetterTypeInt.cpp
     alphabet/LetterTypeZ3Expr.cpp
     alphabet/LetterTypeInst.cpp
+    alphabet/LetterConverter.cpp
 )
 SET(abstract_dir
     abstract/Automaton.cpp
