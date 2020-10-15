@@ -5,12 +5,10 @@
 
 namespace llvmadt{
 
-std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
+std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
 {
     Translator T;
 
-    Z3Test ts;
-    ts.testFunction();
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
@@ -25,10 +23,6 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
     for(llvm::Module::iterator m_iter = Mod->begin(); m_iter != Mod->end(); ++m_iter)
     {
         Translator::BBMap BBID;
-        // z3::config cfg;
-        // cfg.set("auto_config", true);
-        // z3::context c(cfg);
-        // z3::solver s(c);
 
         CFA* currCFA = new CFA();
         llvm::Function* currFunc = &*m_iter;
@@ -41,7 +35,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
         currCFA->setName(name);
         int stateId = 0;
         
-        //Add states
+        // Add states
         for(llvm::Function::iterator f_iter = currFunc->begin(); f_iter != currFunc->end(); ++f_iter)
         {
             llvm::BasicBlock* bb = &*f_iter;
@@ -52,28 +46,18 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
             std::cout << "block name: " << bbName << " block state id: " << stateId << '\n';
             BBID.insert(std::make_pair(bbName, std::to_string(stateId)));
 
-            //TODO: more specific translation of instruction to the condition on the edge
-            llvm::Instruction* lastInst;
-
             for(llvm::BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter){
-                lastInst = &*b_iter;
-                llvm::Instruction* currInst = &*b_iter;
-                currCFA->addState(stateId);
-                
-                // z3::expr E = T.extractConstraints(currInst, &MStr, &c);
-                // std::cout << "expr: " << E << '\n';
-
-                //TODO: specify relation between state and instruction here
-               
-                //TODO: add state increasing logic here.
+                std::cout << "add state id: " << stateId << '\n';
+                currCFA->addState(stateId, bb->getName());
                 stateId++;
             }
+            currCFA->addState(stateId, bb->getName());
             // cfaList.push_front(currCFA);
         }
-        currCFA->addState(stateId);
 
         llvm::errs() << "................get edges...................." << '\n';
-        //Add edges
+
+        // Add edges
         int currID = 0;
         int brID = 0;
         for(llvm::Function::iterator f_iter = currFunc->begin(); f_iter != currFunc->end(); ++f_iter)
@@ -88,51 +72,37 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path, z3::context *c)
             for(llvm::BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter)
             {
                 llvm::Instruction* currInst = &*b_iter;
+                T.extractVarName(currInst);
+
                 if (currInst != bb->getTerminator())
                 {
-                    // z3::expr* E = new z3::expr(c);
-                    // E = T.extractConstraints(currInst, &MStr, &c);
-                    z3::expr* E = T.extractConstraints(currInst, c);
-                    // *E = c.bool(true);
-                    // std::cout << "id: " << currID << '\n';
-                    // std::cout << "expr: " << *E << '\n';
-                    int nexID = currID + 1;
-                    currCFA->addEdge(currID, E,  nexID);
+                    int nextID = currID + 1;
+                    currCFA->addEdge(currID, currInst, nextID);
                 }
                 else
                 {
                     brID = currID;
-                    // std::cout << "brID: " << brID << '\n';
+                    for(llvm::BasicBlock* succ : successors(bb))
+                    {
+                        std::string nexName = succ->getName();
+                        int nexID = std::stoi(BBID[nexName]);
+                        currCFA->addEdge(brID, currInst, nexID);
+                    }
                 }
-                currID++;
             }
-            for(llvm::BasicBlock* succ : successors(bb) )
-            {
-                std::string nexName = succ->getName();
-                int nexID = std::stoi(BBID[nexName]);
-
-                // llvm::errs() << "Pred: " << Pred->getName() << "\n";
-                // z3::expr* EBR = new z3::expr(c);
-                // EBR = T.extractTBranch(bb, succ, &c);
-                z3::expr* EBR = T.extractTBranch(bb, succ, c);
-                // std::cout << "brID: " << brID << '\n';
-                // std::cout << "br expr: " << *EBR << '\n'; 
-                // std::cout << "nexID: " << nexID << '\n';
-                currCFA->addEdge(brID, EBR, nexID);
-            }
-           
         }
+        
         std::set<std::string> varNames = T.getVar();
         currCFA->setVarNames(varNames);
 
-        std::cout << "..................varIndex..................." << '\n';
-        std::map<std::string, int>* v = new std::map<std::string, int>;
-        *v = T.getIndex();
-        std::map<std::string, int>::iterator i;
-        for(i = v->begin(); i != v->end(); ++i)
-        {
-            std::cout << "var: " << (*i).first << " k:" << (*i).second << '\n';
-        }
+        // std::cout << "..................varIndex..................." << '\n';
+        // std::map<std::string, int>* v = new std::map<std::string, int>;
+        // *v = T.getIndex();
+        // std::map<std::string, int>::iterator i;
+        // for(i = v->begin(); i != v->end(); ++i)
+        // {
+        //     std::cout << "var: " << (*i).first << " k:" << (*i).second << '\n';
+        // }
 
         functionId ++;
         cfaList.push_back(currCFA);
@@ -184,47 +154,47 @@ Automaton* Converter::convertLTLf2DFA(std::string ltlfStr){
 }
 
 
-Automaton* Converter::convertCFA2DFA(CFA* cfa){
+// Automaton* Converter::convertCFA2DFA(CFA* cfa){
 
-    Alphabet* z3ExprAlphabet = new Alphabet();
+//     Alphabet* z3ExprAlphabet = new Alphabet();
 
-    Automaton* resultDFA = new DFA();
-    resultDFA->setAlphabet(z3ExprAlphabet);
-    std::set<llvmadt::CFAState*>::iterator it;
-    for(it=cfa->getStates().begin(); it!=cfa->getStates().end(); it++){
-        CFAState* cs = *it;
-        // all states of the program are accepting
-        if(cs->getId() == 0){
-            resultDFA->addInitAccState(cs->getId());
-        } else {
-            resultDFA->addAccState(cs->getId());
-        }
-        std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
-    }
+//     Automaton* resultDFA = new DFA();
+//     resultDFA->setAlphabet(z3ExprAlphabet);
+//     std::set<llvmadt::CFAState*>::iterator it;
+//     for(it=cfa->getStates().begin(); it!=cfa->getStates().end(); it++){
+//         CFAState* cs = *it;
+//         // all states of the program are accepting
+//         if(cs->getId() == 0){
+//             resultDFA->addInitAccState(cs->getId());
+//         } else {
+//             resultDFA->addAccState(cs->getId());
+//         }
+//         std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
+//     }
 
-    std::set<CFAEdge*>::iterator it2;
-    for(it2 = cfa->getEdges().begin(); it2 != cfa->getEdges().end(); ++it2){
-        CFAEdge* edge = *it2;
-        Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-        if(l == nullptr){
-        std::cout << edge->getGuard()->getExpr()->to_string()<< std::endl;
-            LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
+//     std::set<CFAEdge*>::iterator it2;
+//     for(it2 = cfa->getEdges().begin(); it2 != cfa->getEdges().end(); ++it2){
+//         CFAEdge* edge = *it2;
+//         Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+//         if(l == nullptr){
+//         std::cout << edge->getGuard()->getExpr()->to_string()<< std::endl;
+//             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
             
-            z3ExprAlphabet->addLetter(z3l);
-            //std::cout << edge->getGuard()->toString() << std::endl;
-            l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-            l->setAlphabet(z3ExprAlphabet);
-        } else {
-            l->setAlphabet(z3ExprAlphabet);
-        }
-        resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
+//             z3ExprAlphabet->addLetter(z3l);
+//             //std::cout << edge->getGuard()->toString() << std::endl;
+//             l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
+//             l->setAlphabet(z3ExprAlphabet);
+//         } else {
+//             l->setAlphabet(z3ExprAlphabet);
+//         }
+//         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         
-        // std::cout << "here00" << std::endl;
-    }
+//         // std::cout << "here00" << std::endl;
+//     }
 
-    resultDFA->setName(cfa->getName());
-    return resultDFA;
-}
+//     resultDFA->setName(cfa->getName());
+//     return resultDFA;
+// }
 
 
 Automaton* Converter::convertLTL2BA(std::string ltl){

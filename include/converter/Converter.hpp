@@ -23,7 +23,6 @@
 #include <spot/twaalgos/minimize.hh>
 #include <spot/twaalgos/stripacc.hh>
 #include "../cfa/CFA.hpp"
-#include "../cfa/Z3Test.hpp"
 #include "../automata/abstract/Automaton.hpp"
 #include "../automata/buchi/BA.hpp"
 #include "../automata/dfa/DFA.hpp"
@@ -49,13 +48,13 @@ public:
     ~Converter(){
 
     }
-    std::list<CFA*> convertLLVM2CFAs(std::string ll_path, z3::context *C);
+    std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
 
     Automaton* convertLTLf2DFA(std::string ltlf);
 
     Automaton* convertLTL2BA(std::string ltl);
 
-    Automaton* convertCFA2DFA(CFA* cfa);
+    // Automaton* convertCFA2DFA(CFA* cfa);
 
     Automaton* convertCFA2BA(CFA* cfa);
 };

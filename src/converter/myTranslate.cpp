@@ -46,10 +46,29 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C)
     return E;
 }
 
+void Translator::extractVarName(Instruction *I)
+{
+    if(const AllocaInst *AI = dyn_cast<AllocaInst>(I))
+    {
+        extractAlloca(AI);
+    }
+    if (const StoreInst *SI = dyn_cast<StoreInst>(I))
+    {
+       extractStoreVar(SI);
+    }
+}
+
 void Translator::extractAlloca(const AllocaInst *AI)
 {
     std::string varName = AI->getName();
     setVar(varName);
+}
+
+void Translator::extractStoreVar(const StoreInst *SI)
+{
+    const Value *To = SI->getPointerOperand();
+    std::string toNameStr = To->getName();
+    setVar(toNameStr);
 }
 
 // store "From" "to"

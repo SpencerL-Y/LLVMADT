@@ -47,7 +47,7 @@ class Translator {
    
         z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C);
 
-        void extractAlloca(const llvm::AllocaInst  *AI);
+        
         z3::expr* extractStore(const llvm::StoreInst *SI, z3::context *C);
         z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C);
         z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
@@ -56,6 +56,10 @@ class Translator {
 
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);
+
+        void extractVarName(llvm::Instruction* I);
+        void extractAlloca(const llvm::AllocaInst  *AI);
+        void extractStoreVar(const llvm::StoreInst *SI);
 
         void setVar(std::string varName);
         std::set<std::string> getVar();

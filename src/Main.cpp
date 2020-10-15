@@ -10,7 +10,7 @@ using namespace llvmadt;
 int main(int argc, char** argv){
     z3::context c;
     Converter converter;
-    std::list<CFA*> cfalist = converter.convertLLVM2CFAs(argv[1], &c);
+    std::list<CFA*> cfalist = converter.convertLLVM2CFAs(argv[1]);
     CFA *cfa = cfalist.front();
     // std::set<CFAEdge*>::reverse_iterator it;
     // std::set<CFAEdge*> Edges = cfa->getEdges();
@@ -50,23 +50,23 @@ int main(int argc, char** argv){
     // } 
     // std::cout << "name: " << cfa->getName() << '\n';
 
-    Automaton* dfa = converter.convertCFA2DFA(cfa);
+    // Automaton* dfa = converter.convertCFA2DFA(cfa);
 
     // std::cout << "dfa name: " << dfa->getName() << '\n';
     // std::cout << "init state id: " << dfa->getInitState()->getId() << '\n';
 
-    PathSampler sampler;
-    Path* path = sampler.samplePathEven(dfa->getInitState());
+    // PathSampler sampler;
+    // Path* path = sampler.samplePathEven(dfa->getInitState());
 
-    std::cout << ".............path................." << '\n';
-    std::vector<State*>::iterator it;
-    std::vector<State*> states = path->getStemStates();
+    // std::cout << ".............path................." << '\n';
+    // std::vector<State*>::iterator it;
+    // std::vector<State*> states = path->getStemStates();
   
-    for (it = states.begin(); it != states.end(); it++)
-    {
-        State* currState = *it;
-        std::cout << "states: " << currState->getId() << '\n';
-    }
+    // for (it = states.begin(); it != states.end(); it++)
+    // {
+    //     State* currState = *it;
+    //     std::cout << "states: " << currState->getId() << '\n';
+    // }
 
     // CFA cfa;
     // cfa.addState(1);
