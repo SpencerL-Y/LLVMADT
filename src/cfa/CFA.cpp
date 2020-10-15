@@ -32,7 +32,6 @@ void CFA::addState(CFAState* state){
             return;
         }
     }
-    state->setContext(this->c);
     this->states.insert(state);
     this->stateNum ++;
 }
@@ -74,13 +73,12 @@ void CFA::addEdge(int fromId, int toId){
 
 
 
-void CFA::addEdge(int fromId, z3::expr* guard_expr, int toId){
+void CFA::addEdge(int fromId, llvm::Instruction* inst, int toId){
     if(this->hasStateId(fromId) && this->hasStateId(toId) && !this->hasEdgeId(fromId, toId)){
         CFAEdge* ne = new CFAEdge();
         ne->setFromState(this->getState(fromId));
         ne->setToState(this->getState(toId));
-        ne->setContext(this->c);
-        ne->mkGuard(guard_expr);
+        ne->mkGuard(inst);
         this->edges.insert(ne);
         this->getState(fromId)->addEdge(ne);
     }
@@ -121,14 +119,6 @@ std::string CFA::toString(){
     return nullptr;
 }
 
-void CFA::setContext(z3::context* c){
-    this->c = c;
-}
-
-z3::context* CFA::getContext(){
-    return this->c;
-}
-
 void CFA::setVarNames(std::set<std::string>& varNames)
 {
     this->VarNames = varNames;
@@ -141,7 +131,7 @@ std::set<std::string> CFA::getVarNames()
 
 CFA::CFA(/* args */)
 {
-    this->c = new z3::context();
+
 }
 
 CFA::~CFA()
@@ -152,7 +142,6 @@ CFA::~CFA()
     for(CFAState* state : this->states){
         delete(state);
     }
-    delete(this->c);
 }
 
 }
