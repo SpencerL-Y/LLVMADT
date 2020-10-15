@@ -10,10 +10,10 @@ using namespace llvmadt;
 
 
 int main(int argc, char** argv){
-     llvm::LLVMContext context;
+    llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::string ll_path = argv[1];
-     std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
+    std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
     llvm::Module*  mod  = Mod.get();
 
     z3::context c;
