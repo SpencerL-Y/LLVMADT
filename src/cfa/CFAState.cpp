@@ -42,7 +42,7 @@ void CFAState::setBlockFinal(bool final){
 
 CFAState::CFAState(/* args */)
 {
-    this->bbName = nullptr;
+    
 }
 
 CFAState::~CFAState()
