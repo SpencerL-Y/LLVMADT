@@ -17,16 +17,16 @@ namespace llvmadt{
         return str;
     }
 
-    z3::expr* Guard::getExpr(){
-        return this->guardExpr;
+    llvm::Instruction* Guard::getInstruction(){
+        return this->instruction;
     }
     
     Guard::Guard(){
-
+        this->instruction = nullptr;
     }
 
     Guard::~Guard(){
-        
+
     }
 
 }

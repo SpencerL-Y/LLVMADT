@@ -66,7 +66,6 @@ void CFA::addEdge(int fromId, int toId){
         CFAEdge* ne = new CFAEdge();
         ne->setFromState(this->getState(fromId));
         ne->setToState(this->getState(toId));
-        ne->setContext(this->c);
         this->edges.insert(ne);
         this->getState(fromId)->addEdge(ne);
     }

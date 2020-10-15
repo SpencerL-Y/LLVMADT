@@ -4,21 +4,21 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <z3++.h>
+#include <llvm/IR/Instruction.h>
 
 namespace llvmadt{
 // Guard for the CFAEdge, where currently is a z3 expression converted from the LLVM IR
 class Guard
 {
 private:
-    z3::expr* guardExpr;
+    llvm::Instruction* instruction;
 public:
     Guard();
     ~Guard();
     std::string getGuardStr();
-    void setGuard(z3::expr* expr);
+    void setGuard(llvm::Instruction* inst);
     std::string toString();
-    z3::expr* getExpr();
+    llvm::Instruction* getInstruction();
 };
 
 }

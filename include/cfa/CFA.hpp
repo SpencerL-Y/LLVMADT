@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include "./CFAState.hpp"
 #include "./CFAEdge.hpp"
-#include "z3++.h"
+#include <llvm/IR/Instruction.h>
 namespace llvmadt{
 // CFA is an intermediate automata data structure used for storing the information of IR CFGs
 
@@ -23,7 +23,6 @@ private:
     std::set<std::string> VarNames;
     int stateNum;
     std::string name;
-    z3::context* c;
     
 public:
     CFA(/* args */);
@@ -35,8 +34,8 @@ public:
     void addState(CFAState* state);
     CFAState* getState(int id);
     void addEdge(int fromId, int toId);
-    void addEdge(CFAState* fromState, z3::expr* guard_expr, CFAState* toState);
-    void addEdge(int fromId, z3::expr* guard_expr, int toId);
+    void addEdge(CFAState* fromState, llvm::Instruction* inst, CFAState* toState);
+    void addEdge(int fromId, llvm::Instruction* inst, int toId);
     CFAEdge* getEdge(int fromId, int toId);
     std::set<CFAEdge*>& getEdges();
     void setName(std::string name);
@@ -44,8 +43,6 @@ public:
     std::string toString();
     bool hasStateId(int id);
     bool hasEdgeId(int fromId, int toId);
-    z3::context* getContext();
-    void setContext(z3::context* c);
 
     void setVarNames(std::set<std::string>& varNames);
     std::set<std::string> getVarNames();

@@ -5,7 +5,7 @@
 #include <list>
 #include <vector>
 #include <unistd.h>
-#include "z3++.h"
+#include <llvm/IR/Instruction.h>
 
 #include "./Guard.hpp"
 
@@ -18,7 +18,6 @@ private:
     CFAState* fromState;
     CFAState* toState;
     Guard* guard;
-    z3::context* c;
     
     
 public:
@@ -28,11 +27,9 @@ public:
     CFAState* getToState();
     void setFromState(CFAState* fromState);
     void setToState(CFAState* toState);
-    void mkGuard(z3::expr* expr);
+    void mkGuard(llvm::Instruction* inst);
     Guard* getGuard();
     std::string getGuardStr();
-    z3::context* getContext();
-    void setContext(z3::context* c);
 };
 
 
