@@ -41,14 +41,16 @@ class Converter
 {
 private:
     /* data */
+   
+
 public:
     Converter(/* args */){
-
     }
     ~Converter(){
 
     }
-    std::list<CFA*> convertLLVM2CFAs(std::string ll_path);
+
+    std::list<CFA*> convertLLVM2CFAs( llvm::Module*  mod);
 
     Automaton* convertLTLf2DFA(std::string ltlf);
 

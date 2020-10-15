@@ -5,22 +5,23 @@
 
 namespace llvmadt{
 
-std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
+std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
 {
     Translator T;
 
-    llvm::LLVMContext context;
-    llvm::SMDiagnostic err;
-    std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
-
-    if(!Mod)
+//     llvm::LLVMContext context;
+//     llvm::SMDiagnostic err;
+//     // std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
+//    llvm::Module* module = parseIRFile(ll_path, err, context);
+   // this->readIRFile(ll_path);
+    if(!mod)
     {
         std::cout << "Error: Module is null, please check" << std::endl;
     }
     int functionId = 0;
     std::list<CFA*> cfaList;
 
-    for(llvm::Module::iterator m_iter = Mod->begin(); m_iter != Mod->end(); ++m_iter)
+    for(llvm::Module::iterator m_iter =  mod->begin(); m_iter !=  mod->end(); ++m_iter)
     {
         Translator::BBMap BBID;
 
@@ -51,9 +52,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                 currCFA->addState(stateId, bb->getName());
                 stateId++;
             }
-            currCFA->addState(stateId, bb->getName());
-            // cfaList.push_front(currCFA);
         }
+        // cfaList.push_front(currCFA);
 
         llvm::errs() << "................get edges...................." << '\n';
 
@@ -65,9 +65,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
             llvm::BasicBlock* bb = &*f_iter;
             std::string bbName = bb->getName();
             int bbID = std::stoi(BBID[bbName]);
-            std::cout << "BB ID: " << bbID << '\n';
-
-            llvm::errs() << "Basic Block name: " << bbName << '\n';
+            // std::cout << "BB ID: " << bbID << '\n';
+            // llvm::errs() << "Basic Block name: " << bbName << '\n';
     
             for(llvm::BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter)
             {
@@ -78,6 +77,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                 {
                     int nextID = currID + 1;
                     currCFA->addEdge(currID, currInst, nextID);
+
+                    llvm::errs() << "from ID: " << currID << " inst: " << *currInst << " to ID: " << nextID << '\n';
                 }
                 else
                 {
@@ -87,9 +88,12 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
                         std::string nexName = succ->getName();
                         int nexID = std::stoi(BBID[nexName]);
                         currCFA->addEdge(brID, currInst, nexID);
+                        llvm::errs() << "from ID: " << brID << " inst: " << *currInst << " to ID: " << nexID << '\n';
                     }
                 }
+                currID++;
             }
+            
         }
         
         std::set<std::string> varNames = T.getVar();
@@ -134,12 +138,13 @@ std::list<CFA*> Converter::convertLLVM2CFAs(std::string ll_path)
 
             int fId = fromState->getId();
             int toId = toState->getId();
-            std::string guardStr = guard->getGuardStr();
+            llvm::Instruction* guardStr = guard->getInstruction();
+
             // z3::expr E = c.bool_val(true);
             // guard->setGuard(&E);
             // guard->getGuardStr();
 
-            std::cout << "from state: " << fId <<  " to state: " << toId << " guard: " << guardStr << '\n';
+            llvm::errs()  << "from state: " << fId <<  " to state: " << toId << " guard: " << *guardStr << '\n';
         }
     }
     return cfaList;
