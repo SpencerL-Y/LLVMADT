@@ -10,6 +10,15 @@ void CFAState::setId(int id){
     this->id = id;
 }
 
+
+std::string CFAState::getBbName(){
+    return this->bbName;
+}
+
+void CFAState::setBbName(std::string bbName){
+    this->bbName = bbName;
+}
+
 std::string CFAState::toString(){
     return nullptr;
 }
@@ -33,7 +42,7 @@ void CFAState::setBlockFinal(bool final){
 
 CFAState::CFAState(/* args */)
 {
-    
+    this->bbName = nullptr;
 }
 
 CFAState::~CFAState()

@@ -15,7 +15,7 @@ private:
     int id;
     std::list<CFAEdge*> edges;
     bool blockFinal; // true if is the final instruction of the basicblock
-
+    std::string bbName;// basic block name the state lies in
     //back pointer
     CFA* cfa;
     
@@ -24,6 +24,8 @@ public:
     ~CFAState();
     int getId();
     void setId(int id);
+    std::string getBbName();
+    void setBbName(std::string bbName);
     std::string toString();
     void addEdge(CFAEdge* edge);
     std::list<CFAEdge*>& getEdges();
