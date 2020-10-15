@@ -30,19 +30,23 @@ std::set<std::string>& CheckerSampleBased::getVarNames(){
     return this->varNames;
 }
 
-bool CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum){
+Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum){
     spot::parsed_formula pf = spot::parse_infix_psl(spotLTLStr);
     spot::formula f = pf.f;
     if(this->tlutil->isSimpleLTL(f)){
         for(int i = 0; i < pathNum; i++){
             Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState());
-            this->pathChecker->checkFinitePathProperty(p, spotLTLStr);
+            bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr);
+            if(result == false){
+                return p;
+            }
             delete(p);
         }
     } else {
         std::cout << "The formula is too complex currently, to be added later" << std::endl;
-        return false;
+        return nullptr;
     }
+    return nullptr;
 }
 
 CheckerSampleBased::~CheckerSampleBased()

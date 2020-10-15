@@ -10,6 +10,7 @@ SET(alphabet_dir
     alphabet/LetterType.cpp
     alphabet/LetterTypeInt.cpp
     alphabet/LetterTypeZ3Expr.cpp
+    alphabet/LetterTypeInst.cpp
 )
 SET(abstract_dir
     abstract/Automaton.cpp
