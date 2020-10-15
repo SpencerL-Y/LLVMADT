@@ -30,7 +30,7 @@ public:
     std::set<CFAState*>& getStates();
     void setStates(std::set<CFAState*>& states);
     int getStateNum();
-    void addState(int id);
+    void addState(int id, std::string bbName);
     void addState(CFAState* state);
     CFAState* getState(int id);
     void addEdge(int fromId, int toId);

@@ -13,7 +13,7 @@ int CFA::getStateNum(){
     return this->stateNum;
 }
 
-void CFA::addState(int id){
+void CFA::addState(int id, std::string bbName){
     for(CFAState* state : this->states){
         if(state->getId() == id){
             std::cout << "Error: add state error, id exists" << std::endl;
@@ -22,6 +22,7 @@ void CFA::addState(int id){
     }
     CFAState* ns = new CFAState();
     ns->setId(id);
+    ns->setBbName(bbName);
     this->states.insert(ns);
 }
 
