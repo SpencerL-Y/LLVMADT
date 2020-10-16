@@ -170,7 +170,7 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
         CFAState* cs = *it;
         // all states of the program are accepting
         if(cs->getId() == 0){
-            resultDFA->addInitAccState(cs->getId());
+            resultDFA->addInitAccState(cs->getId(), cs->getBbName());
         } else {
             resultDFA->addAccState(cs->getId());
         }

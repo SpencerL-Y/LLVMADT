@@ -25,7 +25,11 @@ public:
     virtual void addState(int id)=0;
     virtual void addInitState(int id)=0;
     virtual void addAccState(int id)=0;
-    virtual void addInitAccState(int id)=0;
+    virtual void addInitAccState(int id)=0; 
+    virtual void addState(int id, std::string name)=0;
+    virtual void addInitState(int id, std::string name)=0;
+    virtual void addAccState(int id, std::string name)=0;
+    virtual void addInitAccState(int id, std::string name)=0;
     virtual void delState(int id)=0;
     virtual void addTransition(int fromId, Letter* l,  int toId)=0;
     virtual void delTransition(int fromId, Letter* l, int toId)=0;
