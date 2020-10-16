@@ -28,6 +28,21 @@ void DFA::addState(int id){
     this->states.insert(ns);
 }
 
+void DFA::addState(int id, std::string name){
+    for(State* state : this->states){
+        if(state->getId() == id){
+            std::cout << "add state error, state already exists" << std::endl;
+            return;
+        }
+    }
+    State* ns = new DFAState();
+    ns->setId(id);
+    ns->setName(name);
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
+    this->states.insert(ns);
+}
 
 
 void DFA::addInitState(int id){
@@ -44,6 +59,29 @@ void DFA::addInitState(int id){
     
     State* ns = new DFAState();
     ns->setId(id);
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
+    ns->setInit();
+    this->states.insert(ns);
+    this->initState = ns;
+}
+
+void DFA::addInitState(int id, std::string name){
+    if(this->getInitState() != nullptr){
+        std::cout << "add init state error, only one init state allowed" << std::endl;
+        return;
+    }
+    for(State* state : this->states){
+        if(state->getId() == id){
+            std::cout << "add init state error, state already exists" << std::endl;
+            return;
+        }
+    }
+    
+    State* ns = new DFAState();
+    ns->setId(id);
+    ns->setName(name);
     if(this->getAlphabet() != nullptr){
         ns->setAlphabet(this->getAlphabet());
     }
@@ -71,6 +109,24 @@ void DFA::addAccState(int id){
     this->accStates.insert(ns);
 }
 
+void DFA::addAccState(int id, std::string name){
+    for(State* state : this->states){
+        if(state->getId() == id){
+            std::cout << "add init state error, state already exists" << std::endl;
+            return;
+        }
+    }
+    
+    State* ns = new DFAState();
+    ns->setId(id);
+    ns->setName(name);
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
+    ns->setAcc();
+    this->states.insert(ns);
+    this->accStates.insert(ns);
+}
 
 void DFA::addInitAccState(int id){
     for(State* state : this->states){
@@ -92,7 +148,27 @@ void DFA::addInitAccState(int id){
     this->accStates.insert(ns);
     this->initState = ns;
 }
-
+void DFA::addInitAccState(int id, std::string name){
+    for(State* state : this->states){
+        if(state->getId() == id){
+            std::cout << "add init state error, state already exists" << std::endl;
+            return;
+        }
+    }
+    
+    State* ns = new DFAState();
+    ns->setId(id);
+    ns->setName(name);
+    
+    if(this->getAlphabet() != nullptr){
+        ns->setAlphabet(this->getAlphabet());
+    }
+    ns->setAcc();
+    ns->setInit();
+    this->states.insert(ns);
+    this->accStates.insert(ns);
+    this->initState = ns;
+}
 
 void DFA::delState(int id){
     if(!this->hasState(id)){

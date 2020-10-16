@@ -72,7 +72,13 @@ void State::setAlphabet(Alphabet* alpha){
     
 }
 
+void State::setName(std::string name){
+    this->name = name;
+}
 
+std::string State::getName(){
+    return this->name;
+}
 
 State::State(){
     this->alphabet = nullptr;

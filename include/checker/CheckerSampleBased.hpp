@@ -5,6 +5,7 @@
 #include <list>
 #include <set>
 #include <iostream>
+#include <z3++.h>
 #include "./PathChecker.hpp"
 #include "../automata/util/PathSampler.hpp"
 #include "../automata/abstract/Automaton.hpp"
@@ -21,6 +22,8 @@ private:
     std::set<std::string> varNames;
     Automaton* automaton;
     TLUtil* tlutil;
+    z3::context* ctx;
+
 
 public:
     CheckerSampleBased(PathSampler* pathSampler, std::set<std::string> varName);

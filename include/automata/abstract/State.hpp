@@ -17,6 +17,7 @@ class State
 {
 protected:
     int id;
+    std::string name;
     std::set<Transition*> stateTransitions;
     bool isAccept;
     bool isInit;
@@ -36,6 +37,8 @@ public:
     bool hasTransition(int from, Letter* l, int to);
     Alphabet* getAlphabet();
     void setAlphabet(Alphabet* alpha);
+    void setName(std::string name);
+    std::string getName();
     State(/* args */);
     State(Alphabet* alpha);
     ~State();
