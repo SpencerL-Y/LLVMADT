@@ -172,7 +172,7 @@ Automaton* Converter::convertCFA2DFA(CFA* cfa){
         if(cs->getId() == 0){
             resultDFA->addInitAccState(cs->getId(), cs->getBbName());
         } else {
-            resultDFA->addAccState(cs->getId());
+            resultDFA->addAccState(cs->getId(), cs->getBbName());
         }
         std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
     }

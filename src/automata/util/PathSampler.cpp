@@ -31,13 +31,13 @@ namespace llvmadt{
         this->automaton = automaton;
     }
 
-    Path* PathSampler::samplePathEven(State* startState){
+    Path* PathSampler::samplePathEven(State* startState, z3::context* C){
         Path* path = new Path();
-        path->setAlphabet(startState->getAlphabet());
+        // path->setAlphabet(startState->getAlphabet());
         PathSampler::VisitCount Count;
         Count[startState] = 0;
-
-        bool success = recursiveSort(startState, path, Count);
+        this->id = 0;
+        bool success = recursiveSort(startState, path, Count, C);
         if (success)
         {  
             
@@ -51,10 +51,11 @@ namespace llvmadt{
         
     }
 
-    bool PathSampler::recursiveSort(State* currState, Path* path, VisitCount Count)
+    bool PathSampler::recursiveSort(State* currState, Path* path, VisitCount Count, z3::context* C)
     {
         srand(time(0));
         Count[currState] = Count[currState]  + 1;
+        Translator T;
         std::set<Transition*> stateTransitions = currState->getStateTransitions();
         State* fromState; 
         State* toState;
@@ -71,6 +72,7 @@ namespace llvmadt{
         std::cout << "K = " << getSampleNum() << '\n';
         std::cout << "currState count = " << Count[currState] << '\n';
         std::cout << "tran size: " << size << '\n';
+        z3::expr* E;
         //path->setAlphabet(currState->getAlphabet());
 
         // resample currState less than K times
@@ -85,13 +87,31 @@ namespace llvmadt{
             }
             else
             {
+                this->id++;
                 Transition* trans = succ[rand() % size];
                 toState = trans->getToState();
                 letter = trans->getLetter();
-                std::cout << ((LetterTypeZ3Expr*)letter->getContent())->getExpression()->to_string() << std::endl;
+                
+                llvm::Instruction* ins = ((LetterTypeInst*)letter->getContent())->getInstruction();
+                
+                if (!currState->getName().compare(toState->getName()))
+                {
+                    E = T.extractConstraints(ins, C);
+                }
+                else
+                {
+                    E = T.extractTBranch(ins, toState->getName(), C);
+                }
+        
+                Letter* nl = new Letter();
+                nl->setId(this->id);
+                LetterTypeZ3Expr* z3content = new LetterTypeZ3Expr();
+
+                z3content->setExpression(E, C);
+                nl->setContent(z3content);
                 path->appendStemLetter(letter);
 
-                bool x = recursiveSort(toState, path, Count);
+                bool x = recursiveSort(toState, path, Count, C);
                 return true;
             }
         }

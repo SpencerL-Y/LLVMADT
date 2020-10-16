@@ -252,28 +252,38 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
     return E;    
 }
 
-z3::expr* Translator::extractTBranch(BasicBlock *curBB, BasicBlock *nexBB, z3::context *C)
+z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C)
 {
-    const Instruction *TTInst = curBB->getTerminator();
+    // const Instruction *TTInst = curBB->getTerminator();
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
     // errs() << "TTInst: " << TTInst->getOperand(0)->getName() << '\n';
-    if (const BranchInst *BI = dyn_cast<BranchInst>(TTInst))
+    if (const BranchInst *BI = dyn_cast<BranchInst>(brInst))
     {
         if (BI->isConditional())
         {
             std::string BrName = BI->getOperand(0)->getName();
-            // errs() << BrName << '\n';
+            // // errs() << BrName << '\n';
 
-            BasicBlock *TB = TTInst->getSuccessor(0);
-            BasicBlock *FB = TTInst->getSuccessor(1);
+            BasicBlock *TB = BI->getSuccessor(0);
+            BasicBlock *FB = BI->getSuccessor(1);
 
-            if (nexBB->getName() == TB->getName())
+            // if (nexBB->getName() == TB->getName())
+            // {
+            //     // E = C->int_const(BrName.data());
+            //     *E = C->bool_const(BrName.data());
+            // }
+            // else if (nexBB->getName() == FB->getName())
+            // {
+
+            //     *E = !C->bool_const(BrName.data());
+            // }
+            if (nexBBName == TB->getName())
             {
                 // E = C->int_const(BrName.data());
                 *E = C->bool_const(BrName.data());
             }
-            else if (nexBB->getName() == FB->getName())
+            else if (nexBBName == FB->getName())
             {
 
                 *E = !C->bool_const(BrName.data());

@@ -52,7 +52,7 @@ class Translator {
         z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C);
         z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
         z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C);
-        z3::expr* extractTBranch(llvm::BasicBlock *curBB, llvm::BasicBlock *preSampleBB, z3::context *C);
+        z3::expr* extractTBranch(llvm::Instruction *brInst, std::string nexBBName, z3::context *C);
 
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);

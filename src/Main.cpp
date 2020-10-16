@@ -39,42 +39,42 @@ int main(int argc, char** argv){
     std::cout << "...................var test end................." << '\n';
 
 
-    for(it = Edges.begin(); it != Edges.end(); it++)
-    {
-        CFAEdge* currEdge = *it;
+    // for(it = Edges.begin(); it != Edges.end(); it++)
+    // {
+    //     CFAEdge* currEdge = *it;
 
-        CFAState* fromState = currEdge->getFromState();
-        CFAState* toState = currEdge->getToState();
-        Guard* guard = currEdge->getGuard();
+    //     CFAState* fromState = currEdge->getFromState();
+    //     CFAState* toState = currEdge->getToState();
+    //     Guard* guard = currEdge->getGuard();
 
-        int fId = fromState->getId();
-        int toId = toState->getId();
-        llvm::Instruction* guardStr = guard->getInstruction();
-        // z3::expr E = c.bool_val(true);
-        // guard->setGuard(&E);
-        // guard->getGuardStr();
+    //     int fId = fromState->getId();
+    //     int toId = toState->getId();
+    //     llvm::Instruction* guardStr = guard->getInstruction();
+    //     // z3::expr E = c.bool_val(true);
+    //     // guard->setGuard(&E);
+    //     // guard->getGuardStr();
        
-        llvm::errs()  << "from state: " << fId <<  " to state: " << toId << " guard: " << *guardStr << '\n';
-    } 
-    // std::cout << "name: " << cfa->getName() << '\n';
+    //     llvm::errs()  << "from state: " << fId <<  " to state: " << toId << " guard: " << *guardStr << '\n';
+    // } 
+    std::cout << "name: " << cfa->getName() << '\n';
 
-    // Automaton* dfa = converter.convertCFA2DFA(cfa);
+    Automaton* dfa = converter->convertCFA2DFA(cfa);
 
-    // std::cout << "dfa name: " << dfa->getName() << '\n';
+    std::cout << "dfa name: " << dfa->getName() << '\n';
     // std::cout << "init state id: " << dfa->getInitState()->getId() << '\n';
 
-    // PathSampler sampler;
-    // Path* path = sampler.samplePathEven(dfa->getInitState());
+    PathSampler sampler;
+    Path* path = sampler.samplePathEven(dfa->getInitState(), &c);
 
-    // std::cout << ".............path................." << '\n';
-    // std::vector<State*>::iterator it;
-    // std::vector<State*> states = path->getStemStates();
+    std::cout << ".............path................." << '\n';
+    std::vector<State*>::iterator itit;
+    std::vector<State*> states = path->getStemStates();
   
-    // for (it = states.begin(); it != states.end(); it++)
-    // {
-    //     State* currState = *it;
-    //     std::cout << "states: " << currState->getId() << '\n';
-    // }
+    for (State* currState : path->getStemStates() )
+    {
+       // State* currState = *itit;
+        std::cout << "states: " << currState->getId() << '\n';
+    }
 
     // CFA cfa;
     // cfa.addState(1);
