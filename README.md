@@ -47,3 +47,6 @@ z3表达式。问题的核心：语法和语义。。
 - Converter中的CFA2DFA需要Clexma修改为Inst，Inst到Z3表达式的转换的使用需要Fengwz之后修改PathSampler并和PathChecker对接。
 ## Mark
 - 今天进度缓慢的原因是parseIRFile得到的数据结构必须放在Main函数中，如果放在局部变量里传不出来。
+
+# 10月16日
+

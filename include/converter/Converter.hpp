@@ -30,6 +30,7 @@
 #include "../automata/alphabet/LetterType.hpp"
 #include "../automata/alphabet/LetterTypeZ3Expr.hpp"
 #include "../automata/alphabet/LetterTypeInt.hpp"
+#include "../automata/alphabet/LetterTypeInst.hpp"
 #include "../automata/alphabet/LetterTypeChar.hpp"
 namespace llvmadt{
 
@@ -56,7 +57,7 @@ public:
 
     Automaton* convertLTL2BA(std::string ltl);
 
-    // Automaton* convertCFA2DFA(CFA* cfa);
+    Automaton* convertCFA2DFA(CFA* cfa);
 
     Automaton* convertCFA2BA(CFA* cfa);
 };

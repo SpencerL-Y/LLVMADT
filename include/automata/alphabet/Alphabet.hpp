@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <map>
+#include <set>
 #include <vector>
 
 #include "./Letter.hpp"
@@ -16,14 +17,12 @@ namespace llvmadt{
 class Alphabet
 {
 protected:
-    std::map<std::string, Letter*> letters;
+    std::set<Letter*> letters;
 public:
     void addLetter(LetterType* content);
     Letter* getLetter(int id);
-    Letter* getLetter(std::string keyStr);
-    std::map<std::string, Letter*>& getLetters();
+    std::set<Letter*>& getLetters();
     int getLettersSize();
-    std::string toString();
     Alphabet(/* args */);
     ~Alphabet();
 };

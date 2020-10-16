@@ -159,47 +159,41 @@ Automaton* Converter::convertLTLf2DFA(std::string ltlfStr){
 }
 
 
-// Automaton* Converter::convertCFA2DFA(CFA* cfa){
+Automaton* Converter::convertCFA2DFA(CFA* cfa){
 
-//     Alphabet* z3ExprAlphabet = new Alphabet();
+    Alphabet* instAlphabet = new Alphabet();
 
-//     Automaton* resultDFA = new DFA();
-//     resultDFA->setAlphabet(z3ExprAlphabet);
-//     std::set<llvmadt::CFAState*>::iterator it;
-//     for(it=cfa->getStates().begin(); it!=cfa->getStates().end(); it++){
-//         CFAState* cs = *it;
-//         // all states of the program are accepting
-//         if(cs->getId() == 0){
-//             resultDFA->addInitAccState(cs->getId());
-//         } else {
-//             resultDFA->addAccState(cs->getId());
-//         }
-//         std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
-//     }
+    Automaton* resultDFA = new DFA();
+    resultDFA->setAlphabet(instAlphabet);
+    std::set<llvmadt::CFAState*>::iterator it;
+    for(it=cfa->getStates().begin(); it!=cfa->getStates().end(); it++){
+        CFAState* cs = *it;
+        // all states of the program are accepting
+        if(cs->getId() == 0){
+            resultDFA->addInitAccState(cs->getId());
+        } else {
+            resultDFA->addAccState(cs->getId());
+        }
+        std::cout << "add state " + std::to_string(cs->getId()) << std::endl;
+    }
 
-//     std::set<CFAEdge*>::iterator it2;
-//     for(it2 = cfa->getEdges().begin(); it2 != cfa->getEdges().end(); ++it2){
-//         CFAEdge* edge = *it2;
-//         Letter* l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-//         if(l == nullptr){
-//         std::cout << edge->getGuard()->getExpr()->to_string()<< std::endl;
-//             LetterTypeZ3Expr* z3l = new LetterTypeZ3Expr(edge->getGuard()->getExpr(), cfa->getContext());
-            
-//             z3ExprAlphabet->addLetter(z3l);
-//             //std::cout << edge->getGuard()->toString() << std::endl;
-//             l = z3ExprAlphabet->getLetter(edge->getGuard()->toString());
-//             l->setAlphabet(z3ExprAlphabet);
-//         } else {
-//             l->setAlphabet(z3ExprAlphabet);
-//         }
-//         resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
+    std::set<CFAEdge*>::iterator it2;
+    for(it2 = cfa->getEdges().begin(); it2 != cfa->getEdges().end(); ++it2){
+        CFAEdge* edge = *it2;
+        Letter* l = new Letter();
+        LetterTypeInst* il = new LetterTypeInst(edge->getGuard()->getInstruction());
+        l->setId(instAlphabet->getLettersSize());
+        l->setContent(il);
+        l->setAlphabet(instAlphabet);
+        instAlphabet->addLetter(il);
+        resultDFA->addTransition(edge->getFromState()->getId(), l, edge->getToState()->getId());
         
-//         // std::cout << "here00" << std::endl;
-//     }
+        // std::cout << "here00" << std::endl;
+    }
 
-//     resultDFA->setName(cfa->getName());
-//     return resultDFA;
-// }
+    resultDFA->setName(cfa->getName());
+    return resultDFA;
+}
 
 
 Automaton* Converter::convertLTL2BA(std::string ltl){

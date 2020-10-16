@@ -8,56 +8,42 @@ namespace llvmadt{
 
     
     void Alphabet::addLetter(LetterType* content){
-        std::cout << content->toString();
-       
-        if(this->letters.find(content->toString()) != this->letters.end()){
-            std::cout << "alphabet add letter error, key already exists" << std::endl;
-            return;
-        }
+        //std::cout << content->toString();
         Letter* nl = new Letter();            
         nl->setId(this->letters.size());
   
         nl->setContent(content);
         nl->setAlphabet(this);
-        std::cout << content->toString() << std::endl;
-        this->letters[content->toString()] = nl;
+        //std::cout << content->toString() << std::endl;
+        this->letters.insert(nl);
     }
 
     
     Letter* Alphabet::getLetter(int id){
-        for(auto iter=this->letters.begin(); iter != this->letters.end(); ++iter){
-            if(iter->second->getId() == id){
-                return iter->second;
+        for(Letter* iter : this->letters){
+            if(iter->getId() == id){
+                return iter;
             }
-        }
-    }
-
-
-    
-    Letter* Alphabet::getLetter(std::string keyStr){
-        auto iter = this->letters.find(keyStr);
-        if(iter != this->letters.end()){
-            return iter->second;
         }
         return nullptr;
     }
 
     
-    std::string Alphabet::toString(){
-        std::string result = "Alphabet: {";
-        int i = 0;
-        for(auto iter = this->letters.begin(); iter != this->letters.end(); ++iter){
-            result += iter->second->toString();
-            if(i < this->letters.size() - 1){
-                result += ", ";
-            }
-            i ++;
-        }
-        result += "}\n";
-        return result;
-    }
+    // std::string Alphabet::toString(){
+    //     std::string result = "Alphabet: {";
+    //     int i = 0;
+    //     for(auto iter = this->letters.begin(); iter != this->letters.end(); ++iter){
+    //         result += iter->second->toString();
+    //         if(i < this->letters.size() - 1){
+    //             result += ", ";
+    //         }
+    //         i ++;
+    //     }
+    //     result += "}\n";
+    //     return result;
+    // }
     
-    std::map<std::string, Letter*>& Alphabet::getLetters(){
+    std::set<Letter*>& Alphabet::getLetters(){
         return this->letters;
     }
 
@@ -71,8 +57,8 @@ namespace llvmadt{
     
     
     Alphabet::~Alphabet(){
-        for(auto iter = this->letters.begin(); iter != this->letters.end(); ++iter){
-            delete(iter->second);
+        for(Letter* l : this->letters){
+            delete(l);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace llvmadt
         llvm::Instruction* getInstruction();
         void setInstruction(llvm::Instruction* inst);
         LetterTypeInst(/* args */);
+        LetterTypeInst(llvm::Instruction* inst);
         ~LetterTypeInst();
     };
     

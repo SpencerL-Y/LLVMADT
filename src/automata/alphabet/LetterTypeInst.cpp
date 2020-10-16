@@ -7,6 +7,10 @@ namespace llvmadt
     {
     }
     
+    LetterTypeInst::LetterTypeInst(llvm::Instruction* inst){
+        this->inst = inst;
+    }
+
     LetterTypeInst::~LetterTypeInst()
     {
         
