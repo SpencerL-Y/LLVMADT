@@ -33,7 +33,8 @@ namespace llvmadt{
 
     Path* PathSampler::samplePathEven(State* startState, z3::context* C){
         Path* path = new Path();
-        // path->setAlphabet(startState->getAlphabet());
+        Alphabet* z3Alpha = new Alphabet();
+        path->getWord()->setAlphabet(z3Alpha);
         PathSampler::VisitCount Count;
         Count[startState] = 0;
         this->id = 0;
@@ -109,7 +110,9 @@ namespace llvmadt{
                 LetterTypeZ3Expr* z3content = new LetterTypeZ3Expr();
                 z3content->setExpression(E, C);
                 nl->setContent(z3content);
-                path->appendStemLetter(letter);
+                nl->setAlphabet(path->getWord()->getAlphabet());
+                path->getWord()->getAlphabet()->addLetter(z3content);
+                path->appendStemLetter(nl);
 
                 bool x = recursiveSort(toState, path, Count, C);
                 return true;
