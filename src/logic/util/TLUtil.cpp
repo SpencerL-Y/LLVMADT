@@ -82,18 +82,53 @@ namespace llvmadt
         }
     }
 
+    bool TLUtil::isGp(spot::formula& pf){
+        if(this->getSimpleType(pf) == SimpleType::G){
+            return true;
+        }
+        return false;
+    }
+
+    bool TLUtil::isFp(spot::formula& pf){
+        if(this->getSimpleType(pf) == SimpleType::F){
+            return true;
+        }
+        return false;
+    }
+
+    bool TLUtil::isGFp(spot::formula& pf){
+        if(this->getSimpleType(pf) == SimpleType::GF){
+            return true;
+        }
+        return false;
+    }
+
+    bool TLUtil::isFGp(spot::formula& pf){
+        if(this->getSimpleType(pf) == SimpleType::FG){
+            return true;
+        }
+        return false;
+    }
 
     z3::expr TLUtil::extractSimpleFormula_F(spot::formula& pf){
+        z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::F){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::ap){
                 z3::expr z3f = this->c->int_const(f0.ap_name().c_str());
                 return z3f;
+            } else {
+                std::cout << "currently does not support" << std::endl;
+                return elF;
             }
+        } else {
+                std::cout << "currently does not support" << std::endl;
+                return elF;
         }
     }
 
     z3::expr TLUtil::extractSimpleFormula_FG(spot::formula& pf){
+        z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::F){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::G){
@@ -101,22 +136,44 @@ namespace llvmadt
                 if(f1.kind() == spot::op::ap){
                     z3::expr z3f = this->c->int_const(f1.ap_name().c_str());
                     return z3f;
+                } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
                 }
+            } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
             }
+        } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
         }
     }
 
     z3::expr TLUtil::extractSimpleFormula_G(spot::formula& pf){
+        z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::G){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::ap){
                 z3::expr z3f = this->c->int_const(f0.ap_name().c_str());
                 return z3f;
+            } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
             }
+        } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
         }
     }
 
     z3::expr TLUtil::extractSimpleFormula_GF(spot::formula& pf){
+        z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::G){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::F){
@@ -124,8 +181,20 @@ namespace llvmadt
                 if(f1.kind() == spot::op::ap){
                     z3::expr z3f = this->c->int_const(f1.ap_name().c_str());
                     return z3f;
+                } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
                 }
+            } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
             }
+        } else {
+
+                std::cout << "currently does not support" << std::endl;
+                return elF;
         }
     }
 

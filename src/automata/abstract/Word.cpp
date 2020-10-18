@@ -11,7 +11,7 @@ Word::Word(){
 
 
 Word::~Word(){
-
+    delete(this->alphabet);
 }
 
 

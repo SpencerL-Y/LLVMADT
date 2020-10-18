@@ -23,7 +23,7 @@ namespace llvmadt
         PathChecker(/* args */);
         ~PathChecker();
 
-        z3::model* checkFinitePathFeasibility(Path* path);
+        z3::solver* checkFinitePathFeasibility(Path* path);
         bool checkFinitePathProperty(Path* path, std::string ltlStr);
     };
     

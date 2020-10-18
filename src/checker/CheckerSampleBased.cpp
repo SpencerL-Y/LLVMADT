@@ -30,12 +30,12 @@ std::set<std::string>& CheckerSampleBased::getVarNames(){
     return this->varNames;
 }
 
-Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum){
+Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3::context* ctx){
     spot::parsed_formula pf = spot::parse_infix_psl(spotLTLStr);
     spot::formula f = pf.f;
     if(this->tlutil->isSimpleLTL(f)){
         for(int i = 0; i < pathNum; i++){
-            Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState());
+            Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState(), ctx);
             bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr);
             if(result == false){
                 return p;

@@ -5,12 +5,13 @@
 #include "../include/cfa/CFA.hpp"
 #include "../include/converter/Converter.hpp"
 #include "../include/automata/util/PathSampler.hpp"
+#include "../include/checker/PathChecker.hpp"
 
 using namespace llvmadt;
 
 
 int main(int argc, char** argv){
-    srand(stime(0));
+    srand(time(0));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::string ll_path = argv[1];
@@ -63,11 +64,25 @@ int main(int argc, char** argv){
         letterI++;
 
     }
+    std::cout << "...............Path checker............" << std::endl;
+    PathChecker pc;
+    z3::solver* s = pc.checkFinitePathFeasibility(path);
+    if(s == nullptr){
+        std::cout << "not satisfied" << std::endl;
+    } else {
+        std::cout << "satisfied" << std::endl;
+        std::cout << s->get_model() << std::endl;
+        delete(s);
+    }
+
+    std::cout << "..............Samplebased Checker............" << std::endl;
+
 
     // CFA cfa;
     // cfa.addState(1);
     // cfa.addState(2);
     // cfa.addEdge(1,2);
     delete(converter);
+    delete(path);
     return 0;
 }
