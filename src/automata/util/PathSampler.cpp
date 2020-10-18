@@ -69,6 +69,7 @@ namespace llvmadt{
         }
 
         setSampleNum();
+        std::cout << "..........recursive debug............" << '\n';
         std::cout << "K = " << getSampleNum() << '\n';
         std::cout << "currState count = " << Count[currState] << '\n';
         std::cout << "tran size: " << size << '\n';
@@ -106,7 +107,6 @@ namespace llvmadt{
                 Letter* nl = new Letter();
                 nl->setId(this->id);
                 LetterTypeZ3Expr* z3content = new LetterTypeZ3Expr();
-
                 z3content->setExpression(E, C);
                 nl->setContent(z3content);
                 path->appendStemLetter(letter);

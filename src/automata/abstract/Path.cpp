@@ -8,13 +8,6 @@ Path::Path(){
     this->word = new Word();
 }
 
-
-
-Path::Path(){
-    this->word = new Word();
-}
-
-
 Path::Path(Word* word){
     this->word = word;
 }
