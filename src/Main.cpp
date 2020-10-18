@@ -52,11 +52,16 @@ int main(int argc, char** argv){
     std::cout << ".............path................." << '\n';
     std::vector<State*>::iterator itit;
     std::vector<State*> states = path->getStemStates();
+
+    int letterI = 0;
   
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId() << '\n';
-        // std::set<Transition>
+        Letter* letter =  path->getStemLetter(letterI);
+        std::cout << "z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
+        letterI++;
+
     }
 
     // CFA cfa;
