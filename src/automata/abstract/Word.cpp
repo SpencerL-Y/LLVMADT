@@ -63,7 +63,7 @@ void Word::appendLoopLetter(Letter* letter){
     if(letter->getAlphabet() == this->getAlphabet()){
         this->wordLoop.push_back(letter);
     } else {
-        std::cout << "word loop appendStemLetter error, alphabet inconsistent" << std::endl;
+        std::cout << "word loop appendLoopLetter error, alphabet inconsistent" << std::endl;
     }
 }
 
