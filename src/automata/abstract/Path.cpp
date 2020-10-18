@@ -6,20 +6,16 @@ namespace llvmadt{
 
 Path::Path(){
     this->word = new Word();
-    this->alphabet = nullptr;
 }
 
 
 
-Path::Path(Alphabet* alpha){
-    this->alphabet = alpha;
+Path::Path(){
     this->word = new Word();
-    this->word->setAlphabet(this->alphabet);
 }
 
 
 Path::Path(Word* word){
-    this->alphabet = word->getAlphabet();
     this->word = word;
 }
 
@@ -40,24 +36,12 @@ State* Path::getStemState(int pos){
 
 
 void Path::appendStemLetter(Letter* letter){
-    if(letter->getAlphabet() == this->getAlphabet()){
-        this->word->appendStemLetter(letter);
-    } else {
-        std::cout << "path append stem letter error, alphabet inconsistent" << std::endl;
-    }
+    this->word->appendStemLetter(letter);
 }
 
 
 void Path::appendStemState(State* state){
-    if(state->getAlphabet() == this->alphabet){
-        this->stemStates.push_back(state);
-    } else {
-        std::cout << "state: " << state->getId() << '\n';
-        std::cout << "alphabet: " << state->getAlphabet() << '\n';
-        std::cout << "this: " << this->alphabet << '\n';
-        
-         std::cout << "append stem state error, alphabet inconsistent" << std::endl;
-    }
+    this->stemStates.push_back(state);
 }
 
 
@@ -93,37 +77,18 @@ State* Path::getLoopState(int pos){
 
 
 void Path::appendLoopLetter(Letter* letter){
-    if(letter->getAlphabet() == this->getAlphabet()){
-        this->word->appendLoopLetter(letter);
-    } else {
-        std::cout << "append loop letter error, alphabet inconsistent" << std::endl;
-    }
+    this->word->appendLoopLetter(letter);
 }
 
 
 void Path::appendLoopState(State* state){
-    if(state->getAlphabet() == this->alphabet){
-        this->loopStates.push_back(state);
-    } else {
-         std::cout << "append loop state error, alphabet inconsistent" << std::endl;
-    }
+    this->loopStates.push_back(state);
 }
 
 
 
 Word* Path::getLoopWord(){
     return this->word;
-}
-
-
-Alphabet* Path::getAlphabet(){
-    return this->alphabet;
-}
-
-
-void Path::setAlphabet(Alphabet* alphabet){
-    this->alphabet = alphabet;
-    this->word->setAlphabet(alphabet);
 }
 
 std::string Path::toString(){

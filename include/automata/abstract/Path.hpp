@@ -18,7 +18,6 @@ protected:
     std::vector<State*> stemStates;
     std::vector<State*> loopStates;
     Word* word;
-    Alphabet* alphabet;
     /* data */
 public:
     Path(/* args */);
@@ -42,8 +41,6 @@ public:
     void appendLoopState(State* state);
     Word* getLoopWord();
 
-    Alphabet* getAlphabet();
-    void setAlphabet(Alphabet* alphabet);
     std::string toString();
 };
 }
