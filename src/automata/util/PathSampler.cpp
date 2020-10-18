@@ -54,7 +54,6 @@ namespace llvmadt{
 
     bool PathSampler::recursiveSort(State* currState, Path* path, VisitCount Count, z3::context* C)
     {
-        srand(time(0));
         Count[currState] = Count[currState]  + 1;
         Translator T;
         std::set<Transition*> stateTransitions = currState->getStateTransitions();
@@ -71,9 +70,9 @@ namespace llvmadt{
 
         setSampleNum();
         std::cout << "..........recursive debug............" << '\n';
-        std::cout << "K = " << getSampleNum() << '\n';
-        std::cout << "currState count = " << Count[currState] << '\n';
-        std::cout << "tran size: " << size << '\n';
+        // std::cout << "K = " << getSampleNum() << '\n';
+        // std::cout << "currState count = " << Count[currState] << '\n';
+        // std::cout << "tran size: " << size << '\n';
         z3::expr* E;
         //path->setAlphabet(currState->getAlphabet());
 
@@ -90,6 +89,14 @@ namespace llvmadt{
             else
             {
                 this->id++;
+
+                // int ranNum = 0;
+                // ranNum = rand();
+                if (size == 2)
+                {
+                    std::cout << "ranNum: " << rand() << '\n';
+                }
+               
                 Transition* trans = succ[rand() % size];
                 toState = trans->getToState();
                 letter = trans->getLetter();

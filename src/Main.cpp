@@ -1,7 +1,7 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 #include <iostream>
-
+#include <ctime>
 #include "../include/cfa/CFA.hpp"
 #include "../include/converter/Converter.hpp"
 #include "../include/automata/util/PathSampler.hpp"
@@ -10,6 +10,7 @@ using namespace llvmadt;
 
 
 int main(int argc, char** argv){
+    srand(stime(0));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::string ll_path = argv[1];
@@ -38,24 +39,6 @@ int main(int argc, char** argv){
 
     std::cout << "...................var test end................." << '\n';
 
-
-    // for(it = Edges.begin(); it != Edges.end(); it++)
-    // {
-    //     CFAEdge* currEdge = *it;
-
-    //     CFAState* fromState = currEdge->getFromState();
-    //     CFAState* toState = currEdge->getToState();
-    //     Guard* guard = currEdge->getGuard();
-
-    //     int fId = fromState->getId();
-    //     int toId = toState->getId();
-    //     llvm::Instruction* guardStr = guard->getInstruction();
-    //     // z3::expr E = c.bool_val(true);
-    //     // guard->setGuard(&E);
-    //     // guard->getGuardStr();
-       
-    //     llvm::errs()  << "from state: " << fId <<  " to state: " << toId << " guard: " << *guardStr << '\n';
-    // } 
     std::cout << "name: " << cfa->getName() << '\n';
 
     Automaton* dfa = converter->convertCFA2DFA(cfa);
@@ -72,8 +55,8 @@ int main(int argc, char** argv){
   
     for (State* currState : path->getStemStates() )
     {
-       // State* currState = *itit;
         std::cout << "states: " << currState->getId() << '\n';
+        // std::set<Transition>
     }
 
     // CFA cfa;

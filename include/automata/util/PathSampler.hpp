@@ -1,7 +1,7 @@
 #ifndef TestSampler_hpp
 #define TestSampler_hpp
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include <list>
 #include <vector>
