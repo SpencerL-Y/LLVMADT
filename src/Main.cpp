@@ -47,10 +47,12 @@ int main(int argc, char** argv){
     std::cout << "dfa name: " << dfa->getName() << '\n';
     // std::cout << "init state id: " << dfa->getInitState()->getId() << '\n';
 
+    std::cout << ".............path................." << '\n';
+
     PathSampler sampler;
     Path* path = sampler.samplePathEven(dfa->getInitState(), &c);
-
-    std::cout << ".............path................." << '\n';
+    
+    std::cout << "ddd" << '\n';
     std::vector<State*>::iterator itit;
     std::vector<State*> states = path->getStemStates();
 

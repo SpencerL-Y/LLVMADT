@@ -40,14 +40,14 @@ namespace llvmadt{
         this->id = 0;
         bool success = recursiveSort(startState, path, Count, C);
         if (success)
-        {  
-            
+        {   
             Count.clear();
         }
         else
         {
             std::cout << "false sampling!" << '\n';
         }
+        std::cout << "xxxx" << '\n';
         return path;
         
     }
@@ -55,7 +55,7 @@ namespace llvmadt{
     bool PathSampler::recursiveSort(State* currState, Path* path, VisitCount Count, z3::context* C)
     {
         Count[currState] = Count[currState]  + 1;
-        Translator T;
+        
         std::set<Transition*> stateTransitions = currState->getStateTransitions();
         State* fromState; 
         State* toState;
@@ -69,11 +69,12 @@ namespace llvmadt{
         }
 
         setSampleNum();
-        std::cout << "..........recursive debug............" << '\n';
+        // std::cout << "..........recursive debug............" << '\n';
         // std::cout << "K = " << getSampleNum() << '\n';
         // std::cout << "currState count = " << Count[currState] << '\n';
         // std::cout << "tran size: " << size << '\n';
-        z3::expr* E;
+        z3::expr* E = new z3::expr(*C);
+        *E = C->bool_val(true);
         //path->setAlphabet(currState->getAlphabet());
 
         // resample currState less than K times
@@ -92,10 +93,10 @@ namespace llvmadt{
 
                 // int ranNum = 0;
                 // ranNum = rand();
-                if (size == 2)
-                {
-                    std::cout << "ranNum: " << rand() << '\n';
-                }
+                // if (size == 2)
+                // {
+                //     std::cout << "ranNum: " << rand() << '\n';
+                // }
                
                 Transition* trans = succ[rand() % size];
                 toState = trans->getToState();
@@ -115,12 +116,14 @@ namespace llvmadt{
                 Letter* nl = new Letter();
                 nl->setId(this->id);
                 LetterTypeZ3Expr* z3content = new LetterTypeZ3Expr();
+                std::cout << "d" << '\n';
                 z3content->setExpression(E, C);
+                std::cout << "dd" << '\n';
                 nl->setContent(z3content);
                 nl->setAlphabet(path->getWord()->getAlphabet());
                 path->getWord()->getAlphabet()->addLetter(z3content);
                 path->appendStemLetter(nl);
-
+                std::cout << "ddddddd" << '\n';
                 bool x = recursiveSort(toState, path, Count, C);
                 return true;
             }

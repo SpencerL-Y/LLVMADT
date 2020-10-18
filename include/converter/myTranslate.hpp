@@ -64,8 +64,8 @@ class Translator {
         void setVar(std::string varName);
         std::set<std::string> getVar();
 
-        void setVarIndex(std::map<std::string, int> varIndex);
-        std::map<std::string, int>& getIndex();
+        // void setVarIndex(std::map<std::string, int>* varIndex);
+        // std::map<std::string, int>& getIndex();
 
         bool isNum(std::string str); 
 
