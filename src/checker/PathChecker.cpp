@@ -11,20 +11,21 @@ namespace llvmadt
 
 
 
-    z3::model* PathChecker::checkFinitePathFeasibility(Path* path){
+    z3::solver* PathChecker::checkFinitePathFeasibility(Path* path){
         //return true if the path is feasible in the system
-        z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
-        z3::expr pathCondition = ctx->bool_val(true);
+        z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0)->getContent())->getContext();
+        z3::expr pathCondition = ctx->bool_val(1);
+        z3::solver* solver = new z3::solver(*ctx);
         for(Letter* l : path->getStemLetters()){
             //conjunct all the edge transition guard into a path condition formula
-            pathCondition = pathCondition && ((LetterTypeZ3Expr*)l)->getExpression();
+            pathCondition = pathCondition && *((LetterTypeZ3Expr*)l->getContent())->getExpression();
         }
-        z3::solver solver(*ctx);
-        solver.add(pathCondition);
-        if(solver.check() == z3::unsat){
+        solver->add(pathCondition);
+        if(solver->check() == z3::unsat){
+            delete(solver);
             return nullptr;
         } else {
-            return &solver.get_model();
+            return solver;
         }
     }
 

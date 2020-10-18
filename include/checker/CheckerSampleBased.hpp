@@ -33,7 +33,7 @@ public:
     Automaton* getAutomaton();
     void setAutomaton(Automaton* automaton);
 
-    Path* checkProperty(std::string spotLTLStr, int pathNum);
+    Path* checkProperty(std::string spotLTLStr, int pathNum, z3::context* ctx);
     ~CheckerSampleBased();
 }; // namespace llvmadt
 
