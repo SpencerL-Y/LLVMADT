@@ -30,9 +30,12 @@ namespace llvmadt{
 
     void LetterTypeZ3Expr::setExpression(z3::expr* expr, z3::context* context){
         this->context = context;
-        if(this->expression != nullptr){
-            delete(this->expression);
-        }
+         std::cout << "0" << '\n';
+        // if(this->expression != nullptr){
+        //     delete(this->expression);
+        // }
+        std::cout << "1" << '\n';
         this->expression = expr;
+        std::cout << "2" << '\n';
     }
 }

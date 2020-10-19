@@ -23,6 +23,7 @@ private:
     Automaton* automaton;
     int K;
     int id;
+    Translator T;
 public:
     PathSampler(/* args */);
     PathSampler(Automaton* automaton);
