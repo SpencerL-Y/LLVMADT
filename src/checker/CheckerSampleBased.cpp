@@ -36,7 +36,7 @@ Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3:
     if(this->tlutil->isSimpleLTL(f)){
         for(int i = 0; i < pathNum; i++){
             Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState(), ctx);
-            bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr);
+            bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr, this->varNames);
             if(result == false){
                 return p;
             }

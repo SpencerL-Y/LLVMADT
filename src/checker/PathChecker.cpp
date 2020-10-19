@@ -30,7 +30,7 @@ namespace llvmadt
         }
     }
 
-    bool PathChecker::checkFinitePathProperty(Path* path, std::string ltlStr){
+    bool PathChecker::checkFinitePathProperty(Path* path, std::string ltlStr, std::set<std::string> varNames){
         // return  true if the path satisfy the ltl formula 
         // false if the path is infeasible or the property is violated OR the formula is too complex
         spot::parsed_formula pf = spot::parse_infix_psl(ltlStr);
@@ -47,7 +47,10 @@ namespace llvmadt
                 // }
                 z3::expr tempFormula = ctx->bool_val(true);
                 z3::expr_vector vec_origin(*ctx);
-                vec_origin.push_back(*prop);
+                for(std::string varStr : varNames){
+                    std::cout << "wwwwww" << std::endl;
+                    vec_origin.push_back(ctx->int_const(varStr.c_str()));
+                }
                 std::cout << "tempFormula: " << tempFormula.to_string() << std::endl;
                 z3::solver solver(*ctx);
                 solver.add(tempFormula);
@@ -57,9 +60,15 @@ namespace llvmadt
                 int length = 0;
                 for(Letter* l : path->getStemLetters()){
                     z3::expr_vector vec_curr(*ctx);
-                    vec_curr.push_back(ctx->int_const((varName + std::to_string(path->getCurrentVarIndex(length).find(varName)->second)).c_str()));
+                    for(std::string varStr : varNames){
+                        std::cout << "wwwwww: " << varStr + std::to_string(path->getCurrentVarIndex(length).find(varName)->second) << std::endl;
+                        //if(path->getCurrentVarIndex(length).find(varName) != path->getCurrentVarIndex(length).end()){
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(path->getCurrentVarIndex(length).find(varName)->second)).c_str()));
+                        //}
+                    }
+                    std::cout << "origin: " << prop->to_string() << std::endl;
                     tempFormula = (!(*prop).substitute(vec_origin, vec_curr));
-                    std::cout << "tempFormula: " << tempFormula.to_string() << std::endl;
+                    std::cout << "subs: " << tempFormula.to_string() << std::endl;
                 
                     solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
                     solver.add(tempFormula);

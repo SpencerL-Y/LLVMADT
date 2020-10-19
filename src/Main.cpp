@@ -64,13 +64,14 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId() << '\n';
-        if (path->getCurrentVarIndex(length).find("y") == path->getCurrentVarIndex(length).end())
+        auto iter = path->getCurrentVarIndex(length).find("x");
+        if (iter == path->getCurrentVarIndex(length).end())
         {
             std::cout << "kkk" << '\n';
         }
         else
         {
-            std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("y")->second << '\n'; 
+            std::cout << "curr index: " <<  iter->second << '\n'; 
         }
         
         Letter* letter =  path->getStemLetter(letterI);
@@ -93,7 +94,7 @@ int main(int argc, char** argv){
 
     pc.addTLUtilApStrMap("a", &apap1);
 
-    pc.checkFinitePathProperty(path, "Fa");
+    pc.checkFinitePathProperty(path, "Fa", cfa->getVarNames());
 
     // std::cout << "..............Samplebased Checker............" << std::endl;
 

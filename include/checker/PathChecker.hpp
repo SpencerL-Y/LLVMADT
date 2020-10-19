@@ -25,7 +25,7 @@ namespace llvmadt
         ~PathChecker();
 
         z3::solver* checkFinitePathFeasibility(Path* path);
-        bool checkFinitePathProperty(Path* path, std::string ltlStr);
+        bool checkFinitePathProperty(Path* path, std::string ltlStr, std::set<std::string> varNames);
         void addTLUtilApStrMap(std::string apStr, z3::expr* exp);
     };
     
