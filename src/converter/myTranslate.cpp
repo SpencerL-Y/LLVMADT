@@ -10,7 +10,7 @@ namespace llvmadt{
 
 z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C)
 {
-    llvm::errs() << "extract from : " << *I << '\n';
+    // llvm::errs() << "extract from : " << *I << '\n';
     // z3::expr insExp;
     // z3::expr* E; // = new z3::expr(*C);
     // *E = C->bool_val(true);
@@ -117,9 +117,6 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
     std::string index = std::to_string( (this->varIndex).find(toNameStr)->second);
     toNameStr = toNameStr + index;
 
-    std::string indexFrom = std::to_string( (this->varIndex).find(fromNameStr)->second);
-    fromNameStr = fromNameStr + indexFrom;
-
     // std::cout << "h" << '\n';
     z3::expr Sop1 = C->int_const(toNameStr.data());
     z3::expr Sop2 = C->int_const(fromNameStr.data());
@@ -129,10 +126,17 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
         Sop2 = C->int_val(std::stoi(fromNameStr));
         // std::cout << "int Lop2: " << secValue.data() << '\n';
     }
+    else
+    {
+        std::string indexFrom = std::to_string( (this->varIndex).find(fromNameStr)->second);
+        fromNameStr = fromNameStr + indexFrom;
+        Sop2 = C->int_const(fromNameStr.data());
+    }
+    
 
     *E = Sop1 == Sop2;
     // std::cout << "hh" << '\n';
-    // std::cout << *E << '\n';
+    std::cout << "store expr: " << (*E).to_string() << '\n';
     return E;
 
     // errs() << "Store MStr[]: toNameStr: " << toNameStr << " fromNameStr: " << fromNameStr << '\n'; 
@@ -363,7 +367,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
 
 z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C)
 {
-    llvm::errs() << "extract from : " << *brInst << '\n';
+    // llvm::errs() << "extract from : " << *brInst << '\n';
     // const Instruction *TTInst = curBB->getTerminator();
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);

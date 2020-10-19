@@ -47,7 +47,7 @@ namespace llvmadt{
         {
             std::cout << "false sampling!" << '\n';
         }
-        std::cout << "xxxx" << '\n';
+        // std::cout << "xxxx" << '\n';
         return path;
         
     }
@@ -116,14 +116,14 @@ namespace llvmadt{
                 Letter* nl = new Letter();
                 nl->setId(this->id);
                 LetterTypeZ3Expr* z3content = new LetterTypeZ3Expr();
-                std::cout << "d" << '\n';
+                // std::cout << "d" << '\n';
                 z3content->setExpression(E, C);
-                std::cout << "dd" << '\n';
+                // std::cout << "dd" << '\n';
                 nl->setContent(z3content);
                 nl->setAlphabet(path->getWord()->getAlphabet());
                 path->getWord()->getAlphabet()->addLetter(z3content);
                 path->appendStemLetter(nl);
-                std::cout << "ddddddd" << '\n';
+                // std::cout << "ddddddd" << '\n';
                 bool x = recursiveSort(toState, path, Count, C);
                 return true;
             }
