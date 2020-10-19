@@ -29,6 +29,7 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/Instructions.h"
 
+#include "../automata/abstract/Path.hpp"
 #include "z3++.h"
 
 namespace llvmadt{
@@ -45,14 +46,14 @@ class Translator {
 
         typedef std::map<std::string, std::string> BBMap;
    
-        z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C);
+        z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C, Path* path);
 
         
-        z3::expr* extractStore(const llvm::StoreInst *SI, z3::context *C);
-        z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C);
-        z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C);
-        z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C);
-        z3::expr* extractTBranch(llvm::Instruction *brInst, std::string nexBBName, z3::context *C);
+        z3::expr* extractStore(const llvm::StoreInst *SI, z3::context *C, Path* path);
+        z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C, Path* path);
+        z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C, Path* path);
+        z3::expr* extractCmp(const llvm::ICmpInst *CI, z3::context *C, Path* path);
+        z3::expr* extractTBranch(llvm::Instruction *brInst, std::string nexBBName, z3::context *C, Path* path);
 
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);

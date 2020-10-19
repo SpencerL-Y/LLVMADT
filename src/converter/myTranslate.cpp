@@ -8,7 +8,7 @@ using namespace llvm;
 
 namespace llvmadt{
 
-z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C)
+z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C, Path* path)
 {
     // llvm::errs() << "extract from : " << *I << '\n';
     // z3::expr insExp;
@@ -26,27 +26,27 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C)
     // store
     if (const StoreInst *SI = dyn_cast<StoreInst>(I))
     {
-       return extractStore(SI, C);
+       return extractStore(SI, C, path);
     }
 
     // %tmp = load %x
     if (const LoadInst *LI = dyn_cast<LoadInst>(I))
     {
-        return extractLoad(LI, C);
+        return extractLoad(LI, C, path);
     }
 
     //  binary operations
     // (opcodeName, opcode):(add,13) (sdiv, 20) 
     if (const BinaryOperator *inst = dyn_cast<BinaryOperator>(I))
     {
-        return extractBinaryOperator(inst, C);
+        return extractBinaryOperator(inst, C, path);
     }
 
     // cmp
     // %cmp = icmp sgt i32 %tmp, 0
     if (const ICmpInst *CI = dyn_cast<ICmpInst>(I))
     {
-        return extractCmp(CI, C);
+        return extractCmp(CI, C, path);
     }
 
     //std::cout << *E << '\n';
@@ -80,7 +80,7 @@ void Translator::extractStoreVar(const StoreInst *SI)
 
 // store "From" "to"
 // store 0 *%x
-z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
+z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C, Path* path)
 {
     const Value *From = SI->getValueOperand();
     const Value *To = SI->getPointerOperand();
@@ -95,26 +95,29 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
 
     // std::map<std::string, int>* varIndex =  &getIndex(); //new std::map<std::string, int>;
     // *varIndex = getIndex();
-    int count =  (this->varIndex).count(toNameStr);
-    if (count != 0)
-    {
-        int index = (this->varIndex).find(toNameStr)->second + 1;      
-        (this->varIndex).erase(toNameStr);
-        (this->varIndex).insert(make_pair(toNameStr, index));
-        // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
-    }
-    else
-    {
-        // std::cout << "count: " << count << '\n';
-        (this->varIndex).insert(make_pair(toNameStr, 0));
-        // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
-        // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
-    }
+    // int count =  (this->varIndex).count(toNameStr);
+    // if (count != 0)
+    // {
+    //     int index = (this->varIndex).find(toNameStr)->second + 1;      
+    //     (this->varIndex).erase(toNameStr);
+    //     (this->varIndex).insert(make_pair(toNameStr, index));
+    //     // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
+    // }
+    // else
+    // {
+    //     // std::cout << "count: " << count << '\n';
+    //     (this->varIndex).insert(make_pair(toNameStr, 0));
+    //     // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
+    //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
+    // }
     
+    path->insertVarIndex(toNameStr);
+
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
 
-    std::string index = std::to_string( (this->varIndex).find(toNameStr)->second);
+    // std::string index = std::to_string( (this->varIndex).find(toNameStr)->second);
+    std::string index = std::to_string(path->getVarIndexVarName(toNameStr));
     toNameStr = toNameStr + index;
 
     // std::cout << "h" << '\n';
@@ -128,7 +131,8 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
     }
     else
     {
-        std::string indexFrom = std::to_string( (this->varIndex).find(fromNameStr)->second);
+        // std::string indexFrom = std::to_string( (this->varIndex).find(fromNameStr)->second);
+        std::string indexFrom = std::to_string(path->getVarIndexVarName(fromNameStr));
         fromNameStr = fromNameStr + indexFrom;
         Sop2 = C->int_const(fromNameStr.data());
     }
@@ -143,7 +147,7 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C)
     // errs() << *SI << '\n';
 }
 
-z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C)
+z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C, Path* path)
 {
     // %tmp
     std::string Lop1Name = LI->getName();
@@ -156,27 +160,31 @@ z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C)
     *E = C->bool_val(true);
 
     // std::map<std::string, int>* varIndex =  &getIndex();
-    int count =  (this->varIndex).count(Lop1Name);
-    if (count != 0)
-    {
-        int index = (this->varIndex).find(Lop1Name)->second + 1;      
-        (this->varIndex).erase(Lop1Name);
-        (this->varIndex).insert(make_pair(Lop1Name, index));
-        // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
-    }
-    else
-    {
-        // std::cout << "count: " << count << '\n';
-        (this->varIndex).insert(make_pair(Lop1Name, 0));
-        // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
-        // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
-    }
+    // int count =  (this->varIndex).count(Lop1Name);
+    // if (count != 0)
+    // {
+    //     int index = (this->varIndex).find(Lop1Name)->second + 1;      
+    //     (this->varIndex).erase(Lop1Name);
+    //     (this->varIndex).insert(make_pair(Lop1Name, index));
+    //     // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
+    // }
+    // else
+    // {
+    //     // std::cout << "count: " << count << '\n';
+    //     (this->varIndex).insert(make_pair(Lop1Name, 0));
+    //     // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
+    //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
+    // }
 
-    std::string index1 = std::to_string( (this->varIndex).find(Lop1Name)->second);
+    path->insertVarIndex(Lop1Name);
+
+    // std::string index1 = std::to_string( (this->varIndex).find(Lop1Name)->second);
+    std::string index1 = std::to_string(path->getVarIndexVarName(Lop1Name));
     // std::cout << "find index to z3: " << index << '\n'; 
     Lop1Name = Lop1Name + index1;
 
-    std::string index2 = std::to_string( (this->varIndex).find(Lop2Name)->second);
+    // std::string index2 = std::to_string( (this->varIndex).find(Lop2Name)->second);
+    std::string index2 = std::to_string(path->getVarIndexVarName(Lop2Name));
     Lop2Name = Lop2Name + index2;
 
     z3::expr Lop1 = C->int_const(Lop1Name.data());
@@ -186,7 +194,7 @@ z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C)
     return E;
 }
 
-z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::context *C)
+z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::context *C, Path* path)
 {
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
@@ -198,23 +206,26 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     std::string op1Name = getName(Op1);
     std::string op2Name = getName(Op2);
 
-    int count =  (this->varIndex).count(BOName);
-    if (count != 0)
-    {
-        int index = (this->varIndex).find(BOName)->second + 1;      
-        (this->varIndex).erase(BOName);
-        (this->varIndex).insert(make_pair(BOName, index));
-        // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
-    }
-    else
-    {
-        // std::cout << "count: " << count << '\n';
-        (this->varIndex).insert(make_pair(BOName, 0));
-        // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
-        // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
-    }
+    // int count =  (this->varIndex).count(BOName);
+    // if (count != 0)
+    // {
+    //     int index = (this->varIndex).find(BOName)->second + 1;      
+    //     (this->varIndex).erase(BOName);
+    //     (this->varIndex).insert(make_pair(BOName, index));
+    //     // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
+    // }
+    // else
+    // {
+    //     // std::cout << "count: " << count << '\n';
+    //     (this->varIndex).insert(make_pair(BOName, 0));
+    //     // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
+    //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
+    // }
+    path->insertVarIndex(BOName);
 
-    std::string index = std::to_string( (this->varIndex).find(BOName)->second);
+    // std::string index = std::to_string( (this->varIndex).find(BOName)->second);
+    std::string index = std::to_string(path->getVarIndexVarName(BOName));
+
     // std::cout << "find index to z3: " << index << '\n'; 
     BOName = BOName + index;
 
@@ -228,7 +239,9 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     }
     else
     {
-        std::string indexOp1 = std::to_string( (this->varIndex).find(op1Name)->second);
+        // std::string indexOp1 = std::to_string( (this->varIndex).find(op1Name)->second);
+        std::string indexOp1 = std::to_string(path->getVarIndexVarName(op1Name));
+        
         // std::cout << "find index to z3: " << index << '\n'; 
         op1Name = op1Name + indexOp1;
         BO1 = C->int_const(op1Name.data());
@@ -240,7 +253,9 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     }
     else
     {
-        std::string indexOp2 = std::to_string( (this->varIndex).find(op2Name)->second);
+        //std::string indexOp2 = std::to_string( (this->varIndex).find(op2Name)->second);
+        std::string indexOp2 = std::to_string(path->getVarIndexVarName(op2Name));
+        
         // std::cout << "find index to z3: " << index << '\n'; 
         op2Name = op2Name + indexOp2;
         BO2 = C->int_const(op2Name.data());
@@ -272,7 +287,7 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     return E;
 }
 
-z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
+z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
 {
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
@@ -286,23 +301,25 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
 
     std::string CmpName = CI->getName();
 
-    int count =  (this->varIndex).count(CmpName);
-    if (count != 0)
-    {
-        int index = (this->varIndex).find(CmpName)->second + 1;      
-        (this->varIndex).erase(CmpName);
-        (this->varIndex).insert(make_pair(CmpName, index));
-        // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
-    }
-    else
-    {
-        // std::cout << "count: " << count << '\n';
-        (this->varIndex).insert(make_pair(CmpName, 0));
-        // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
-        // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
-    }
+    // int count =  (this->varIndex).count(CmpName);
+    // if (count != 0)
+    // {
+    //     int index = (this->varIndex).find(CmpName)->second + 1;      
+    //     (this->varIndex).erase(CmpName);
+    //     (this->varIndex).insert(make_pair(CmpName, index));
+    //     // std::cout << "kkk store var index: " << (this->varIndex).find(toNameStr)->first << " " <<   (this->varIndex).find(toNameStr)->second << '\n';
+    // }
+    // else
+    // {
+    //     // std::cout << "count: " << count << '\n';
+    //     (this->varIndex).insert(make_pair(CmpName, 0));
+    //     // std::cout << "store var index: " <<  (this->varIndex).find(toNameStr)->first << " " <<  (this->varIndex).find(toNameStr)->second << '\n';
+    //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
+    // }
+    path->insertVarIndex(CmpName);
 
-    std::string indexCmp = std::to_string( (this->varIndex).find(CmpName)->second);
+    // std::string indexCmp = std::to_string( (this->varIndex).find(CmpName)->second);
+    std::string indexCmp = std::to_string(path->getVarIndexVarName(CmpName)); 
         // std::cout << "find index to z3: " << index << '\n'; 
     CmpName = CmpName + indexCmp;
 
@@ -315,7 +332,9 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
     }
     else
     {
-        std::string indexOp1 = std::to_string( (this->varIndex).find(op1Name)->second);
+        // std::string indexOp1 = std::to_string( (this->varIndex).find(op1Name)->second);
+        std::string indexOp1 = std::to_string(path->getVarIndexVarName(op1Name)); 
+     
         // std::cout << "find index to z3: " << index << '\n'; 
         op1Name = op1Name + indexOp1; 
         OP1 = C->int_const(op1Name.data());
@@ -327,7 +346,8 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
     }
     else
     {
-        std::string indexOp2 = std::to_string( (this->varIndex).find(op2Name)->second);
+        // std::string indexOp2 = std::to_string( (this->varIndex).find(op2Name)->second);
+        std::string indexOp2 = std::to_string(path->getVarIndexVarName(op2Name)); 
         // std::cout << "find index to z3: " << index << '\n'; 
         op2Name = op2Name + indexOp2; 
         OP2 = C->int_const(op2Name.data());
@@ -365,7 +385,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C)
     return E;    
 }
 
-z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C)
+z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C, Path* path)
 {
     // llvm::errs() << "extract from : " << *brInst << '\n';
     // const Instruction *TTInst = curBB->getTerminator();
@@ -375,7 +395,8 @@ z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName,
     if (const BranchInst *BI = dyn_cast<BranchInst>(brInst))
     {
         std::string BrName = BI->getOperand(0)->getName();
-        std::string indexBr = std::to_string( (this->varIndex).find(BrName)->second);
+        // std::string indexBr = std::to_string( (this->varIndex).find(BrName)->second);
+        std::string indexBr = std::to_string(path->getVarIndexVarName(BrName)); 
         // std::cout << "find index to z3: " << index << '\n'; 
         BrName = BrName + indexBr;
 

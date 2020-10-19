@@ -106,11 +106,11 @@ namespace llvmadt{
                 
                 if (!currState->getName().compare(toState->getName()))
                 {
-                    E = T.extractConstraints(ins, C);
+                    E = T.extractConstraints(ins, C, path);
                 }
                 else
                 {
-                    E = T.extractTBranch(ins, toState->getName(), C);
+                    E = T.extractTBranch(ins, toState->getName(), C, path);
                 }
         
                 Letter* nl = new Letter();

@@ -53,7 +53,7 @@ int main(int argc, char** argv){
 
     PathSampler sampler;
     Path* path = sampler.samplePathEven(dfa->getInitState(), &c);
-    
+    // std::cout << "x index: " << path->getVarIndexVarName("x") << '\n';
     // std::cout << "ddd" << '\n';
     // std::vector<State*>::iterator itit;
     std::vector<State*> states = path->getStemStates();
