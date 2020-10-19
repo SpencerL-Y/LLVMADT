@@ -107,6 +107,14 @@ int main(int argc, char** argv){
     z3::expr* expr = ut->extractSimpleFormula_G(f);
     //std::cout << "expr: " << expr->to_string() << std::endl;
     std::cout << ut->isSimpleLTL(f) << std::endl;
+    std::cout << "origin: " << ap1.to_string() << std::endl;
+    z3::expr_vector vec1(c);
+    vec1.push_back(c.int_const("x1"));
+    z3::expr_vector vec2(c);
+    vec2.push_back(xe);
+    z3::expr ap3 = ap1.substitute(vec2, vec1);
+
+    std::cout << "subs: " << ap3.to_string() << std::endl;
     delete(ut);
     delete(converter);
     delete(path);

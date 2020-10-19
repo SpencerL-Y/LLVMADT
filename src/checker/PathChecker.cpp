@@ -38,8 +38,18 @@ namespace llvmadt
         if(tlutil.isSimpleLTL(f)){
             if(tlutil.isFp(f)){
                 z3::expr* prop = tlutil.extractSimpleFormula_F(f);
+                std::string varName = prop->to_string();
                 z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
                 z3::expr tempFormula = ctx->bool_val(true);
+                int max = path->getVarIndexVarName(varName);
+                z3::expr_vector vec_origin(*ctx);
+                vec_origin.push_back(*prop);
+                for(int i = 0; i <= max; i++){
+                    z3::expr_vector vec_subs(*ctx);
+                    vec_subs.push_back(ctx->int_const((varName + std::to_string(i)).c_str()));
+                    tempFormula = tempFormula || prop->substitute(vec_origin, vec_subs);
+                }
+                std::cout << "tempFormula: " << tempFormula.to_string() << std::endl;
                 z3::solver solver(*ctx);
                 tempFormula = tempFormula && (!*prop);
                 solver.add(tempFormula);
