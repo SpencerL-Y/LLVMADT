@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <map>
+#include <utility>
 #include "../include/cfa/CFA.hpp"
 #include "../include/converter/Converter.hpp"
 #include "../include/automata/util/PathSampler.hpp"
@@ -77,7 +79,13 @@ int main(int argc, char** argv){
 
     std::cout << "..............Samplebased Checker............" << std::endl;
 
-
+    std::map<std::string, int> mapmap;
+    std::string s1 = "str";
+    std::string s2 = "str";
+    mapmap.insert(std::make_pair(s2, 1));
+    if(mapmap.find(s2) == mapmap.end()){
+        std::cout << "false" << std::endl;
+    }
     // CFA cfa;
     // cfa.addState(1);
     // cfa.addState(2);
