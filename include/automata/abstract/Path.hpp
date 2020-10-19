@@ -20,7 +20,7 @@ protected:
     std::vector<State*> loopStates;
     Word* word;
     std::map<std::string, int> varIndex;
-    std::vector<std::map<std::string, int>&> varIndexArray;
+    std::vector<std::map<std::string, int>> varIndexArray;
     /* data */
 public:
     Path(/* args */);
@@ -48,7 +48,7 @@ public:
     void insertVarIndex(std::string varName);
     int getVarIndexVarName(std::string varName);
     std::map<std::string, int> getCurrentVarIndex(int length);
-    std::vector<std::map<std::string, int>&>& getVarIndexArray();
+    std::vector<std::map<std::string, int>>& getVarIndexArray();
     void appendVarIndexArray(std::map<std::string, int>& currentVarIndex);
 
     std::string toString();

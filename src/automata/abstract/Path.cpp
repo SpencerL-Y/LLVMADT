@@ -120,7 +120,7 @@ std::map<std::string, int> Path::getCurrentVarIndex(int length){
 
 }
 
-std::vector<std::map<std::string, int>&>& Path::getVarIndexArray(){
+std::vector<std::map<std::string, int>>& Path::getVarIndexArray(){
     return this->varIndexArray;
 }
 
