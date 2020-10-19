@@ -52,8 +52,8 @@ int main(int argc, char** argv){
     PathSampler sampler;
     Path* path = sampler.samplePathEven(dfa->getInitState(), &c);
     
-    std::cout << "ddd" << '\n';
-    std::vector<State*>::iterator itit;
+    // std::cout << "ddd" << '\n';
+    // std::vector<State*>::iterator itit;
     std::vector<State*> states = path->getStemStates();
 
     int letterI = 0;
