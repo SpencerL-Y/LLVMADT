@@ -59,13 +59,23 @@ int main(int argc, char** argv){
     std::vector<State*> states = path->getStemStates();
 
     int letterI = 0;
-  
+    int length = 0;
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId() << '\n';
+        if (path->getCurrentVarIndex(length).find("x") != path->getCurrentVarIndex(length).end())
+        {
+            std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("x")->second << '\n'; 
+        }
+        else
+        {
+            std::cout << "kkk" << '\n';
+        }
+        
         Letter* letter =  path->getStemLetter(letterI);
         std::cout << "z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
         letterI++;
+        length++;
 
     }
     std::cout << "...............Path checker............" << std::endl;

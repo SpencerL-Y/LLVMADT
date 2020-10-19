@@ -14,12 +14,12 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C, Path* p
     // z3::expr insExp;
     // z3::expr* E; // = new z3::expr(*C);
     // *E = C->bool_val(true);
-
     if(const AllocaInst *AI = dyn_cast<AllocaInst>(I))
     {
         // extractAlloca(AI);
         z3::expr* E = new z3::expr(*C);
         *E = C->bool_val(true);
+        path->appendVarIndexArray(path->getVarIndex());
         return E;
     }
 
@@ -118,6 +118,11 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C, Path* pa
 
     // std::string index = std::to_string( (this->varIndex).find(toNameStr)->second);
     std::string index = std::to_string(path->getVarIndexVarName(toNameStr));
+    
+    // map<srcVar, currIndex>
+    // int intIndex = path->getVarIndexVarName(toNameStr);
+    path->appendVarIndexArray(path->getVarIndex());
+    
     toNameStr = toNameStr + index;
 
     // std::cout << "h" << '\n';
@@ -177,6 +182,7 @@ z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C, Path* path
     // }
 
     path->insertVarIndex(Lop1Name);
+    path->appendVarIndexArray(path->getVarIndex());
 
     // std::string index1 = std::to_string( (this->varIndex).find(Lop1Name)->second);
     std::string index1 = std::to_string(path->getVarIndexVarName(Lop1Name));
@@ -222,6 +228,7 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
     // }
     path->insertVarIndex(BOName);
+    path->appendVarIndexArray(path->getVarIndex());
 
     // std::string index = std::to_string( (this->varIndex).find(BOName)->second);
     std::string index = std::to_string(path->getVarIndexVarName(BOName));
@@ -317,6 +324,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
     //     // std::cout << "countcount : " << (this->varIndex).count(toNameStr) << '\n';
     // }
     path->insertVarIndex(CmpName);
+    path->appendVarIndexArray(path->getVarIndex());
 
     // std::string indexCmp = std::to_string( (this->varIndex).find(CmpName)->second);
     std::string indexCmp = std::to_string(path->getVarIndexVarName(CmpName)); 
@@ -387,6 +395,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
 
 z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C, Path* path)
 {
+    path->appendVarIndexArray(path->getVarIndex());
     // llvm::errs() << "extract from : " << *brInst << '\n';
     // const Instruction *TTInst = curBB->getTerminator();
     z3::expr* E = new z3::expr(*C);
