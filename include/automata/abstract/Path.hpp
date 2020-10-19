@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <set>
+#include <map>
 #include <vector>
 #include "./State.hpp"
 #include "./Word.hpp"
@@ -18,6 +19,7 @@ protected:
     std::vector<State*> stemStates;
     std::vector<State*> loopStates;
     Word* word;
+    std::map<std::string, int> varIndex;
     /* data */
 public:
     Path(/* args */);
@@ -40,6 +42,10 @@ public:
     void appendLoopLetter(Letter* letter);
     void appendLoopState(State* state);
     Word* getLoopWord();
+
+    std::map<std::string, int>& getVarIndex();
+    void insertVarIndex(std::string varName);
+    int getVarIndexVarName(std::string varName);
 
     std::string toString();
 };

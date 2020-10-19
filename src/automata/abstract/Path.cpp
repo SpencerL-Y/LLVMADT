@@ -79,6 +79,31 @@ void Path::appendLoopState(State* state){
 }
 
 
+std::map<std::string, int>& Path::getVarIndex(){
+    return this->varIndex;
+}
+
+void Path::insertVarIndex(std::string varName){
+    std::map<std::string, int>::iterator it = this->varIndex.find(varName);
+    if(it == this->varIndex.end()){
+        this->varIndex.insert(make_pair(varName, 0));
+    } else {
+        int oldIndex = it->second;
+        this->varIndex.erase(varName);
+        this->varIndex.insert(make_pair(varName, oldIndex + 1));
+    }
+    
+}
+
+
+int Path::getVarIndexVarName(std::string varName){
+    std::map<std::string, int>::iterator it = this->varIndex.find(varName);
+    if(it == this->varIndex.end()){
+        return -1;
+    } else {
+        return it->second;
+    }
+}
 
 Word* Path::getLoopWord(){
     return this->word;
