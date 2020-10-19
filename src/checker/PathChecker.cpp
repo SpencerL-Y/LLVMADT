@@ -61,16 +61,20 @@ namespace llvmadt
                 for(Letter* l : path->getStemLetters()){
                     z3::expr_vector vec_curr(*ctx);
                     for(std::string varStr : varNames){
-                        std::cout << "wwwwww: " << varStr + std::to_string(path->getCurrentVarIndex(length).find(varName)->second) << std::endl;
-                        //if(path->getCurrentVarIndex(length).find(varName) != path->getCurrentVarIndex(length).end()){
-                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(path->getCurrentVarIndex(length).find(varName)->second)).c_str()));
-                        //}
+                        auto iter = path->getCurrentVarIndex(length).find(varName);
+                        if(iter == path->getCurrentVarIndex(length).end()){
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                        } else {
+                            std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                        }
                     }
                     std::cout << "origin: " << prop->to_string() << std::endl;
                     tempFormula = (!(*prop).substitute(vec_origin, vec_curr));
                     std::cout << "subs: " << tempFormula.to_string() << std::endl;
-                
-                    solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
+                    std::cout << "letter formula: " << (((LetterTypeZ3Expr*)l->getContent())->getExpression())->to_string()  << std::endl;
+                    solver.add(*(((LetterTypeZ3Expr*)l->getContent())->getExpression()));
+                    solver.push();
                     solver.add(tempFormula);
                     if(solver.check() == z3::unsat){
                         return true;
