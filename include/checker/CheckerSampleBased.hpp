@@ -26,7 +26,7 @@ private:
 
 
 public:
-    CheckerSampleBased(PathSampler* pathSampler, std::set<std::string> varName);
+    CheckerSampleBased(PathSampler* pathSampler, std::set<std::string> varName, z3::context* c);
     void setAutomaton(DFA* dfa);
     PathChecker* getPathChecker();
     std::set<std::string>& getVarNames();

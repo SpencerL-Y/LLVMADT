@@ -1,12 +1,12 @@
 #include "../../include/checker/CheckerSampleBased.hpp"
 
 namespace llvmadt{
-CheckerSampleBased::CheckerSampleBased(PathSampler* ps, std::set<std::string> varNames)
+CheckerSampleBased::CheckerSampleBased(PathSampler* ps, std::set<std::string> varNames, z3::context* c)
 {   
     this->pathSampler = ps;
     this->automaton = pathSampler->getAutomaton();
     this->varNames = varNames;
-    this->pathChecker = new PathChecker();
+    this->pathChecker = new PathChecker(c);
     this->tlutil = new TLUtil();
 }
 

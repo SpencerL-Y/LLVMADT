@@ -8,6 +8,7 @@
 #include "../include/converter/Converter.hpp"
 #include "../include/automata/util/PathSampler.hpp"
 #include "../include/checker/PathChecker.hpp"
+#include "../include/checker/CheckerSampleBased.hpp"
 
 using namespace llvmadt;
 
@@ -63,13 +64,13 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId() << '\n';
-        if (path->getCurrentVarIndex(length).find("x") != path->getCurrentVarIndex(length).end())
+        if (path->getCurrentVarIndex(length).find("y") == path->getCurrentVarIndex(length).end())
         {
-            std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("x")->second << '\n'; 
+            std::cout << "kkk" << '\n';
         }
         else
         {
-            std::cout << "kkk" << '\n';
+            std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("y")->second << '\n'; 
         }
         
         Letter* letter =  path->getStemLetter(letterI);
@@ -79,7 +80,7 @@ int main(int argc, char** argv){
 
     }
     std::cout << "...............Path checker............" << std::endl;
-    PathChecker pc;
+    PathChecker pc(&c);
     z3::solver* s = pc.checkFinitePathFeasibility(path);
     if(s == nullptr){
         std::cout << "not satisfied" << std::endl;
@@ -88,16 +89,21 @@ int main(int argc, char** argv){
         std::cout << s->get_model() << std::endl;
         delete(s);
     }
+    z3::expr apap1 = (c.int_const("x") > 0);
 
-    std::cout << "..............Samplebased Checker............" << std::endl;
+    pc.addTLUtilApStrMap("a", &apap1);
 
-    std::map<std::string, int> mapmap;
-    std::string s1 = "str";
-    std::string s2 = "str";
-    mapmap.insert(std::make_pair(s2, 1));
-    if(mapmap.find(s2) == mapmap.end()){
-        std::cout << "false" << std::endl;
-    }
+    pc.checkFinitePathProperty(path, "Fa");
+
+    // std::cout << "..............Samplebased Checker............" << std::endl;
+
+    // std::map<std::string, int> mapmap;
+    // std::string s1 = "str";
+    // std::string s2 = "str";
+    // mapmap.insert(std::make_pair(s2, 1));
+    // if(mapmap.find(s2) == mapmap.end()){
+    //     std::cout << "false" << std::endl;
+    // }
     // CFA cfa;
     // cfa.addState(1);
     // cfa.addState(2);
@@ -112,7 +118,7 @@ int main(int argc, char** argv){
     z3::expr ap2 = (xe == 1);
     ut->addApZ3ExprMap("a", &ap1);
     ut->addApZ3ExprMap("b", &ap2);
-    spot::parsed_formula pf = spot::parse_infix_psl("Ga && Gb");
+    spot::parsed_formula pf = spot::parse_infix_psl("Fa");
     spot::formula& f = pf.f;
     z3::expr* expr = ut->extractSimpleFormula_G(f);
     //std::cout << "expr: " << expr->to_string() << std::endl;
@@ -125,6 +131,21 @@ int main(int argc, char** argv){
     z3::expr ap3 = ap1.substitute(vec2, vec1);
 
     std::cout << "subs: " << ap3.to_string() << std::endl;
+
+
+    std::cout << ".....................map test............." << std::endl;
+    std::map<std::string, int> strIntMap;
+    std::map<std::string, int> strIntMap2;
+    strIntMap2["a"] = 0;
+    if(strIntMap.find("ddd") == strIntMap.end()){
+        std::cout << "wtf" << std::endl;
+    }
+    std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
+    
+    std::cout << "................sampleBasedChecker............" << std::endl;
+    
+    
+    
     delete(ut);
     delete(converter);
     delete(path);

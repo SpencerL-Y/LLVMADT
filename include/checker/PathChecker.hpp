@@ -19,12 +19,14 @@ namespace llvmadt
     {
     private:
         /* data */
+        TLUtil tlutil;
     public:
-        PathChecker(/* args */);
+        PathChecker(/* args */z3::context* c);
         ~PathChecker();
 
         z3::solver* checkFinitePathFeasibility(Path* path);
         bool checkFinitePathProperty(Path* path, std::string ltlStr);
+        void addTLUtilApStrMap(std::string apStr, z3::expr* exp);
     };
     
     
