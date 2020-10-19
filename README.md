@@ -52,3 +52,17 @@ z3表达式。问题的核心：语法和语义。。
 
 - 今日进度较为零散明日一并总结
 
+# 10月19日
+
+## Clexma
+- 将Converter中的CFA2DFA从之前的z3表达式转为了instruction的存储
+- Pathchecker的debug和运行
+- 调试LTLf到Automaton并跑通简单的SamplebasedChecker
+
+## Fengwz
+- 将llvm2cfa和pathsampler中的问题修改完成
+    - llvm2cfa判断跳转指令的后继状态进行了debug和修改
+- 从instruction到z3expression的问题已经解决：
+    - 变量加下标的问题
+    - store的处理从之前的true改为一个表达式
+
