@@ -110,100 +110,101 @@ namespace llvmadt
         return false;
     }
 
-    z3::expr TLUtil::extractSimpleFormula_F(spot::formula& pf){
-        z3::expr elF = this->c->bool_val(false);
+    z3::expr* TLUtil::extractSimpleFormula_F(spot::formula& pf){
         if(pf.kind() == spot::op::F){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::ap){
-                z3::expr z3f = this->c->int_const(f0.ap_name().c_str());
+                z3::expr* z3f = this->mapApStr2Z3Expr(f0.ap_name());
                 return z3f;
             } else {
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
             }
         } else {
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
         }
     }
 
-    z3::expr TLUtil::extractSimpleFormula_FG(spot::formula& pf){
-        z3::expr elF = this->c->bool_val(false);
+    z3::expr* TLUtil::extractSimpleFormula_FG(spot::formula& pf){
         if(pf.kind() == spot::op::F){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::G){
                 spot::formula f1 = f0[0];
                 if(f1.kind() == spot::op::ap){
-                    z3::expr z3f = this->c->int_const(f1.ap_name().c_str());
+                    z3::expr* z3f = this->mapApStr2Z3Expr(f1.ap_name());
                     return z3f;
                 } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
                 }
             } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
             }
         } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
         }
     }
 
-    z3::expr TLUtil::extractSimpleFormula_G(spot::formula& pf){
+    z3::expr* TLUtil::extractSimpleFormula_G(spot::formula& pf){
         z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::G){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::ap){
-                z3::expr z3f = this->c->int_const(f0.ap_name().c_str());
+                z3::expr* z3f = this->mapApStr2Z3Expr(f0.ap_name());
                 return z3f;
             } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
             }
         } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
         }
     }
 
-    z3::expr TLUtil::extractSimpleFormula_GF(spot::formula& pf){
+    z3::expr* TLUtil::extractSimpleFormula_GF(spot::formula& pf){
         z3::expr elF = this->c->bool_val(false);
         if(pf.kind() == spot::op::G){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::F){
                 spot::formula f1 = f0[0];
                 if(f1.kind() == spot::op::ap){
-                    z3::expr z3f = this->c->int_const(f1.ap_name().c_str());
+                    z3::expr* z3f = this->mapApStr2Z3Expr(f1.ap_name());
                     return z3f;
                 } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
                 }
             } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
             }
         } else {
 
                 std::cout << "currently does not support" << std::endl;
-                return elF;
+                return nullptr;
         }
     }
 
 
     void TLUtil::addApZ3ExprMap(std::string apStr, z3::expr* z3Expression){
-        std::pair<std::string, z3::expr*> p;
-        p.first = apStr;
-        p.second = z3Expression;
-        this->apStr2Z3ExprMap.insert(p);
+        if(this->apStr2Z3ExprMap.find(apStr) != this->apStr2Z3ExprMap.end()){
+            std::cout << "error apStr exists" << std::endl;
+            return;
+        } else {
+            this->apStr2Z3ExprMap.insert(make_pair(apStr, z3Expression));
+        }
+        
     }
 
     z3::expr* TLUtil::mapApStr2Z3Expr(std::string apStr){

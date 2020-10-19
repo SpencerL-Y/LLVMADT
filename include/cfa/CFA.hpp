@@ -20,7 +20,7 @@ private:
     std::set<CFAState*> states; 
     // edge can be regarded as change of valuation
     std::set<CFAEdge*> edges;
-    std::set<std::string> VarNames;
+    std::set<std::string> varNames;
     int stateNum;
     std::string name;
     

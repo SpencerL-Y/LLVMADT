@@ -122,12 +122,12 @@ std::string CFA::toString(){
 
 void CFA::setVarNames(std::set<std::string>& varNames)
 {
-    this->VarNames = varNames;
+    this->varNames = varNames;
 }
 
 std::set<std::string> CFA::getVarNames()
 {
-    return this->VarNames;
+    return this->varNames;
 }
 
 CFA::CFA(/* args */)

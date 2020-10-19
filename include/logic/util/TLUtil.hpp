@@ -27,10 +27,10 @@ namespace llvmadt
         /*To judge whether the formula is of the form: p::= Gp, Not p, Fp */
         bool isSimpleLTL(spot::formula& pf);
         SimpleType getSimpleType(spot::formula& pf);
-        z3::expr extractSimpleFormula_F(spot::formula& pf);
-        z3::expr extractSimpleFormula_GF(spot::formula& pf);
-        z3::expr extractSimpleFormula_FG(spot::formula& pf);
-        z3::expr extractSimpleFormula_G(spot::formula& pf);
+        z3::expr* extractSimpleFormula_F(spot::formula& pf);
+        z3::expr* extractSimpleFormula_GF(spot::formula& pf);
+        z3::expr* extractSimpleFormula_FG(spot::formula& pf);
+        z3::expr* extractSimpleFormula_G(spot::formula& pf);
         bool isGp(spot::formula& pf);
         bool isFp(spot::formula& pf);
         bool isGFp(spot::formula& pf);

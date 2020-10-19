@@ -92,6 +92,22 @@ int main(int argc, char** argv){
     // cfa.addState(1);
     // cfa.addState(2);
     // cfa.addEdge(1,2);
+
+
+
+    std::cout << "...............TLUtil.................." << std::endl;
+    TLUtil* ut = new TLUtil(&c);
+    z3::expr xe = c.int_const("x");
+    z3::expr ap1 = (xe > 0);
+    z3::expr ap2 = (xe == 1);
+    ut->addApZ3ExprMap("a", &ap1);
+    ut->addApZ3ExprMap("b", &ap2);
+    spot::parsed_formula pf = spot::parse_infix_psl("Ga && Gb");
+    spot::formula& f = pf.f;
+    z3::expr* expr = ut->extractSimpleFormula_G(f);
+    //std::cout << "expr: " << expr->to_string() << std::endl;
+    std::cout << ut->isSimpleLTL(f) << std::endl;
+    delete(ut);
     delete(converter);
     delete(path);
     return 0;

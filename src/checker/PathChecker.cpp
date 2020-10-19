@@ -37,11 +37,11 @@ namespace llvmadt
         TLUtil tlutil;
         if(tlutil.isSimpleLTL(f)){
             if(tlutil.isFp(f)){
-                z3::expr prop = tlutil.extractSimpleFormula_F(f);
+                z3::expr* prop = tlutil.extractSimpleFormula_F(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
                 z3::expr tempFormula = ctx->bool_val(true);
                 z3::solver solver(*ctx);
-                tempFormula = tempFormula && (!prop);
+                tempFormula = tempFormula && (!*prop);
                 solver.add(tempFormula);
                 if(solver.check() == z3::unsat){
                     return true;
@@ -54,9 +54,9 @@ namespace llvmadt
                 }
                 return false;
             } else if(tlutil.isGp(f)){
-                z3::expr prop = tlutil.extractSimpleFormula_G(f);
+                z3::expr* prop = tlutil.extractSimpleFormula_G(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
-                z3::expr tempFormula = ctx->bool_val(true) && prop;
+                z3::expr tempFormula = ctx->bool_val(true) && *prop;
                 z3::solver solver(*ctx);
                 solver.add(tempFormula);
                 if(solver.check() == z3::unsat){
@@ -70,26 +70,26 @@ namespace llvmadt
                 }
                 return true;
             } else if(tlutil.isGFp(f)){
-                z3::expr prop = tlutil.extractSimpleFormula_GF(f);
+                z3::expr* prop = tlutil.extractSimpleFormula_GF(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
                 z3::expr tempFormula = ctx->bool_val(true);
                 z3::solver solver(*ctx);
                 LetterTypeZ3Expr* l  = ((LetterTypeZ3Expr*)path->getStemLetters().at(path->getStemLetters().size() - 1));
                 solver.add(*l->getExpression());
-                solver.add(!prop);
+                solver.add(!*prop);
                 if(solver.check() == z3::unsat){
                     return true;
                 } else {
                     return false;
                 }
             } else if(tlutil.isFGp(f)){
-                z3::expr prop = tlutil.extractSimpleFormula_FG(f);
+                z3::expr* prop = tlutil.extractSimpleFormula_FG(f);
                 z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
                 z3::expr tempFormula = ctx->bool_val(true);
                 z3::solver solver(*ctx);
                 LetterTypeZ3Expr* l  = ((LetterTypeZ3Expr*)path->getStemLetters().at(path->getStemLetters().size() - 1));
                 solver.add(*l->getExpression());
-                solver.add(!prop);
+                solver.add(!*prop);
                 if(solver.check() == z3::unsat){
                     return true;
                 } else {
