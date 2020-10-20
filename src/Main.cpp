@@ -14,7 +14,7 @@ using namespace llvmadt;
 
 
 int main(int argc, char** argv){
-    srand(time(0));
+    srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
     std::string ll_path = argv[1];
@@ -63,11 +63,11 @@ int main(int argc, char** argv){
     int length = 0;
     for (State* currState : path->getStemStates() )
     {
-        std::cout << "states: " << currState->getId() << '\n';
+        std::cout << "states: " << currState->getId();
         auto iter = path->getCurrentVarIndex(length).find("x");
         if (iter == path->getCurrentVarIndex(length).end())
         {
-            std::cout << "kkk" << '\n';
+            std::cout << "not found till now" << '\n';
         }
         else
         {
@@ -75,7 +75,7 @@ int main(int argc, char** argv){
         }
         
         Letter* letter =  path->getStemLetter(letterI);
-        std::cout << "z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
+        std::cout << " z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
         letterI++;
         length++;
 
@@ -90,7 +90,8 @@ int main(int argc, char** argv){
         std::cout << s->get_model() << std::endl;
         delete(s);
     }
-    z3::expr apap1 = (c.int_const("x") > 0);
+
+    z3::expr apap1 = (c.int_const("x") > 1);
 
     pc.addTLUtilApStrMap("a", &apap1);
 

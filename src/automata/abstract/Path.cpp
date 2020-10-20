@@ -124,7 +124,7 @@ std::vector<std::map<std::string, int>>& Path::getVarIndexArray(){
     return this->varIndexArray;
 }
 
-void Path::appendVarIndexArray(std::map<std::string, int> currentVarIndex){
+void Path::appendVarIndexArray(std::map<std::string, int>& currentVarIndex){
     this->varIndexArray.push_back(currentVarIndex);
 }
 

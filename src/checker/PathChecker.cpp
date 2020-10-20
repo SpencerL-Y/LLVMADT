@@ -48,7 +48,7 @@ namespace llvmadt
                 z3::expr tempFormula = ctx->bool_val(true);
                 z3::expr_vector vec_origin(*ctx);
                 for(std::string varStr : varNames){
-                    std::cout << "wwwwww" << std::endl;
+                    //std::cout << "wwwwww" << std::endl;
                     vec_origin.push_back(ctx->int_const(varStr.c_str()));
                 }
                 std::cout << "tempFormula: " << tempFormula.to_string() << std::endl;
@@ -61,16 +61,17 @@ namespace llvmadt
                 for(Letter* l : path->getStemLetters()){
                     z3::expr_vector vec_curr(*ctx);
                     for(std::string varStr : varNames){
-                        auto iter = path->getCurrentVarIndex(length).find(varName);
+                        auto iter = path->getCurrentVarIndex(length).find(varStr);
                         if(iter == path->getCurrentVarIndex(length).end()){
+                            //std::cout << "wwww " << varStr << std::endl;
                             vec_curr.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
                         } else {
-                            std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
+                            //std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
                             vec_curr.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
                         }
                     }
                     std::cout << "origin: " << prop->to_string() << std::endl;
-                    tempFormula = (!(*prop).substitute(vec_origin, vec_curr));
+                    tempFormula = (!prop->substitute(vec_origin, vec_curr));
                     std::cout << "subs: " << tempFormula.to_string() << std::endl;
                     std::cout << "letter formula: " << (((LetterTypeZ3Expr*)l->getContent())->getExpression())->to_string()  << std::endl;
                     solver.add(*(((LetterTypeZ3Expr*)l->getContent())->getExpression()));

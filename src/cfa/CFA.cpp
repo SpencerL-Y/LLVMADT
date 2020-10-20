@@ -125,7 +125,7 @@ void CFA::setVarNames(std::set<std::string>& varNames)
     this->varNames = varNames;
 }
 
-std::set<std::string> CFA::getVarNames()
+std::set<std::string>& CFA::getVarNames()
 {
     return this->varNames;
 }
