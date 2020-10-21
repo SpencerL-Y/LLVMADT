@@ -45,7 +45,7 @@ public:
     bool hasEdgeId(int fromId, int toId);
 
     void setVarNames(std::set<std::string>& varNames);
-    std::set<std::string> getVarNames();
+    std::set<std::string>& getVarNames();
 };
 
 

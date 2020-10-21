@@ -1,12 +1,12 @@
 #include "../../include/checker/CheckerSampleBased.hpp"
 
 namespace llvmadt{
-CheckerSampleBased::CheckerSampleBased(PathSampler* ps, std::set<std::string> varNames)
+CheckerSampleBased::CheckerSampleBased(PathSampler* ps, std::set<std::string> varNames, z3::context* c)
 {   
     this->pathSampler = ps;
     this->automaton = pathSampler->getAutomaton();
     this->varNames = varNames;
-    this->pathChecker = new PathChecker();
+    this->pathChecker = new PathChecker(c);
     this->tlutil = new TLUtil();
 }
 
@@ -36,7 +36,7 @@ Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3:
     if(this->tlutil->isSimpleLTL(f)){
         for(int i = 0; i < pathNum; i++){
             Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState(), ctx);
-            bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr);
+            bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr, this->varNames);
             if(result == false){
                 return p;
             }

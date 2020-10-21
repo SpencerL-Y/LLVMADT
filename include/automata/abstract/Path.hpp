@@ -47,7 +47,7 @@ public:
     std::map<std::string, int>& getVarIndex();
     void insertVarIndex(std::string varName);
     int getVarIndexVarName(std::string varName);
-    std::map<std::string, int> getCurrentVarIndex(int length);
+    std::map<std::string, int>& getCurrentVarIndex(int length);
     std::vector<std::map<std::string, int>>& getVarIndexArray();
     void appendVarIndexArray(std::map<std::string, int>& currentVarIndex);
 

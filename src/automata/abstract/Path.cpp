@@ -115,8 +115,8 @@ std::string Path::toString(){
 }
 
 
-std::map<std::string, int> Path::getCurrentVarIndex(int length){
-    return this->varIndexArray[length];
+std::map<std::string, int>& Path::getCurrentVarIndex(int length){
+    return this->varIndexArray.at(length);
 
 }
 

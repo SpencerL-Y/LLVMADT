@@ -1,8 +1,9 @@
 #include "../../include/checker/PathChecker.hpp"
 namespace llvmadt
 {
-    PathChecker::PathChecker(/* args */)
-    {
+    PathChecker::PathChecker(/* args */z3::context* c)
+    {   
+        this->tlutil.setContext(c);
     }
     
     PathChecker::~PathChecker()
@@ -29,64 +30,119 @@ namespace llvmadt
         }
     }
 
-    bool PathChecker::checkFinitePathProperty(Path* path, std::string ltlStr){
+    bool PathChecker::checkFinitePathProperty(Path* path, std::string ltlStr, std::set<std::string> varNames){
         // return  true if the path satisfy the ltl formula 
         // false if the path is infeasible or the property is violated OR the formula is too complex
         spot::parsed_formula pf = spot::parse_infix_psl(ltlStr);
         spot::formula f = pf.f;
-        TLUtil tlutil;
+        
         if(tlutil.isSimpleLTL(f)){
             if(tlutil.isFp(f)){
                 z3::expr* prop = tlutil.extractSimpleFormula_F(f);
                 std::string varName = prop->to_string();
-                z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
+                z3::context* ctx = this->tlutil.getContext();
+                //((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
+                // if(ctx == nullptr){
+                //     std::cout << "what" << std::endl;
+                // }
                 z3::expr tempFormula = ctx->bool_val(true);
-                int max = path->getVarIndexVarName(varName);
                 z3::expr_vector vec_origin(*ctx);
-                vec_origin.push_back(*prop);
-                for(int i = 0; i <= max; i++){
-                    z3::expr_vector vec_subs(*ctx);
-                    vec_subs.push_back(ctx->int_const((varName + std::to_string(i)).c_str()));
-                    tempFormula = tempFormula || prop->substitute(vec_origin, vec_subs);
+                for(std::string varStr : varNames){
+                    //std::cout << "wwwwww" << std::endl;
+                    vec_origin.push_back(ctx->int_const(varStr.c_str()));
                 }
                 std::cout << "tempFormula: " << tempFormula.to_string() << std::endl;
                 z3::solver solver(*ctx);
-                tempFormula = tempFormula && (!*prop);
                 solver.add(tempFormula);
                 if(solver.check() == z3::unsat){
                     return true;
                 }
+                int length = 0;
                 for(Letter* l : path->getStemLetters()){
-                    solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
+                    z3::expr_vector vec_curr(*ctx);
+                    for(std::string varStr : varNames){
+                        auto iter = path->getCurrentVarIndex(length).find(varStr);
+                        if(iter == path->getCurrentVarIndex(length).end()){
+                            //std::cout << "wwww " << varStr << std::endl;
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                        } else {
+                            //std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                        }
+                    }
+                    std::cout << "origin: " << prop->to_string() << std::endl;
+                    tempFormula = (!prop->substitute(vec_origin, vec_curr));
+                    std::cout << "subs: " << tempFormula.to_string() << std::endl;
+                    std::cout << "letter formula: " << (((LetterTypeZ3Expr*)l->getContent())->getExpression())->to_string()  << std::endl;
+                    solver.add(*(((LetterTypeZ3Expr*)l->getContent())->getExpression()));
+                    solver.push();
+                    solver.add(tempFormula);
                     if(solver.check() == z3::unsat){
                         return true;
                     }
+                    solver.pop();
+                    length++;
                 }
                 return false;
             } else if(tlutil.isGp(f)){
                 z3::expr* prop = tlutil.extractSimpleFormula_G(f);
-                z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
-                z3::expr tempFormula = ctx->bool_val(true) && *prop;
+                std::cout << "prop: " << prop->to_string() << std::endl;
+                z3::context* ctx = tlutil.getContext();
+                z3::expr_vector vec_origin(*ctx);
+                for(std::string varStr : varNames){
+                    //std::cout << "wwwwww" << std::endl;
+                    vec_origin.push_back(ctx->int_const(varStr.c_str()));
+                }
+                z3::expr tempFormula = ctx->bool_val(true);
                 z3::solver solver(*ctx);
                 solver.add(tempFormula);
-                if(solver.check() == z3::unsat){
-                    return false;
-                }
+                int length = 0;
                 for(Letter* l : path->getStemLetters()){
+                    z3::expr_vector vec_curr(*ctx);
+                    for(std::string varStr : varNames){
+                        auto iter = path->getCurrentVarIndex(length).find(varStr);
+                        if(iter == path->getCurrentVarIndex(length).end()){
+                            //std::cout << "wwww " << varStr << std::endl;
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                        } else {
+                            //std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
+                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                        }
+                    }
+                    tempFormula = (!prop->substitute(vec_origin, vec_curr));
                     solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
-                    if(solver.check() == z3::unsat){
+                    solver.push();
+                    solver.add(tempFormula);
+                    if(solver.check() == z3::sat){
                         return false;
                     }
+                    solver.pop();
+                    length++;
                 }
                 return true;
             } else if(tlutil.isGFp(f)){
                 z3::expr* prop = tlutil.extractSimpleFormula_GF(f);
-                z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
-                z3::expr tempFormula = ctx->bool_val(true);
+                z3::context* ctx = tlutil.getContext();
+                z3::expr_vector vec_origin(*ctx);
+                for(std::string varStr : varNames){
+                    //std::cout << "wwwwww" << std::endl;
+                    vec_origin.push_back(ctx->int_const(varStr.c_str()));
+                }
+                z3::expr_vector vec_replaced(*ctx);
+                for(std::string varStr : varNames){
+                    auto iter = path->getVarIndex().find(varStr);
+                    if(iter == path->getVarIndex().end()){
+                        vec_replaced.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                    } else {
+                        vec_replaced.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                    }
+                }
+                z3::expr tempFormula = prop->substitute(vec_origin, vec_replaced);
                 z3::solver solver(*ctx);
-                LetterTypeZ3Expr* l  = ((LetterTypeZ3Expr*)path->getStemLetters().at(path->getStemLetters().size() - 1));
-                solver.add(*l->getExpression());
-                solver.add(!*prop);
+                for(Letter* l : path->getStemLetters()){
+                    solver.add(*((LetterTypeZ3Expr*)l->getContent())->getExpression());
+                }
+                solver.add(!tempFormula);
                 if(solver.check() == z3::unsat){
                     return true;
                 } else {
@@ -94,12 +150,28 @@ namespace llvmadt
                 }
             } else if(tlutil.isFGp(f)){
                 z3::expr* prop = tlutil.extractSimpleFormula_FG(f);
-                z3::context* ctx = ((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
-                z3::expr tempFormula = ctx->bool_val(true);
+                z3::context* ctx = tlutil.getContext();
+                z3::expr_vector vec_origin(*ctx);
+                for(std::string varStr : varNames){
+                    //std::cout << "wwwwww" << std::endl;
+                    vec_origin.push_back(ctx->int_const(varStr.c_str()));
+                }
+                z3::expr_vector vec_replaced(*ctx);
+                for(std::string varStr : varNames){
+                    auto iter = path->getVarIndex().find(varStr);
+                    if(iter == path->getVarIndex().end()){
+                        vec_replaced.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                    } else {
+                        vec_replaced.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                    }
+                }
+                z3::expr tempFormula = prop->substitute(vec_origin, vec_replaced);
                 z3::solver solver(*ctx);
-                LetterTypeZ3Expr* l  = ((LetterTypeZ3Expr*)path->getStemLetters().at(path->getStemLetters().size() - 1));
-                solver.add(*l->getExpression());
-                solver.add(!*prop);
+                for(Letter* l : path->getStemLetters()){
+                    solver.add(*((LetterTypeZ3Expr*)l->getContent())->getExpression());
+                }
+
+                solver.add(!tempFormula);
                 if(solver.check() == z3::unsat){
                     return true;
                 } else {
@@ -113,5 +185,10 @@ namespace llvmadt
             std::cout << "path property checking error: property too complex." << std::endl;
             return false;
         }
+    }
+
+
+    void PathChecker::addTLUtilApStrMap(std::string apStr, z3::expr* exp){
+        this->tlutil.addApZ3ExprMap(apStr, exp);
     }
 } // namespace llvmadt
