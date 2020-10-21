@@ -63,14 +63,15 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId() << '\n';
-        if (path->getCurrentVarIndex(length).find("x") != path->getCurrentVarIndex(length).end())
-        {
-            std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("x")->second << '\n'; 
-        }
-        else
-        {
-            std::cout << "kkk" << '\n';
-        }
+        // if (path->getCurrentVarIndex(length).find("y") != path->getCurrentVarIndex(length).end())
+        // {
+        //     std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("y")->second << '\n'; 
+        // }
+        // else
+        // {
+        //     std::cout << "kkk" << '\n';
+        // }
+        std::cout << "curr index: " <<  path->getCurrentVarIndex(length).find("ddddd")->second << '\n'; 
         
         Letter* letter =  path->getStemLetter(letterI);
         std::cout << "z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
