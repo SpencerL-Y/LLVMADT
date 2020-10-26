@@ -3,7 +3,7 @@ source_filename = "../testCfile/test6.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
-@x = dso_local global i32 1, align 4
+@x = common dso_local global i32 0, align 4
 @y = common dso_local global i32 0, align 4
 
 ; Function Attrs: noinline nounwind optnone uwtable
@@ -14,6 +14,7 @@ entry:
   br label %while.body
 
 while.body:                                       ; preds = %while.end, %entry
+  store i32 1, i32* @x, align 4
   store i32 6, i32* @x, align 4
   store i32 1, i32* @y, align 4
   br label %while.cond1

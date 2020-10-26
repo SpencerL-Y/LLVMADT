@@ -15,15 +15,8 @@ int x, y;
 
 int main()
 {
-
 	x = 0;
 	y = 0;
-
-  // prevent overflow: x + y*(y+1)/2 <= 2^31-1
-  if(!(x<=65534)) return 0;
-  if(!(y<=65534)) return 0;
-  // prevent underflow
-  if(!(y>=-65534)) return 0;
 	while (x >= 0) {
 		x = x + y;
 		y = y - 1;

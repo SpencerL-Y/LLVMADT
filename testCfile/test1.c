@@ -3,9 +3,10 @@
 
 // clang++ -O0 test2.cpp -fno-discard-value-names -DLLVM_ENABLE_ASSERTIONS=On -emit-llvm -S -o test4.ll
 
+int x, y;
+
 int main()
 {
-    int x, y;
     while(1)
     {
         x = 1;

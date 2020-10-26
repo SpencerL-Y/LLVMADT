@@ -1,5 +1,5 @@
-; ModuleID = 'test2.bc'
-source_filename = "../testCfile/test2.c"
+; ModuleID = 'Bangalore_v2.bc'
+source_filename = "../testCfile/Bangalore_v2.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
@@ -11,14 +11,31 @@ define dso_local i32 @main() #0 {
 entry:
   %retval = alloca i32, align 4
   store i32 0, i32* %retval, align 4
-  store i32 1, i32* @x, align 4
-  store i32 2, i32* @y, align 4
-  store i32 6, i32* @x, align 4
-  %tmp = load i32, i32* @x, align 4
-  %dec = add nsw i32 %tmp, -1
-  store i32 %dec, i32* @x, align 4
+  store i32 0, i32* @x, align 4
+  store i32 0, i32* @y, align 4
+  %tmp = load i32, i32* @y, align 4
+  %cmp = icmp sge i32 %tmp, 0
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  br label %while.cond
+
+while.cond:                                       ; preds = %while.body, %if.then
   %tmp1 = load i32, i32* @x, align 4
-  store i32 %tmp1, i32* @y, align 4
+  %cmp1 = icmp sge i32 %tmp1, 0
+  br i1 %cmp1, label %while.body, label %while.end
+
+while.body:                                       ; preds = %while.cond
+  %tmp2 = load i32, i32* @x, align 4
+  %tmp3 = load i32, i32* @y, align 4
+  %sub = sub nsw i32 %tmp2, %tmp3
+  store i32 %sub, i32* @x, align 4
+  br label %while.cond
+
+while.end:                                        ; preds = %while.cond
+  br label %if.end
+
+if.end:                                           ; preds = %while.end, %entry
   ret i32 0
 }
 

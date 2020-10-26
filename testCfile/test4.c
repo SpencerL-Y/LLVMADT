@@ -1,7 +1,10 @@
+int a;
+int b;
+
 int main()
 {
-    int a = 1;
-    int b = 2;
+    a = 1;
+    b = 2;
     if (b < 10)
     {
         a = 2;
