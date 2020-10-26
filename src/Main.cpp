@@ -147,11 +147,14 @@ int main(int argc, char** argv){
     // std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
     
     std::cout << "................sampleBasedChecker............" << std::endl;
+    std::cout << ".......2Nested-1........" << std::endl;
+    std::cout << ".....F x < 0....." << std::endl;
+    
     CheckerSampleBased csb(&sampler, cfa->getVarNames(), &c);
-    z3::expr exp1 = (c.int_const("x") > 0);
+    z3::expr exp1 = (c.int_const("x") < 0);
     std::string ap1str = "a";
     csb.addBind(ap1str, &exp1);
-    csb.checkProperty("Ga", 100, &c);
+    csb.checkProperty("Fa", 1, &c);
 
     delete(ut);
     delete(converter);
