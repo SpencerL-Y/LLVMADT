@@ -132,7 +132,7 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C, Path* pa
     // int intIndex = path->getVarIndexVarName(toNameStr);
     path->appendVarIndexArray(path->getVarIndex());
     
-    toNameStr = toNameStr + index;
+    toNameStr = toNameStr + "_" + index;
 
     // std::cout << "h" << '\n';
     z3::expr Sop1 = C->int_const(toNameStr.data());
@@ -147,7 +147,7 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C, Path* pa
     {
         // std::string indexFrom = std::to_string( (this->varIndex).find(fromNameStr)->second);
         std::string indexFrom = std::to_string(path->getVarIndexVarName(fromNameStr));
-        fromNameStr = fromNameStr + indexFrom;
+        fromNameStr = fromNameStr + "_" + indexFrom;
         Sop2 = C->int_const(fromNameStr.data());
     }
     
@@ -196,11 +196,11 @@ z3::expr* Translator::extractLoad(const LoadInst *LI, z3::context *C, Path* path
     // std::string index1 = std::to_string( (this->varIndex).find(Lop1Name)->second);
     std::string index1 = std::to_string(path->getVarIndexVarName(Lop1Name));
     // std::cout << "find index to z3: " << index << '\n'; 
-    Lop1Name = Lop1Name + index1;
+    Lop1Name = Lop1Name + "_" + index1;
 
     // std::string index2 = std::to_string( (this->varIndex).find(Lop2Name)->second);
     std::string index2 = std::to_string(path->getVarIndexVarName(Lop2Name));
-    Lop2Name = Lop2Name + index2;
+    Lop2Name = Lop2Name + "_" + index2;
 
     z3::expr Lop1 = C->int_const(Lop1Name.data());
     z3::expr Lop2 = C->int_const(Lop2Name.data());
@@ -243,7 +243,7 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
     std::string index = std::to_string(path->getVarIndexVarName(BOName));
 
     // std::cout << "find index to z3: " << index << '\n'; 
-    BOName = BOName + index;
+    BOName = BOName + "_" + index;
 
     z3::expr BO = C->int_const(BOName.data());
     z3::expr BO1 = C->int_const(op1Name.data());
@@ -259,7 +259,7 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
         std::string indexOp1 = std::to_string(path->getVarIndexVarName(op1Name));
         
         // std::cout << "find index to z3: " << index << '\n'; 
-        op1Name = op1Name + indexOp1;
+        op1Name = op1Name + "_" + indexOp1;
         BO1 = C->int_const(op1Name.data());
     }
     
@@ -273,7 +273,7 @@ z3::expr* Translator::extractBinaryOperator(const BinaryOperator *inst, z3::cont
         std::string indexOp2 = std::to_string(path->getVarIndexVarName(op2Name));
         
         // std::cout << "find index to z3: " << index << '\n'; 
-        op2Name = op2Name + indexOp2;
+        op2Name = op2Name + "_" + indexOp2;
         BO2 = C->int_const(op2Name.data());
     }
     
@@ -338,7 +338,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
     // std::string indexCmp = std::to_string( (this->varIndex).find(CmpName)->second);
     std::string indexCmp = std::to_string(path->getVarIndexVarName(CmpName)); 
         // std::cout << "find index to z3: " << index << '\n'; 
-    CmpName = CmpName + indexCmp;
+    CmpName = CmpName + "_" + indexCmp;
 
     z3::expr CMP = C->bool_const(CmpName.data());
     z3::expr OP1 = C->int_const(op1Name.data());
@@ -353,7 +353,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
         std::string indexOp1 = std::to_string(path->getVarIndexVarName(op1Name)); 
      
         // std::cout << "find index to z3: " << index << '\n'; 
-        op1Name = op1Name + indexOp1; 
+        op1Name = op1Name + "_" + indexOp1; 
         OP1 = C->int_const(op1Name.data());
     }
     
@@ -366,7 +366,7 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
         // std::string indexOp2 = std::to_string( (this->varIndex).find(op2Name)->second);
         std::string indexOp2 = std::to_string(path->getVarIndexVarName(op2Name)); 
         // std::cout << "find index to z3: " << index << '\n'; 
-        op2Name = op2Name + indexOp2; 
+        op2Name = op2Name + "_" + indexOp2; 
         OP2 = C->int_const(op2Name.data());
     }
     
@@ -416,7 +416,7 @@ z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName,
         // std::string indexBr = std::to_string( (this->varIndex).find(BrName)->second);
         std::string indexBr = std::to_string(path->getVarIndexVarName(BrName)); 
         // std::cout << "find index to z3: " << index << '\n'; 
-        BrName = BrName + indexBr;
+        BrName = BrName + "_" + indexBr;
 
         if (BI->isConditional())
         {
