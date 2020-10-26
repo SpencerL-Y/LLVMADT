@@ -42,7 +42,7 @@ Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3:
             std::cout << "path sampler end" << std::endl;
             bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr, this->varNames);
             if(result == false){
-                std::cout << "false" << std::endl;
+                std::cout << "----------FALSE----------" << std::endl;
                 return p;
             }
             delete(p);
@@ -51,6 +51,7 @@ Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3:
         std::cout << "The formula is too complex currently, to be added later" << std::endl;
         return nullptr;
     }
+    std::cout << "------------CORRECT-------------" << std::endl;
     return nullptr;
 }
 

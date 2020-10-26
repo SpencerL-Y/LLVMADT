@@ -65,6 +65,7 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId();
+        if(letterI < states.size() - 1){
         auto iter = path->getCurrentVarIndex(length).find("x");
         if (iter == path->getCurrentVarIndex(length).end())
         {
@@ -74,9 +75,11 @@ int main(int argc, char** argv){
         {
             std::cout << "curr index: " <<  iter->second << '\n'; 
         }
-        
-        Letter* letter =  path->getStemLetter(letterI);
-        std::cout << " z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
+        }
+        if(letterI < states.size() - 1){
+            //Letter* letter =  path->getStemLetter(letterI);
+            //std::cout << " z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
+        }
         letterI++;
         length++;
 
@@ -151,10 +154,18 @@ int main(int argc, char** argv){
     std::cout << ".....F x < 0....." << std::endl;
     
     CheckerSampleBased csb(&sampler, cfa->getVarNames(), &c);
-    z3::expr exp1 = (c.int_const("x") < 0);
+    // F
+    //1. pass
+    //z3::expr exp1 = (c.int_const("x") < 0);
+    //2. pass
+    //z3::expr exp1 = (c.int_const("x") < -10);
+    //3. pass
+    //z3::expr exp1 = (c.int_const("x") == -1);
+    //3. pass
+    z3::expr exp1 = (c.int_const("x") <= 0);
     std::string ap1str = "a";
     csb.addBind(ap1str, &exp1);
-    csb.checkProperty("Fa", 1, &c);
+    csb.checkProperty("Fa", 50, &c);
 
     delete(ut);
     delete(converter);
