@@ -153,6 +153,8 @@ namespace llvmadt
 
     z3::expr* TLUtil::extractSimpleFormula_G(spot::formula& pf){
         z3::expr elF = this->c->bool_val(false);
+
+        std::cout << "extract simple" << std::endl;
         if(pf.kind() == spot::op::G){
             spot::formula f0 = pf[0];
             if(f0.kind() == spot::op::ap){

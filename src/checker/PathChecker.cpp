@@ -1,9 +1,14 @@
 #include "../../include/checker/PathChecker.hpp"
 namespace llvmadt
 {
-    PathChecker::PathChecker(/* args */z3::context* c)
+    PathChecker::PathChecker(/* args */TLUtil* ut, z3::context* c)
     {   
-        this->tlutil.setContext(c);
+        if(ut->getContext() != c){
+            std::cout << "error, context inconsistent" << std::endl;
+            return;
+        }
+        this->tlutil = ut;
+        this->tlutil->setContext(c);
     }
     
     PathChecker::~PathChecker()
@@ -35,12 +40,13 @@ namespace llvmadt
         // false if the path is infeasible or the property is violated OR the formula is too complex
         spot::parsed_formula pf = spot::parse_infix_psl(ltlStr);
         spot::formula f = pf.f;
-        
-        if(tlutil.isSimpleLTL(f)){
-            if(tlutil.isFp(f)){
-                z3::expr* prop = tlutil.extractSimpleFormula_F(f);
+        std::cout << "ltl parsed" << std::endl;
+        if(tlutil->isSimpleLTL(f)){
+            std::cout << "is simple ltl" << std::endl;
+            if(tlutil->isFp(f)){
+                z3::expr* prop = tlutil->extractSimpleFormula_F(f);
                 std::string varName = prop->to_string();
-                z3::context* ctx = this->tlutil.getContext();
+                z3::context* ctx = this->tlutil->getContext();
                 //((LetterTypeZ3Expr*)path->getStemLetter(0))->getContext();
                 // if(ctx == nullptr){
                 //     std::cout << "what" << std::endl;
@@ -84,10 +90,11 @@ namespace llvmadt
                     length++;
                 }
                 return false;
-            } else if(tlutil.isGp(f)){
-                z3::expr* prop = tlutil.extractSimpleFormula_G(f);
+            } else if(tlutil->isGp(f)){
+                std::cout << "is G" << std::endl;
+                z3::expr* prop = tlutil->extractSimpleFormula_G(f);
                 std::cout << "prop: " << prop->to_string() << std::endl;
-                z3::context* ctx = tlutil.getContext();
+                z3::context* ctx = tlutil->getContext();
                 z3::expr_vector vec_origin(*ctx);
                 for(std::string varStr : varNames){
                     //std::cout << "wwwwww" << std::endl;
@@ -110,7 +117,8 @@ namespace llvmadt
                         }
                     }
                     tempFormula = (!prop->substitute(vec_origin, vec_curr));
-                    solver.add(*((LetterTypeZ3Expr*)l)->getExpression());
+                    std::cout << "temp: " << tempFormula.to_string() << std::endl;
+                    solver.add(*((LetterTypeZ3Expr*)l->getContent())->getExpression());
                     solver.push();
                     solver.add(tempFormula);
                     if(solver.check() == z3::sat){
@@ -120,9 +128,9 @@ namespace llvmadt
                     length++;
                 }
                 return true;
-            } else if(tlutil.isGFp(f)){
-                z3::expr* prop = tlutil.extractSimpleFormula_GF(f);
-                z3::context* ctx = tlutil.getContext();
+            } else if(tlutil->isGFp(f)){
+                z3::expr* prop = tlutil->extractSimpleFormula_GF(f);
+                z3::context* ctx = tlutil->getContext();
                 z3::expr_vector vec_origin(*ctx);
                 for(std::string varStr : varNames){
                     //std::cout << "wwwwww" << std::endl;
@@ -148,9 +156,9 @@ namespace llvmadt
                 } else {
                     return false;
                 }
-            } else if(tlutil.isFGp(f)){
-                z3::expr* prop = tlutil.extractSimpleFormula_FG(f);
-                z3::context* ctx = tlutil.getContext();
+            } else if(tlutil->isFGp(f)){
+                z3::expr* prop = tlutil->extractSimpleFormula_FG(f);
+                z3::context* ctx = tlutil->getContext();
                 z3::expr_vector vec_origin(*ctx);
                 for(std::string varStr : varNames){
                     //std::cout << "wwwwww" << std::endl;
@@ -189,6 +197,6 @@ namespace llvmadt
 
 
     void PathChecker::addTLUtilApStrMap(std::string apStr, z3::expr* exp){
-        this->tlutil.addApZ3ExprMap(apStr, exp);
+        this->tlutil->addApZ3ExprMap(apStr, exp);
     }
 } // namespace llvmadt

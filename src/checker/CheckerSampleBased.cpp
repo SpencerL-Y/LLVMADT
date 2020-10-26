@@ -6,8 +6,8 @@ CheckerSampleBased::CheckerSampleBased(PathSampler* ps, std::set<std::string> va
     this->pathSampler = ps;
     this->automaton = pathSampler->getAutomaton();
     this->varNames = varNames;
-    this->pathChecker = new PathChecker(c);
-    this->tlutil = new TLUtil();
+    this->tlutil = new TLUtil(c);
+    this->pathChecker = new PathChecker(this->tlutil, c);
 }
 
 
@@ -31,13 +31,18 @@ std::set<std::string>& CheckerSampleBased::getVarNames(){
 }
 
 Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3::context* ctx){
+    
     spot::parsed_formula pf = spot::parse_infix_psl(spotLTLStr);
     spot::formula f = pf.f;
     if(this->tlutil->isSimpleLTL(f)){
         for(int i = 0; i < pathNum; i++){
+
+            std::cout << "check path property" << std::endl;
             Path* p = this->pathSampler->samplePathEven(this->automaton->getInitState(), ctx);
+            std::cout << "path sampler end" << std::endl;
             bool result = this->pathChecker->checkFinitePathProperty(p, spotLTLStr, this->varNames);
             if(result == false){
+                std::cout << "false" << std::endl;
                 return p;
             }
             delete(p);
@@ -47,6 +52,15 @@ Path* CheckerSampleBased::checkProperty(std::string spotLTLStr, int pathNum, z3:
         return nullptr;
     }
     return nullptr;
+}
+
+TLUtil* CheckerSampleBased::getTlUtil(){
+    return this->tlutil;
+}
+
+
+void CheckerSampleBased::addBind(std::string ltlAp, z3::expr* expr){
+    this->tlutil->addApZ3ExprMap(ltlAp, expr);
 }
 
 CheckerSampleBased::~CheckerSampleBased()
