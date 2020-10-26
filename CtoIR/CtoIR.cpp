@@ -11,8 +11,8 @@ int main(int argc, char** argv)
     string file = c_path.substr(0, c_path.rfind(".")); 
     string filename = file.substr(file.rfind("/") + 1, -1);
     // cout << filename << endl;
-    string command1 = "clang++ -O0 " 
-        + file + ".cpp "
+    string command1 = "clang -O0 " 
+        + file + ".c "
         + "-fno-discard-value-names -emit-llvm -S -o "
         + filename + ".ll";
     // cout << command1 << endl;
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
         + filename + ".ll";
     const char *sysCommand3 = command3.data();
     system(sysCommand3);
-    string delCom = "rm -rf " + filename + ".bc";
+    string delCom = "rm -rf " + filename + ".bc && rm -rf " + filename + ".ll" ;
     const char* sysdelCom = delCom.data(); 
     cout << sysdelCom << endl;
     system(sysdelCom);

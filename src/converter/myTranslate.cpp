@@ -23,6 +23,15 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C, Path* p
         return E;
     }
 
+    // for (const Value *Op: I->operands())
+    // {
+    //     if (const GlobalValue* G = dyn_cast<GlobalValue>(Op))
+    //     {
+    //         errs() << "G getName: " << G->getName() << "\n";
+
+    //     }
+    // }
+
     // store
     if (const StoreInst *SI = dyn_cast<StoreInst>(I))
     {

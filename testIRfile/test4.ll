@@ -1,5 +1,5 @@
-; ModuleID = 'test2.bc'
-source_filename = "../testCfile/test2.cpp"
+; ModuleID = 'test4.bc'
+source_filename = "../testCfile/test4.cpp"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
@@ -7,17 +7,22 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local i32 @main() #0 {
 entry:
   %retval = alloca i32, align 4
-  %x = alloca i32, align 4
-  %y = alloca i32, align 4
+  %a = alloca i32, align 4
+  %b = alloca i32, align 4
   store i32 0, i32* %retval, align 4
-  store i32 1, i32* %x, align 4
-  store i32 2, i32* %y, align 4
-  store i32 6, i32* %x, align 4
-  %tmp = load i32, i32* %x, align 4
-  %dec = add nsw i32 %tmp, -1
-  store i32 %dec, i32* %x, align 4
-  %tmp1 = load i32, i32* %x, align 4
-  store i32 %tmp1, i32* %y, align 4
+  store i32 1, i32* %a, align 4
+  store i32 2, i32* %b, align 4
+  %tmp = load i32, i32* %b, align 4
+  %cmp = icmp slt i32 %tmp, 10
+  br i1 %cmp, label %if.then, label %if.end
+
+if.then:                                          ; preds = %entry
+  store i32 2, i32* %a, align 4
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %entry
+  %tmp1 = load i32, i32* %a, align 4
+  store i32 %tmp1, i32* %b, align 4
   ret i32 0
 }
 
