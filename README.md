@@ -16,8 +16,9 @@
 - Path checker for simple LTLf
     (DONE)
 - Recursive parser of LTLf
-- Algorithm: sampler model checker
+- Algorithm: sampler model checker (DONE)
 - Algorithm: symbolic model checker
+- Gap between LTLf and verified logic formula
 
 # 开发日志
 
@@ -64,4 +65,19 @@ z3表达式。问题的核心：语法和语义。。
 
 ## 今天的问题
 - 在做Checker的时候目前Fp类型的不能做，因为需要知道每一步的varIndex，每一步varIndex有两种获取方法，一种是用vector将每一步的varIndex存下来，但是这样当路径长度过长时需要的内存过大，另一种是需要时再去计算，这样的方法时间可能多一些，但是
+
+# 10月21日 - 10月22日
+
+## 李勰 
+- CheckerSampleBased 中的tlutil的apstr到z3表达式的map有bug： PathChecker中的TLUtil和PathSampler中的TLUtil不一致（已解决）
+- CheckerSampleBased 中的tlutil中的context为nullptr： tlutil新建时没有给context
+## 维直
+- 调研SV-COMP的一些资料，了解svcomp中例子的相关细节，以及研究如何在转换的时候支持这些特殊的格式。
+
+
+## 今天发现的问题
+
+如果将每一条语句作为一个状态，怎么去验证G x>0 这样的性质？可能出现的问题，从宏观的角度来看程序是满足 G x>0，但是如果分到每一个状态，就有可能不满足。即使我们只考虑全局变量的相关性质，也会出现不确定性的问题，这些问题应该怎么解决。
+
+
 

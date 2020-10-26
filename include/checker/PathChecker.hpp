@@ -19,9 +19,9 @@ namespace llvmadt
     {
     private:
         /* data */
-        TLUtil tlutil;
+        TLUtil* tlutil;
     public:
-        PathChecker(/* args */z3::context* c);
+        PathChecker(/* args */TLUtil* ut, z3::context* c);
         ~PathChecker();
 
         z3::solver* checkFinitePathFeasibility(Path* path);

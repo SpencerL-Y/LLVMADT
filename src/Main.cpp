@@ -53,6 +53,7 @@ int main(int argc, char** argv){
     std::cout << ".............path................." << '\n';
 
     PathSampler sampler;
+    sampler.setAutomaton(dfa);
     Path* path = sampler.samplePathEven(dfa->getInitState(), &c);
     // std::cout << "x index: " << path->getVarIndexVarName("x") << '\n';
     // std::cout << "ddd" << '\n';
@@ -81,7 +82,8 @@ int main(int argc, char** argv){
 
     }
     std::cout << "...............Path checker............" << std::endl;
-    PathChecker pc(&c);
+    TLUtil* ut = new TLUtil(&c);
+    PathChecker pc(ut, &c);
     z3::solver* s = pc.checkFinitePathFeasibility(path);
     if(s == nullptr){
         std::cout << "not satisfied" << std::endl;
@@ -114,7 +116,7 @@ int main(int argc, char** argv){
 
 
     std::cout << "...............TLUtil.................." << std::endl;
-    TLUtil* ut = new TLUtil(&c);
+    
     z3::expr xe = c.int_const("x");
     z3::expr ap1 = (xe > 0);
     z3::expr ap2 = (xe == 1);
@@ -135,19 +137,22 @@ int main(int argc, char** argv){
     std::cout << "subs: " << ap3.to_string() << std::endl;
 
 
-    std::cout << ".....................map test............." << std::endl;
-    std::map<std::string, int> strIntMap;
-    std::map<std::string, int> strIntMap2;
-    strIntMap2["a"] = 0;
-    if(strIntMap.find("ddd") == strIntMap.end()){
-        std::cout << "wtf" << std::endl;
-    }
-    std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
+    // std::cout << ".....................map test............." << std::endl;
+    // std::map<std::string, int> strIntMap;
+    // std::map<std::string, int> strIntMap2;
+    // strIntMap2["a"] = 0;
+    // if(strIntMap.find("ddd") == strIntMap.end()){
+    //     std::cout << "wtf" << std::endl;
+    // }
+    // std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
     
     std::cout << "................sampleBasedChecker............" << std::endl;
-    
-    
-    
+    CheckerSampleBased csb(&sampler, cfa->getVarNames(), &c);
+    z3::expr exp1 = (c.int_const("x") > 0);
+    std::string ap1str = "a";
+    csb.addBind(ap1str, &exp1);
+    csb.checkProperty("Ga", 100, &c);
+
     delete(ut);
     delete(converter);
     delete(path);

@@ -31,7 +31,9 @@ public:
     PathChecker* getPathChecker();
     std::set<std::string>& getVarNames();
     Automaton* getAutomaton();
+    TLUtil* getTlUtil();
     void setAutomaton(Automaton* automaton);
+    void addBind(std::string ltlAp, z3::expr* expr);
 
     Path* checkProperty(std::string spotLTLStr, int pathNum, z3::context* ctx);
     ~CheckerSampleBased();
