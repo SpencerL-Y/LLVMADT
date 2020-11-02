@@ -24,7 +24,7 @@ namespace llvmadt{
 
     void PathSampler::setSampleNum()
     {
-        this->K = 4;
+        this->K = 6;
     }
 
     void PathSampler::setAutomaton(Automaton* automaton){;;

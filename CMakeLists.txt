@@ -4,6 +4,7 @@ project(LLVMADT)
 
 find_package(LLVM REQUIRED CONFIG)
 find_package(Z3 REQUIRED CONFIG)
+find_package(yaml-cpp REQUIRED)
 
 
 include_directories(
@@ -13,6 +14,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include/cfa
     ${PROJECT_SOURCE_DIR}/include/dfa
     ${PROJECT_SOURCE_DIR}/include/abstract
+    ${YAML_CPP_INCLUDE_DIRS}
     /usr/local/include
     /usr/include
 )

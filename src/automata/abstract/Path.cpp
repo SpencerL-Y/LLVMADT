@@ -111,7 +111,10 @@ Word* Path::getLoopWord(){
 
 std::string Path::toString(){
     std::string outStr = "";
-    
+    for(State* s : this->getStemStates()){
+        outStr += std::to_string(s->getId()) + ",";
+    }
+    return outStr;
 }
 
 
