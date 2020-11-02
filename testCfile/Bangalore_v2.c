@@ -11,8 +11,8 @@ int x;
 int y;
 int main()
 {
-    x = 0;
-    y = 0;
+    x = 1;
+    y = 1;
 	if (y >= 0) {
 	    while (x >= 0) {
 	    	x = x - y;

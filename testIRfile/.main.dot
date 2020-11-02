@@ -1,0 +1,17 @@
+digraph "CFG for 'main' function" {
+	label="CFG for 'main' function";
+
+	Node0x1a48ba0 [shape=record,label="{entry:\l  %retval = alloca i32, align 4\l  store i32 0, i32* %retval, align 4\l  store i32 3, i32* @x, align 4\l  store i32 1, i32* @y, align 4\l  %tmp = load i32, i32* @y, align 4\l  %cmp = icmp sge i32 %tmp, 0\l  br i1 %cmp, label %if.then, label %if.end\l|{<s0>T|<s1>F}}"];
+	Node0x1a48ba0:s0 -> Node0x1a49040;
+	Node0x1a48ba0:s1 -> Node0x1a49110;
+	Node0x1a49040 [shape=record,label="{if.then:                                          \l  br label %while.cond\l}"];
+	Node0x1a49040 -> Node0x1a491e0;
+	Node0x1a491e0 [shape=record,label="{while.cond:                                       \l  %tmp1 = load i32, i32* @x, align 4\l  %cmp1 = icmp sge i32 %tmp1, 0\l  br i1 %cmp1, label %while.body, label %while.end\l|{<s0>T|<s1>F}}"];
+	Node0x1a491e0:s0 -> Node0x1a49370;
+	Node0x1a491e0:s1 -> Node0x1a49450;
+	Node0x1a49370 [shape=record,label="{while.body:                                       \l  %tmp2 = load i32, i32* @x, align 4\l  %tmp3 = load i32, i32* @y, align 4\l  %sub = sub nsw i32 %tmp2, %tmp3\l  store i32 %sub, i32* @x, align 4\l  br label %while.cond\l}"];
+	Node0x1a49370 -> Node0x1a491e0;
+	Node0x1a49450 [shape=record,label="{while.end:                                        \l  br label %if.end\l}"];
+	Node0x1a49450 -> Node0x1a49110;
+	Node0x1a49110 [shape=record,label="{if.end:                                           \l  ret i32 0\l}"];
+}

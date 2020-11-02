@@ -9,11 +9,13 @@
 #include "../include/automata/util/PathSampler.hpp"
 #include "../include/checker/PathChecker.hpp"
 #include "../include/checker/CheckerSampleBased.hpp"
-
+#include "../include/checker/parser/SVCompParser.hpp"
 using namespace llvmadt;
 
 
 int main(int argc, char** argv){
+    SVCompParser parser;
+
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -162,11 +164,11 @@ int main(int argc, char** argv){
     //3. pass
     //z3::expr exp1 = (c.int_const("x") == -1);
     //3. pass
-    z3::expr exp1 = (c.int_const("x") <= 0);
+    z3::expr exp1 = (c.int_const("x") > 0);
     std::string ap1str = "a";
     csb.addBind(ap1str, &exp1);
-    csb.checkProperty("Fa", 50, &c);
-
+    Path* ce = csb.checkProperty("Fa", 50, &c);
+    std::cout << ce->toString();
     delete(ut);
     delete(converter);
     delete(path);

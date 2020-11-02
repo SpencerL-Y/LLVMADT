@@ -44,6 +44,7 @@ namespace llvmadt
         if(tlutil->isSimpleLTL(f)){
             std::cout << "is simple ltl" << std::endl;
             if(tlutil->isFp(f)){
+                std::cout << "check F property" << std::endl;
                 z3::expr* prop = tlutil->extractSimpleFormula_F(f);
                 std::string varName = prop->to_string();
                 z3::context* ctx = this->tlutil->getContext();
@@ -65,27 +66,31 @@ namespace llvmadt
                 }
                 int length = 0;
                 for(Letter* l : path->getStemLetters()){
+                    z3::expr temptempForm = ctx->bool_val(true);
                     z3::expr_vector vec_curr(*ctx);
                     for(std::string varStr : varNames){
                         auto iter = path->getCurrentVarIndex(length).find(varStr);
                         if(iter == path->getCurrentVarIndex(length).end()){
                             //std::cout << "wwww " << varStr << std::endl;
-                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(0)).c_str()));
+                            vec_curr.push_back(ctx->int_const((varStr + "_" + std::to_string(0)).c_str()));
                         } else {
                             //std::cout << "wwwwww: " << varStr + std::to_string(iter->second) << std::endl;
-                            vec_curr.push_back(ctx->int_const((varStr + std::to_string(iter->second)).c_str()));
+                            vec_curr.push_back(ctx->int_const((varStr + "_" + std::to_string(iter->second)).c_str()));
                         }
                     }
                     std::cout << "origin: " << prop->to_string() << std::endl;
-                    tempFormula = (!prop->substitute(vec_origin, vec_curr));
-                    std::cout << "subs: " << tempFormula.to_string() << std::endl;
+                    temptempForm = (!prop->substitute(vec_origin, vec_curr));
+                    std::cout << "subs: " << temptempForm.to_string() << std::endl;
                     std::cout << "letter formula: " << (((LetterTypeZ3Expr*)l->getContent())->getExpression())->to_string()  << std::endl;
                     solver.add(*(((LetterTypeZ3Expr*)l->getContent())->getExpression()));
                     solver.push();
-                    solver.add(tempFormula);
+                    solver.add(temptempForm);
                     if(solver.check() == z3::unsat){
+
+                        std::cout << "CHECKRESULT " << solver.check() << std::endl;
                         return true;
                     }
+                    std::cout << "CHECKRESULT " << solver.check() << std::endl;
                     solver.pop();
                     length++;
                 }

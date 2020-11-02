@@ -1,7 +1,7 @@
 ; ModuleID = 'Bangalore_v2.bc'
-source_filename = "../testCfile/Bangalore_v2.c"
+source_filename = "Bangalore_v2.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-unknown-linux-gnu"
+target triple = "x86_64-pc-linux-gnu"
 
 @x = common dso_local global i32 0, align 4
 @y = common dso_local global i32 0, align 4
@@ -11,8 +11,8 @@ define dso_local i32 @main() #0 {
 entry:
   %retval = alloca i32, align 4
   store i32 0, i32* %retval, align 4
-  store i32 0, i32* @x, align 4
-  store i32 0, i32* @y, align 4
+  store i32 1, i32* @x, align 4
+  store i32 1, i32* @y, align 4
   %tmp = load i32, i32* @y, align 4
   %cmp = icmp sge i32 %tmp, 0
   br i1 %cmp, label %if.then, label %if.end
@@ -45,4 +45,4 @@ attributes #0 = { noinline nounwind optnone uwtable "correctly-rounded-divide-sq
 !llvm.ident = !{!1}
 
 !0 = !{i32 1, !"wchar_size", i32 4}
-!1 = !{!"clang version 10.0.1 "}
+!1 = !{!"clang version 10.0.0-4ubuntu1 "}

@@ -24,4 +24,4 @@ ADD_EXECUTABLE(exec Main.cpp)
 
 TARGET_INCLUDE_DIRECTORIES(exec PRIVATE ${Z3_CXX_INCLUDE_DIRS})
 
-TARGET_LINK_LIBRARIES(exec converter  checker automata_lib  cfa logic_lib  LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so")
+TARGET_LINK_LIBRARIES(exec converter  checker automata_lib  cfa logic_lib  LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so" ${YAML_CPP_LIBRARIES})
