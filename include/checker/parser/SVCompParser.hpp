@@ -6,6 +6,9 @@
 #include <list>
 #include <set>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>  
 #include <yaml-cpp/yaml.h>
 
 namespace llvmadt
@@ -14,11 +17,13 @@ namespace llvmadt
 class SVCompParser
 {
 private:
-    /* data */
+    std::string format_version;
+    std::string input_files;
+    std::string properties;
 public:
     SVCompParser(/* args */);
     ~SVCompParser();
-    std::string parseSVCompYamlInputFile(std::string path);
+    std::string parseSVCompYamlFile(std::string path);
 };
 
 } // namespace llvmadt

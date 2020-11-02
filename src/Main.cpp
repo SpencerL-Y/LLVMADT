@@ -15,7 +15,8 @@ using namespace llvmadt;
 
 int main(int argc, char** argv){
     SVCompParser parser;
-
+    parser.parseSVCompYamlFile(argv[1]);
+    /*
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -172,5 +173,6 @@ int main(int argc, char** argv){
     delete(ut);
     delete(converter);
     delete(path);
+    */
     return 0;
 }

@@ -4,7 +4,7 @@ project(LLVMADT)
 
 find_package(LLVM REQUIRED CONFIG)
 find_package(Z3 REQUIRED CONFIG)
-find_package(yaml-cpp)
+find_package(yaml-cpp REQUIRED)
 
 
 include_directories(
