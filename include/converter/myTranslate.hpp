@@ -57,6 +57,8 @@ class Translator {
 
         z3::expr* extractTBranch(llvm::Instruction *brInst, std::string nexBBName, z3::context *C, Path* path);
 
+        bool reachError(llvm::Instruction *inst);
+        
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);
 

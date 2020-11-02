@@ -33,24 +33,24 @@ for.cond:                                         ; preds = %for.inc, %entry
   br i1 %cmp, label %for.body, label %for.end
 
 for.body:                                         ; preds = %for.cond
+  %tmp1 = load i32, i32* %a, align 4
+  %cmp1 = icmp eq i32 %tmp1, 6
+  br i1 %cmp1, label %if.end, label %if.then
+
+if.then:                                          ; preds = %for.body
+  call void @reach_error()
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %for.body
   br label %for.inc
 
-for.inc:                                          ; preds = %for.body
-  %tmp1 = load i32, i32* %a, align 4
-  %inc = add nsw i32 %tmp1, 1
+for.inc:                                          ; preds = %if.end
+  %tmp2 = load i32, i32* %a, align 4
+  %inc = add nsw i32 %tmp2, 1
   store i32 %inc, i32* %a, align 4
   br label %for.cond
 
 for.end:                                          ; preds = %for.cond
-  %tmp2 = load i32, i32* %a, align 4
-  %cmp1 = icmp eq i32 %tmp2, 6
-  br i1 %cmp1, label %if.end, label %if.then
-
-if.then:                                          ; preds = %for.end
-  call void @reach_error()
-  br label %if.end
-
-if.end:                                           ; preds = %if.then, %for.end
   ret i32 1
 }
 

@@ -14,9 +14,9 @@ using namespace llvmadt;
 
 
 int main(int argc, char** argv){
-    SVCompParser parser;
-    parser.parseSVCompYamlFile(argv[1]);
-    /*
+    // SVCompParser parser;
+    // parser.parseSVCompYamlFile(argv[1]);
+
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -27,7 +27,7 @@ int main(int argc, char** argv){
     z3::context c;
     Converter* converter = new Converter();
     std::list<CFA*> cfalist = converter->convertLLVM2CFAs(mod);
-    CFA *cfa = cfalist.front();
+    CFA *cfa = cfalist.back();
     std::set<CFAEdge*>::iterator it;
     std::set<CFAEdge*> Edges = cfa->getEdges();
 
@@ -68,16 +68,17 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId();
-        if(letterI < states.size() - 1){
-        auto iter = path->getCurrentVarIndex(length).find("x");
-        if (iter == path->getCurrentVarIndex(length).end())
+        if(letterI < states.size() - 1)
         {
-            std::cout << "not found till now" << '\n';
-        }
-        else
-        {
-            std::cout << "curr index: " <<  iter->second << '\n'; 
-        }
+            auto iter = path->getCurrentVarIndex(length).find("a");
+            if (iter == path->getCurrentVarIndex(length).end())
+            {
+                std::cout << " not found till now" << '\n';
+            }
+            else
+            {
+                std::cout << " curr index: " <<  iter->second << '\n'; 
+            }
         }
         if(letterI < states.size() - 1){
             //Letter* letter =  path->getStemLetter(letterI);
@@ -88,6 +89,7 @@ int main(int argc, char** argv){
 
     }
     std::cout << '\n';
+    /*
     std::cout << "...............Path checker............" << std::endl;
     TLUtil* ut = new TLUtil(&c);
     PathChecker pc(ut, &c);
@@ -171,9 +173,11 @@ int main(int argc, char** argv){
     csb.addBind(ap1str, &exp1);
     Path* ce = csb.checkProperty("Fa", 50, &c);
     std::cout << ce->toString();
+    
     delete(ut);
+    */
     delete(converter);
     delete(path);
-    */
+    
     return 0;
 }

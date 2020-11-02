@@ -516,6 +516,22 @@ z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName,
 
 }
 
+bool Translator::reachError(llvm::Instruction *inst)
+{
+    if (const CallInst *CI = dyn_cast<CallInst>(inst))
+    {
+        Value* func = CI->getCalledValue(); 
+        std::string insName = func->getName();
+        if (!insName.compare("reach_error"))
+        {
+            // std::cout << "insName: " << insName << '\n';
+            return true;
+        }
+       
+    }
+    return false;
+}
+
 std::string Translator::toString(const Value *v) 
 {
     std::string Str;

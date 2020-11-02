@@ -94,6 +94,14 @@ namespace llvmadt{
                 letter = trans->getLetter();
                 
                 llvm::Instruction* ins = ((LetterTypeInst*)letter->getContent())->getInstruction();
+
+                // llvm::errs() << *ins << '\n';
+                // call reach_error
+                if (T.reachError(ins))
+                {
+                    // llvm::errs() << "reach::::::::::::" << *ins << '\n';
+                    return true;
+                }
                 
                 if (!currState->getName().compare(toState->getName()))
                 {
