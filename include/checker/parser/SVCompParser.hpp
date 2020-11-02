@@ -24,6 +24,7 @@ public:
     SVCompParser(/* args */);
     ~SVCompParser();
     std::string parseSVCompYamlFile(std::string path);
+    std::string SVCompParser::extractReachErrorResult(std::string path);
 };
 
 } // namespace llvmadt

@@ -101,3 +101,23 @@ z3表达式。问题的核心：语法和语义。。
 ## 维直
 - 继续看贺飞老师的文章和TACAS审稿的文章
 - 完善流程图
+
+
+# 第三周进度
+
+## 维直
+
+- FIXBUG: 运行PathSampler时，发现translator中存在Z3表达式构造的问题。C++的Z3binding中，对于二元表达式的优先级如果都相同的话，需要括号表示公式构造顺序
+
+- 添加Instruction支持：支持PhiNode的指令，可以支持while的loop循环条件中存在conjunction或disjunction的情况
+
+- 添加新的PathSampler：对SV-COMP benchmark的reach error进行支持，在sample的时候只要碰到reach_error()函数即返回当前路径，做path feasibility分析，如果feasible则违反性质。
+
+## 李勰
+- 继续调研SV-COMP的相关文件
+
+- 添加对SV-COMP中的文件的解析，包括对yaml的解析，property的解析
+
+- 实现了对reach_error的samplebased checker
+
+- 对interprocedural的checking作了一些思考

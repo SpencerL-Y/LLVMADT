@@ -6,6 +6,9 @@ namespace llvmadt
 SVCompParser::SVCompParser(/* args */)
 {
     
+    this->input_files = "";
+    this->format_version = "";
+    this->properties = "";
 }
 
 SVCompParser::~SVCompParser()
@@ -14,6 +17,7 @@ SVCompParser::~SVCompParser()
 }
 
 std::string SVCompParser::parseSVCompYamlFile(std::string path){
+
     this->input_files = "";
     this->format_version = "";
     this->properties = "";
@@ -52,6 +56,30 @@ std::string SVCompParser::parseSVCompYamlFile(std::string path){
     }
 
     return yamlStr;
+}
+
+std::string SVCompParser::extractReachErrorResult(std::string path){
+    YAML::Node property = YAML::Load(this->properties);
+    int i = 0;
+    for(auto it = property.begin(); it != property.end(); ++it){
+        YAML::Node property_file = property[i]["property_file"];
+        YAML::Node verdict = property[i]["expected_verdict"];
+        std::string pathOfProperty = property_file.as<std::string>();
+        bool isUnreach = false;
+        if(!pathOfProperty.compare("../properties/unreach-call.prp")){
+            isUnreach = true;
+        }
+        std::cout << "prp: " << pathOfProperty << std::endl;
+        if(verdict){
+            std::string expectedVerdict = verdict.as<std::string>();
+            std::cout << "verdict: " << expectedVerdict << std::endl;
+            if(isUnreach){
+                return expectedVerdict;
+            }
+        }
+        i++;
+    }
+    return nullptr;
 }
 
 } // namespace llvmadt

@@ -60,6 +60,8 @@ public:
     Automaton* convertCFA2DFA(CFA* cfa);
 
     Automaton* convertCFA2BA(CFA* cfa);
+
+    Automaton* convertCFA2DFAReachError(CFA* cfa);
 };
 }
 #endif
