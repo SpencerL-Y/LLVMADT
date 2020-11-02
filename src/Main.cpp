@@ -84,6 +84,7 @@ int main(int argc, char** argv){
         length++;
 
     }
+    std::cout << '\n';
     std::cout << "...............Path checker............" << std::endl;
     TLUtil* ut = new TLUtil(&c);
     PathChecker pc(ut, &c);

@@ -58,6 +58,17 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C, Path* p
         return extractCmp(CI, C, path);
     }
 
+    // phi instruction
+    if (const PHINode *PHI = dyn_cast<PHINode>(I))
+    {
+        std::cout << "................PHI PHI PHI................" << '\n';
+        return extractPHI(PHI, C, path);
+    }
+
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
+    return E;
+
     //std::cout << *E << '\n';
     // return E;
 }
@@ -154,7 +165,7 @@ z3::expr* Translator::extractStore(const StoreInst *SI, z3::context *C, Path* pa
 
     *E = Sop1 == Sop2;
     // std::cout << "hh" << '\n';
-    std::cout << "store expr: " << (*E).to_string() << '\n';
+    // std::cout << "store expr: " << (*E).to_string() << '\n';
     return E;
 
     // errs() << "Store MStr[]: toNameStr: " << toNameStr << " fromNameStr: " << fromNameStr << '\n'; 
@@ -377,29 +388,83 @@ z3::expr* Translator::extractCmp(const ICmpInst *CI, z3::context *C, Path* path)
     }
     else if (CI->getPredicate() == CmpInst::ICMP_NE)
     {
-        *E = (CMP == OP1 != OP2);
+        *E = (CMP == (OP1 != OP2));
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SGT)
     {
-        *E = (CMP == OP1 > OP2);
+        *E = (CMP == (OP1 > OP2));
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SGE)
     {
-        *E = (CMP == OP1 >= OP2);
+        *E = (CMP == (OP1 >= OP2));
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SLT)
     {
-        *E = (CMP == OP1 < OP2);
+        *E = (CMP == (OP1 < OP2));
     }
     else if (CI->getPredicate() == CmpInst::ICMP_SLE)
     {
-        *E = (CMP == OP1 <= OP2);
+        *E = (CMP == (OP1 <= OP2));
     }
     else
     {
         errs() << "have not finished!" << '\n';
     }
     return E;    
+}
+
+z3::expr* Translator::extractPHI(const PHINode *PHInst, z3::context *C, Path* path)
+{
+    z3::expr* E = new z3::expr(*C);
+    *E = C->bool_val(true);
+    z3::expr PHI = C->bool_val(true);
+
+    int size = (path->getStemStates()).size();
+    std::string preStateName = (path->getStemStates())[size - 2]->getName();
+    std::cout << "preStateName = " << preStateName << '\n';
+
+    std::string phiName = PHInst->getName();
+    path->insertVarIndex(phiName);
+    path->appendVarIndexArray(path->getVarIndex());
+    std::string index = std::to_string(path->getVarIndexVarName(phiName)); 
+    phiName = phiName + "_" + index;
+    std::cout << "phiName: " << phiName << '\n';
+
+    int k = PHInst->getNumOperands();
+    for (int i = 0; i < k; ++i)
+    {
+        const Value *Op = PHInst->getOperand(i);
+        std::string opName = getName(Op);
+        std::cout << "phi op " << opName << '\n';
+
+        BasicBlock *BB = PHInst->getIncomingBlock(i);
+        std::string bbName = BB->getName();
+        // std::cout << "pre bbName" << bbName << '\n';
+        if (bbName == preStateName)
+        {
+            std::cout << "pre bbName" << bbName << '\n';
+            if (opName == "false")
+            {
+                PHI = C->bool_val(false);
+                std::cout << PHI << '\n';
+            }
+            else if (opName == "true")
+            {
+                PHI = C->bool_val(true);
+                std::cout << PHI << '\n';
+            }
+            else
+            {
+                PHI = C->bool_const(opName.data());
+                std::cout << PHI << '\n';
+            }
+            *E = PHI; 
+        }
+    }
+    
+    // errs() << PHInst << '\n';
+    return E;
+
 }
 
 z3::expr* Translator::extractTBranch(Instruction *brInst, std::string nexBBName, z3::context *C, Path* path)
