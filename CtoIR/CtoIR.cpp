@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     system(sysCommand2);
     string command3 = "llvm-dis " 
         + filename + ".bc -o "
-        + "../testIRfile/"
+        + "../testIRfile/loop-simple/"
         + filename + ".ll";
     const char *sysCommand3 = command3.data();
     system(sysCommand3);
