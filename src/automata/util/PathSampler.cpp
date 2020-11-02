@@ -80,7 +80,6 @@ namespace llvmadt{
         // resample currState less than K times
         if (Count[currState] < getSampleNum())
         {
-            
             path->appendStemState(currState);
 
             if (size == 0)
@@ -90,19 +89,19 @@ namespace llvmadt{
             else
             {
                 this->id++;
-
-                // int ranNum = 0;
-                // ranNum = rand();
-                // if (size == 2)
-                // {
-                //     std::cout << "ranNum: " << rand() << '\n';
-                // }
-               
                 Transition* trans = succ[rand() % size];
                 toState = trans->getToState();
                 letter = trans->getLetter();
                 
                 llvm::Instruction* ins = ((LetterTypeInst*)letter->getContent())->getInstruction();
+
+                // llvm::errs() << *ins << '\n';
+                // call reach_error
+                if (T.reachError(ins))
+                {
+                    // llvm::errs() << "reach::::::::::::" << *ins << '\n';
+                    return true;
+                }
                 
                 if (!currState->getName().compare(toState->getName()))
                 {

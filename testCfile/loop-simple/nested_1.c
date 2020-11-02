@@ -17,10 +17,11 @@ int main() {
 
 
 	for(a = 0; a < 6; ++a) {
-
-	}
-	if(!(a == 6 )) {
+		if(!(a == 6 )) {
 		reach_error();
 	}
+
+	}
+	
 	return 1;
 }
