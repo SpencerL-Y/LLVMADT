@@ -1,5 +1,5 @@
 ; ModuleID = 'nested_1.bc'
-source_filename = "../testCfile/loop-simple/nested_1.c"
+source_filename = "../../testfile/loop-simple/nested_1.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 
@@ -33,24 +33,24 @@ for.cond:                                         ; preds = %for.inc, %entry
   br i1 %cmp, label %for.body, label %for.end
 
 for.body:                                         ; preds = %for.cond
-  %tmp1 = load i32, i32* %a, align 4
-  %cmp1 = icmp eq i32 %tmp1, 6
-  br i1 %cmp1, label %if.end, label %if.then
-
-if.then:                                          ; preds = %for.body
-  call void @reach_error()
-  br label %if.end
-
-if.end:                                           ; preds = %if.then, %for.body
   br label %for.inc
 
-for.inc:                                          ; preds = %if.end
-  %tmp2 = load i32, i32* %a, align 4
-  %inc = add nsw i32 %tmp2, 1
+for.inc:                                          ; preds = %for.body
+  %tmp1 = load i32, i32* %a, align 4
+  %inc = add nsw i32 %tmp1, 1
   store i32 %inc, i32* %a, align 4
   br label %for.cond
 
 for.end:                                          ; preds = %for.cond
+  %tmp2 = load i32, i32* %a, align 4
+  %cmp1 = icmp eq i32 %tmp2, 6
+  br i1 %cmp1, label %if.end, label %if.then
+
+if.then:                                          ; preds = %for.end
+  call void @reach_error()
+  br label %if.end
+
+if.end:                                           ; preds = %if.then, %for.end
   ret i32 1
 }
 

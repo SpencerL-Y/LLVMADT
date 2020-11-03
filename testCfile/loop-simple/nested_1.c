@@ -13,14 +13,14 @@ extern void __assert_fail(const char *, const char *, unsigned int, const char *
 void reach_error() { __assert_fail("0", "nested_1.c", 13, "reach_error"); }
 
 int main() {
-	int a = 6;
+	int a = 2;
 
 
-	for(a = 0; a < 6; ++a) {
-		if(!(a == 6 )) {
-		reach_error();
+	for(a = 0; a < 2; ++a) {
+		
 	}
-
+	if(!(a == 2 )) {
+		reach_error();
 	}
 	
 	return 1;
