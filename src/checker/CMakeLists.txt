@@ -5,4 +5,4 @@ SET(parser_dir
 
 )
 
-ADD_LIBRARY(checker CheckerSampleBased.cpp PathChecker.cpp ${parser_dir})
+ADD_LIBRARY(checker CheckerSampleBased.cpp PathChecker.cpp ReachErrCheckerSampleBased.cpp ${parser_dir})

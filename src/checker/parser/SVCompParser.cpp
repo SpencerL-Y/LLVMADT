@@ -58,7 +58,7 @@ std::string SVCompParser::parseSVCompYamlFile(std::string path){
     return yamlStr;
 }
 
-std::string SVCompParser::extractReachErrorResult(std::string path){
+std::string SVCompParser::extractReachErrorResult(){
     YAML::Node property = YAML::Load(this->properties);
     int i = 0;
     for(auto it = property.begin(); it != property.end(); ++it){
@@ -80,6 +80,19 @@ std::string SVCompParser::extractReachErrorResult(std::string path){
         i++;
     }
     return nullptr;
+}
+
+
+std::string SVCompParser::getInputFiles(){
+    return this->input_files;
+}
+
+std::string SVCompParser::getProperties(){
+    return this->properties;
+}
+
+std::string SVCompParser::getFormatVersion(){
+    return this->format_version;
 }
 
 } // namespace llvmadt

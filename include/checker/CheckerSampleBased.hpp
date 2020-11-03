@@ -16,7 +16,7 @@ namespace llvmadt
 {
 class CheckerSampleBased
 {
-private:
+protected:
     PathChecker* pathChecker;
     PathSampler* pathSampler;
     std::set<std::string> varNames;

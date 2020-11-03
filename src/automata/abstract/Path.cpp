@@ -137,4 +137,8 @@ void Path::setReachError(){
     this->isReachErrorPath = true;
 }
 
+bool Path::isReachError(){
+    return this->isReachErrorPath;
+}
+
 }

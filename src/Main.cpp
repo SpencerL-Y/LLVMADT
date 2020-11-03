@@ -10,13 +10,14 @@
 #include "../include/checker/PathChecker.hpp"
 #include "../include/checker/CheckerSampleBased.hpp"
 #include "../include/checker/parser/SVCompParser.hpp"
+#include "../include/checker/ReachErrCheckerSampleBased.hpp"
 using namespace llvmadt;
 
 
 int main(int argc, char** argv){
     // SVCompParser parser;
     // parser.parseSVCompYamlFile(argv[1]);
-
+    /*
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -88,7 +89,7 @@ int main(int argc, char** argv){
         length++;
 
     }
-    std::cout << '\n';
+    std::cout << '\n';*/
     /*
     std::cout << "...............Path checker............" << std::endl;
     TLUtil* ut = new TLUtil(&c);
@@ -176,8 +177,11 @@ int main(int argc, char** argv){
     
     delete(ut);
     */
+   ReachErrCheckerSampleBased rec;
+   rec.checkReachError(argv[1], 1);
+   /*
     delete(converter);
     delete(path);
-    
+    */
     return 0;
 }

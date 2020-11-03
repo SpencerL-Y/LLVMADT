@@ -53,6 +53,7 @@ public:
     void appendVarIndexArray(std::map<std::string, int>& currentVarIndex);
 
     void setReachError();
+    bool isReachError();
 
     std::string toString();
 };
