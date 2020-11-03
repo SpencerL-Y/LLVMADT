@@ -100,6 +100,7 @@ namespace llvmadt{
                 if (T.reachError(ins))
                 {
                     // llvm::errs() << "reach::::::::::::" << *ins << '\n';
+                    path->setReachError();
                     return true;
                 }
                 
