@@ -21,6 +21,7 @@ protected:
     Word* word;
     std::map<std::string, int> varIndex;
     std::vector<std::map<std::string, int>> varIndexArray;
+    bool isReachErrorPath;
     /* data */
 public:
     Path(/* args */);
@@ -50,6 +51,8 @@ public:
     std::map<std::string, int>& getCurrentVarIndex(int length);
     std::vector<std::map<std::string, int>>& getVarIndexArray();
     void appendVarIndexArray(std::map<std::string, int>& currentVarIndex);
+
+    void setReachError();
 
     std::string toString();
 };

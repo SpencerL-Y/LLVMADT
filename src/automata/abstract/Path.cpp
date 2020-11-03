@@ -6,10 +6,12 @@ namespace llvmadt{
 
 Path::Path(){
     this->word = new Word();
+    this->isReachErrorPath = false;
 }
 
 Path::Path(Word* word){
     this->word = word;
+    this->isReachErrorPath = false;
 }
 
 
@@ -129,6 +131,10 @@ std::vector<std::map<std::string, int>>& Path::getVarIndexArray(){
 
 void Path::appendVarIndexArray(std::map<std::string, int>& currentVarIndex){
     this->varIndexArray.push_back(currentVarIndex);
+}
+
+void Path::setReachError(){
+    this->isReachErrorPath = true;
 }
 
 }
