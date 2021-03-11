@@ -17,7 +17,7 @@ using namespace llvmadt;
 int main(int argc, char** argv){
     // SVCompParser parser;
     // parser.parseSVCompYamlFile(argv[1]);
-    /*
+
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -89,7 +89,7 @@ int main(int argc, char** argv){
         length++;
 
     }
-    std::cout << '\n';*/
+    std::cout << '\n';
     /*
     std::cout << "...............Path checker............" << std::endl;
     TLUtil* ut = new TLUtil(&c);
@@ -176,9 +176,12 @@ int main(int argc, char** argv){
     std::cout << ce->toString();
     
     delete(ut);
-    */
+
+    /*
    ReachErrCheckerSampleBased rec;
-   rec.checkReachError(argv[1], 1);
+   rec.checkReachError(argv[1], 1);*/
+
+
    /*
     delete(converter);
     delete(path);
