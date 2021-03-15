@@ -24,10 +24,12 @@ namespace sym_exe {
 
     void ExecState::add_instruction(InsPtr insPtr) {
         instruction_ptr_vec.push_back(insPtr);
+
     }
 
     ExecState::ExecState() {
         instruction_ptr_vec.clear();
+        constraints_vec.clear();
     }
 
 }

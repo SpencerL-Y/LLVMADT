@@ -5,6 +5,8 @@
 #ifndef LLVMADT_EXECSTATE_H
 #define LLVMADT_EXECSTATE_H
 #include <llvm/IR/Instruction.h>
+#include "myTranslate.hpp"
+
 
 namespace sym_exe {
     typedef llvm::Instruction Ins;
@@ -20,6 +22,8 @@ namespace sym_exe {
 
         [[nodiscard]] std::string to_string() const;
 
+    private:
+        std::vector<z3::expr*> constraints_vec;
         std::vector<InsPtr> instruction_ptr_vec;
     };
 }
