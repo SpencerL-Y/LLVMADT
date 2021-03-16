@@ -16,11 +16,11 @@ namespace sym_exe {
     public:
         explicit ExecState();
 
-        void set_instruction(InsPtr& ins_ptr);
-
         void add_instruction(InsPtr insPtr);
 
         [[nodiscard]] std::string to_string() const;
+
+        std::vector<InsPtr>& get_instruction_ptr_vec();
 
     private:
         std::vector<z3::expr*> constraints_vec;

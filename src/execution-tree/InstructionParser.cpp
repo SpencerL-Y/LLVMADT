@@ -10,12 +10,11 @@ namespace sym_exe {
     const int InstructionParser::DOUBLE = 2;
     const int InstructionParser::UNKNOWN = 3;
 
-    InstructionParser::InstructionParser(InsPtr ins_ptr) : ins_ptr(ins_ptr) {}
 
-    void InstructionParser::parse(z3::context &c) {
-        llvm::errs() << *ins_ptr << " \t\t";
+    void InstructionParser::parse_single(InsPtr ins_ptr) {
+//        llvm::errs() << *ins_ptr << " \t\t";
 //        errs() << "var name: " << get_var_name(ins_ptr) << " constraint: ";
-        get_constraint(ins_ptr, c);
+        get_constraint(ins_ptr);
         errs() << "\n";
     }
 
@@ -39,30 +38,30 @@ namespace sym_exe {
         return var_name;
     }
 
-    z3::expr InstructionParser::get_constraint(InsPtr ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::get_constraint(InsPtr ins_ptr) {
         if (const StoreInst *SI = dyn_cast<StoreInst>(ins_ptr)) {
-            return extract_constraints(SI, c);
+            return extract_constraints(SI);
         }
         if (const LoadInst *LI = dyn_cast<LoadInst>(ins_ptr)) {
-            return extract_constraints(LI, c);
+            return extract_constraints(LI);
         }
         if (const BinaryOperator *BO = dyn_cast<BinaryOperator>(ins_ptr)) {
-            return extract_constraints(BO, c);
+            return extract_constraints(BO);
         }
         if (const CmpInst *CI = dyn_cast<CmpInst>(ins_ptr)) {
-            return extract_constraints(CI, c);
+            return extract_constraints(CI);
         }
         if (const PHINode *PHI = dyn_cast<PHINode>(ins_ptr)) {
-            return extract_constraints(PHI, c);
+            return extract_constraints(PHI);
         }
-        if (const BranchInst *branchInst = dyn_cast<BranchInst>(ins_ptr)) {
-            return extract_constraints(branchInst, c);
-        }
+//        if (const BranchInst *branchInst = dyn_cast<BranchInst>(ins_ptr)) {
+//            return extract_constraints(branchInst);
+//        }
         if (const ReturnInst *returnInst = dyn_cast<ReturnInst>(ins_ptr)) {
-            return extract_constraints(returnInst, c);
+            return extract_constraints(returnInst);
         }
         if (const AllocaInst *allocaInst = dyn_cast<AllocaInst>(ins_ptr)) {
-            return extract_constraints(allocaInst, c);
+            return extract_constraints(allocaInst);
         }
         errs() << "Unknown statement \n";
         return z3::expr(c);
@@ -91,13 +90,13 @@ namespace sym_exe {
         return ins_ptr->getName();
     }
 
-    z3::expr InstructionParser::extract_constraints(const StoreInst *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const StoreInst *ins_ptr) {
         const auto left = ins_ptr->getValueOperand();
         const auto right = ins_ptr->getPointerOperand();
         auto left_name = parse_llvm_value_to_string(left);
         auto right_name = parse_llvm_value_to_string(right);
-        z3::expr right_expr = get_expr(right, c);
-        z3::expr left_expr = get_expr(left, c);
+        z3::expr right_expr = get_int_expr(right, true);
+        z3::expr left_expr = get_int_expr(left);
         z3::expr ret = c.bool_val(true);
         ret = (right_expr == left_expr);
 #ifdef DEBUG
@@ -107,11 +106,11 @@ namespace sym_exe {
         return ret;
     }
 
-    z3::expr InstructionParser::extract_constraints(const LoadInst *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const LoadInst *ins_ptr) {
         std::string left_name = ins_ptr->getName();
         const auto right_name = ins_ptr->getPointerOperand()->getName();
-        z3::expr left = get_expr(left_name, c);
-        z3::expr right = get_expr(ins_ptr->getPointerOperand(), c);
+        z3::expr left = get_int_expr(left_name, true);
+        z3::expr right = get_int_expr(ins_ptr->getPointerOperand());
         z3::expr ret = c.bool_val(true);
         ret = (left == right);
 #ifdef DEBUG
@@ -123,15 +122,16 @@ namespace sym_exe {
 
     // unsigned cmp instructions may cause error
     // may use context to judge
-    z3::expr InstructionParser::extract_constraints(const CmpInst *cmp_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const CmpInst *cmp_ptr) {
         z3::expr ret = c.bool_val(true);
         if (const auto *ins_ptr = dyn_cast<ICmpInst>(cmp_ptr)) {
             const auto op1 = parse_llvm_value_to_string(ins_ptr->getOperand(0));
             const auto op2 = parse_llvm_value_to_string(ins_ptr->getOperand(1));
             const std::string op = ins_ptr->getName();
-            auto res = c.bool_val(op.c_str());
-            auto num1 = get_expr(ins_ptr->getOperand(0), c);
-            auto num2 = get_expr(ins_ptr->getOperand(1), c);
+            auto indexed_op = get_indexed_name(op, true);
+            auto res = c.bool_const(indexed_op.c_str());
+            auto num1 = get_int_expr(ins_ptr->getOperand(0));
+            auto num2 = get_int_expr(ins_ptr->getOperand(1));
             switch (ins_ptr->getPredicate()) {
                 case llvm::CmpInst::ICMP_EQ: {
                     ret = (res == (num1 == num2));
@@ -216,12 +216,10 @@ namespace sym_exe {
                 case CmpInst::BAD_ICMP_PREDICATE: {
                     errs() << "encounter bad icmp predicate \n";
                     exit(-1);
-                    break;
                 }
                 default: {
                     errs() << "can not hold this situation " << ins_ptr->getPredicate() << "\n";
                     exit(-1);
-                    break;
                 }
             }
         } else {
@@ -231,19 +229,19 @@ namespace sym_exe {
         return ret;
     }
 
-    z3::expr InstructionParser::extract_constraints(const PHINode *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const PHINode *ins_ptr) {
         errs() << "In PHI states\n";
         z3::expr ret = c.bool_val(true);
         return ret;
     }
 
-    z3::expr InstructionParser::extract_constraints(const BinaryOperator *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const BinaryOperator *ins_ptr) {
         const auto op1 = parse_llvm_value_to_string(ins_ptr->getOperand(0));
         const auto op2 = parse_llvm_value_to_string(ins_ptr->getOperand(1));
         const auto op = ins_ptr->getName();
-        auto res = get_expr(op, c);
-        auto num1 = get_expr(ins_ptr->getOperand(0), c);
-        auto num2 = get_expr(ins_ptr->getOperand(1), c);
+        auto res = get_int_expr(op, true);
+        auto num1 = get_int_expr(ins_ptr->getOperand(0));
+        auto num2 = get_int_expr(ins_ptr->getOperand(1));
         auto ret = c.bool_val(true);
         switch (ins_ptr->getOpcode()) {
             case Instruction::Add: {
@@ -281,24 +279,31 @@ namespace sym_exe {
             default: {
                 errs() << "UnKnown operation" << "\n";
                 exit(-1);
-                break;
             }
         }
         return z3::expr(c);
     }
 
-    z3::expr InstructionParser::extract_constraints(const AllocaInst *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const AllocaInst *ins_ptr) {
         z3::expr ret = c.bool_val(true);
         return ret;
     }
 
     // CQ: how to deal with branch
-    z3::expr InstructionParser::extract_constraints(const BranchInst *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const BranchInst *ins_ptr, std::string& branch_name) {
+        z3::expr ret = c.bool_val(true);
         if (ins_ptr->isConditional()) {
             auto br_name = parse_llvm_value_to_string(ins_ptr->getOperand(0));
             auto true_branch = ins_ptr->getSuccessor(0)->getName();
             auto false_branch = ins_ptr->getSuccessor(1)->getName();
+            auto br_indexed_name = get_indexed_name(br_name);
+            auto e = c.bool_const(br_indexed_name.c_str());
 #ifdef DEBUG
+            if (branch_name == true_branch) {
+                ret = e;
+            } else {
+                ret = !e;
+            }
             errs() << "if (" << br_name << ") -> " << true_branch << " else -> " << false_branch << "\n";
 #endif
         } else {
@@ -306,12 +311,11 @@ namespace sym_exe {
             errs() << "In branch: " << parse_llvm_value_to_string(ins_ptr->getOperand(0)) << "\n";
 #endif
         }
-        z3::expr ret = c.bool_val(true);
         return ret;
     }
 
 
-    z3::expr InstructionParser::extract_constraints(const ReturnInst *ins_ptr, z3::context &c) {
+    z3::expr InstructionParser::extract_constraints(const ReturnInst *ins_ptr) {
         auto ret_val = parse_llvm_value_to_string(ins_ptr->getOperand(0));
 #ifdef DEBUG
         errs() << "return: " << ret_val << "\n";
@@ -340,7 +344,7 @@ namespace sym_exe {
                 double double_val = CFP->getValueAPF().convertToDouble();
                 ret = std::to_string(double_val);
             } else {
-                errs() << "can not parse to string of value " << *val << "\n";
+                errs() << "can not parse_single to string of value " << *val << "\n";
                 std::cout << "Unknown value type" << std::endl;
                 exit(-1);
             }
@@ -349,9 +353,7 @@ namespace sym_exe {
     }
 
     bool InstructionParser::is_real_value(const Value *val) {
-        if (const auto *CI = dyn_cast<ConstantInt>(val)) {
-            return true;
-        } else if (const auto *CFP = dyn_cast<ConstantFP>(val)) {
+        if (dyn_cast<ConstantInt>(val) || dyn_cast<ConstantFP>(val)) {
             return true;
         }
         return false;
@@ -368,7 +370,7 @@ namespace sym_exe {
         return std::tuple<int, int, double>(UNKNOWN, 0, 0);
     }
 
-    z3::expr InstructionParser::get_expr(const Value *val, z3::context &c) {
+    z3::expr InstructionParser::get_int_expr(const Value *val, bool is_left_value) {
         z3::expr e(c);
         if (is_real_value(val)) {
             auto payload = get_real_value(val);
@@ -382,13 +384,35 @@ namespace sym_exe {
             }
         } else {
             std::string name = parse_llvm_value_to_string(val);
-            e = c.int_const(name.c_str());
+            return get_int_expr(name, is_left_value);
         }
         return e;
     }
 
-    z3::expr InstructionParser::get_expr(const StringRef &s, z3::context &c) {
-        z3::expr ret = c.int_const(std::string(s).c_str());
-        return ret;
+    z3::expr InstructionParser::get_int_expr(const StringRef &s, bool is_left_value) {
+        std::string str = s;
+        return get_int_expr(str, is_left_value);
     }
+
+    int InstructionParser::get_index(const std::string &name, bool is_left_value) {
+        if (is_left_value) {
+            if (index.count(name)) {
+                return ++ index[name];
+            }
+            return index[name] = 0;
+        } else {
+            return index[name];
+        }
+    }
+
+    z3::expr InstructionParser::get_int_expr(const std::string& s, bool is_left_value) {
+        auto name = get_indexed_name(s, is_left_value);
+        return c.int_const(name.c_str());
+    }
+
+    std::string InstructionParser::get_indexed_name(const std::string &s, bool is_left_value) {
+        auto name = std::to_string(get_index(s, is_left_value)) + "_" + s;
+        return name;
+    }
+
 }

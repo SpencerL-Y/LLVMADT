@@ -7,10 +7,6 @@
 
 namespace sym_exe {
 
-    void ExecState::set_instruction(InsPtr &ins_ptr) {
-        instruction_ptr_vec.push_back(ins_ptr);
-    }
-
     std::string ExecState::to_string() const {
         if (instruction_ptr_vec.empty()) {
             return "";
@@ -24,12 +20,15 @@ namespace sym_exe {
 
     void ExecState::add_instruction(InsPtr insPtr) {
         instruction_ptr_vec.push_back(insPtr);
-
     }
 
     ExecState::ExecState() {
         instruction_ptr_vec.clear();
         constraints_vec.clear();
+    }
+
+    std::vector<InsPtr> &ExecState::get_instruction_ptr_vec() {
+        return instruction_ptr_vec;
     }
 
 }

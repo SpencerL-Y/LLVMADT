@@ -57,4 +57,45 @@ namespace sym_exe {
             instructions.pop_back();
         }
     }
+
+    void ExecutionTree::do_execution_test(NodePtr &node_ptr) {
+        static std::vector<InsPtr> instructions;
+        static std::vector<std::string> branch_name;
+        auto vec = node_ptr->get_states().get_instruction_ptr_vec();
+        instructions.reserve(vec.size());
+        for (auto t : vec) {
+            instructions.push_back(t);
+        }
+        if (node_ptr->empty()) {
+#ifdef DEBUG
+            int n = 0;
+            for(auto &i : instructions) {
+                llvm::errs() << *i << "\n";
+                if (llvm::dyn_cast<llvm::BranchInst>(i)) {
+                    llvm::errs() << "(to branch " << branch_name[++ n] << ") " << *i << " ";
+                }
+            }
+            llvm::errs() << "\n";
+#endif
+            return;
+        }
+        auto& v = node_ptr->get_son();
+        for (auto &i : v) {
+            auto num = i.second->get_states().get_instruction_ptr_vec().size();
+            branch_name.push_back(i.first);
+            do_execution_test(i.second);
+            while (num --) {
+                instructions.pop_back();
+            }
+            branch_name.pop_back();
+        }
+    }
+
+    std::unordered_map<std::string, NodePtr> &ExecutionTree::get_roots() {
+        return roots;
+    }
+
+    NodePtr ExecutionTree::get_roots(const std::string& name) {
+        return roots[name];
+    }
 }

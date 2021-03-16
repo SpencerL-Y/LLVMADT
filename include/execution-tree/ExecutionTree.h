@@ -25,6 +25,12 @@ namespace sym_exe {
 
         void print_all_trees();
 
+        void do_execution_test(NodePtr & node_ptr);
+
+        std::unordered_map<std::string, NodePtr>& get_roots();
+
+        NodePtr get_roots(const std::string& name);
+
     private:
         std::unordered_map<std::string, NodePtr> roots;
 
