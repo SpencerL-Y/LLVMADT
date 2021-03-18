@@ -31,4 +31,10 @@ namespace sym_exe {
         return instruction_ptr_vec;
     }
 
+    std::string ExecState::to_string(InsPtr ins_ptr) {
+        std::string str;
+        llvm::raw_string_ostream(str) << *ins_ptr << "\n";
+        return str;
+    }
+
 }

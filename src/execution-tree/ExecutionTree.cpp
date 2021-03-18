@@ -3,7 +3,7 @@
 //
 
 #include "../../include/execution-tree/ExecutionTree.h"
-
+#include "../../include/execution-tree/InstructionParser.h"
 namespace sym_exe {
     ExecutionTree::ExecutionTree() {
         roots.clear();
@@ -67,16 +67,8 @@ namespace sym_exe {
             instructions.push_back(t);
         }
         if (node_ptr->empty()) {
-#ifdef DEBUG
-            int n = 0;
-            for(auto &i : instructions) {
-                llvm::errs() << *i << "\n";
-                if (llvm::dyn_cast<llvm::BranchInst>(i)) {
-                    llvm::errs() << "(to branch " << branch_name[++ n] << ") " << *i << " ";
-                }
-            }
-            llvm::errs() << "\n";
-#endif
+            InstructionParser parser;
+            parser.solve(instructions, branch_name);
             return;
         }
         auto& v = node_ptr->get_son();

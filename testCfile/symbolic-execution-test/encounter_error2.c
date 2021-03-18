@@ -6,7 +6,7 @@ int main() {
     int z = 2 * y;
     if (z == x) {
         if (x > y + 10) {
-            return 1;
+            return -1;
         }
     }
     return 0;

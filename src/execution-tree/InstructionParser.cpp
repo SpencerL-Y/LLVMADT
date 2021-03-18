@@ -12,8 +12,6 @@ namespace sym_exe {
 
 
     void InstructionParser::parse_single(InsPtr ins_ptr) {
-//        llvm::errs() << *ins_ptr << " \t\t";
-//        errs() << "var name: " << get_var_name(ins_ptr) << " constraint: ";
         get_constraint(ins_ptr);
         errs() << "\n";
     }
@@ -54,17 +52,21 @@ namespace sym_exe {
         if (const PHINode *PHI = dyn_cast<PHINode>(ins_ptr)) {
             return extract_constraints(PHI);
         }
-//        if (const BranchInst *branchInst = dyn_cast<BranchInst>(ins_ptr)) {
-//            return extract_constraints(branchInst);
-//        }
         if (const ReturnInst *returnInst = dyn_cast<ReturnInst>(ins_ptr)) {
             return extract_constraints(returnInst);
         }
         if (const AllocaInst *allocaInst = dyn_cast<AllocaInst>(ins_ptr)) {
             return extract_constraints(allocaInst);
         }
-        errs() << "Unknown statement \n";
-        return z3::expr(c);
+        if (const CallInst * callInst = dyn_cast<CallInst>(ins_ptr)) {
+            return extract_constraints(callInst);
+        }
+        if (const UnreachableInst* unreachableInst = dyn_cast<UnreachableInst>(ins_ptr)) {
+            extract_constraints(unreachableInst);
+            return c.bool_val(true);
+        }
+        errs() << "Unknown statement : " << *ins_ptr <<"\n";
+        return c.bool_val(true);
     }
 
     std::string InstructionParser::extract_name(const BranchInst *ins_ptr) {
@@ -99,7 +101,7 @@ namespace sym_exe {
         z3::expr left_expr = get_int_expr(left);
         z3::expr ret = c.bool_val(true);
         ret = (right_expr == left_expr);
-#ifdef DEBUG
+#if DEBUG
         errs() << right_name << " = " << left_name << " expr: ";
         errs() << ret.to_string() << "\n";
 #endif
@@ -113,7 +115,7 @@ namespace sym_exe {
         z3::expr right = get_int_expr(ins_ptr->getPointerOperand());
         z3::expr ret = c.bool_val(true);
         ret = (left == right);
-#ifdef DEBUG
+#if DEBUG
         errs() << left_name << " = " << right_name << " expr: ";
         errs() << ret.to_string() << "\n";
 #endif
@@ -135,7 +137,7 @@ namespace sym_exe {
             switch (ins_ptr->getPredicate()) {
                 case llvm::CmpInst::ICMP_EQ: {
                     ret = (res == (num1 == num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " = " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -143,7 +145,7 @@ namespace sym_exe {
                 }
                 case llvm::CmpInst::ICMP_NE: {
                     ret = (res == (num1 != num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " != " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -151,7 +153,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_UGT: {
                     ret = (res == (num1 >= num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " >= " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -159,7 +161,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_UGE: {
                     ret = (res == (num1 != num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " != " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -167,7 +169,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_ULT: {
                     ret = (res == (num1 < num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " < " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -175,7 +177,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_ULE: {
                     ret = (res == (num1 <= num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " <= " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -183,7 +185,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_SGT: {
                     ret = (res == (num1 > num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " > " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -191,7 +193,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_SGE: {
                     ret = (res == (num1 >= num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " >= " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -199,7 +201,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_SLT: {
                     ret = (res == (num1 < num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " < " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -207,7 +209,7 @@ namespace sym_exe {
                 }
                 case CmpInst::ICMP_SLE: {
                     ret = (res == (num1 <= num2));
-#ifdef DEBUG
+#if DEBUG
                     errs() << op << " = " << op1 << " <= " << op2 << " cmp expr: ";
                     errs() << ret.to_string() << "\n";
 #endif
@@ -246,7 +248,7 @@ namespace sym_exe {
         switch (ins_ptr->getOpcode()) {
             case Instruction::Add: {
                 ret = (res == num1 + num2);
-#ifdef DEBUG
+#if DEBUG
                 errs() << op << " = " << op1 << " + " << op2 << " op expr: ";
                 errs() << ret.to_string() << "\n";
 #endif
@@ -254,7 +256,7 @@ namespace sym_exe {
             }
             case Instruction::Sub: {
                 ret = (res == num1 - num2);
-#ifdef DEBUG
+#if DEBUG
                 errs() << op << " = " << op1 << " - " << op2 << " op expr: ";
                 errs() << ret.to_string() << "\n";
 #endif
@@ -262,7 +264,7 @@ namespace sym_exe {
             }
             case Instruction::Mul: {
                 ret = (res == num1 * num2);
-#ifdef DEBUG
+#if DEBUG
                 errs() << op << " = " << op1 << " * " << op2 << " op expr: ";
                 errs() << ret.to_string() << "\n";
 #endif
@@ -270,7 +272,7 @@ namespace sym_exe {
             }
             case Instruction::SDiv: {
                 ret = (res == num1 / num2);
-#ifdef DEBUG
+#if DEBUG
                 errs() << op << " = " << op1 << " / " << op2 << " op expr: ";
                 errs() << ret.to_string() << "\n";
 #endif
@@ -281,11 +283,12 @@ namespace sym_exe {
                 exit(-1);
             }
         }
-        return z3::expr(c);
+        return ret;
     }
 
     z3::expr InstructionParser::extract_constraints(const AllocaInst *ins_ptr) {
         z3::expr ret = c.bool_val(true);
+        undefined_var[get_indexed_name(ins_ptr->getName())] = "random value";
         return ret;
     }
 
@@ -298,16 +301,19 @@ namespace sym_exe {
             auto false_branch = ins_ptr->getSuccessor(1)->getName();
             auto br_indexed_name = get_indexed_name(br_name);
             auto e = c.bool_const(br_indexed_name.c_str());
-#ifdef DEBUG
             if (branch_name == true_branch) {
                 ret = e;
-            } else {
+            } else if (branch_name == false_branch){
                 ret = !e;
+            } else {
+                errs() << "Branch name not match!\n";
+                exit(1);
             }
+#if DEBUG
             errs() << "if (" << br_name << ") -> " << true_branch << " else -> " << false_branch << "\n";
 #endif
         } else {
-#ifdef DEBUG
+#if DEBUG
             errs() << "In branch: " << parse_llvm_value_to_string(ins_ptr->getOperand(0)) << "\n";
 #endif
         }
@@ -317,18 +323,57 @@ namespace sym_exe {
 
     z3::expr InstructionParser::extract_constraints(const ReturnInst *ins_ptr) {
         auto ret_val = parse_llvm_value_to_string(ins_ptr->getOperand(0));
-#ifdef DEBUG
+#if DEBUG
         errs() << "return: " << ret_val << "\n";
 #endif
+        auto return_name = ins_ptr->getOperand(0)->getName();
+        if (!return_name.empty()) {
+#if DEBUG
+            errs() << "return var: " << get_indexed_name(return_name) << "\n";
+#endif
+            return_var[get_indexed_name(return_name)] = "random value";
+        } else {
+            return_var["return"] = ret_val;
+        }
         z3::expr ret = c.bool_val(true);
         return ret;
+    }
+
+    z3::expr InstructionParser::extract_constraints(const CallInst *ins_ptr) {
+        auto func = ins_ptr->getCalledFunction();
+        if (func) {
+            auto str = func->getName();
+            if (str == "__isoc99_scanf") {
+                for (auto op = ins_ptr->op_begin(); op != ins_ptr->op_end(); ++ op) {
+                    if (op == ins_ptr->op_end() - 1) {
+                        break;
+                    }
+                    // don't know why, the first value is empty
+                    if (op == ins_ptr->op_begin()) {
+                        continue;
+                    }
+                    auto v = op->get();
+#if DEBUG
+                    int n = 1;
+                    errs() << n ++ << ": " << v->getName() << " " << get_indexed_name(v->getName()) << "\n";
+#endif
+                    input_var[get_indexed_name(v->getName())] = "random value";
+                    undefined_var.erase(get_indexed_name(v->getName()));
+                }
+            }
+        }
+#if DEBUG
+        errs() << ins_ptr->getCalledValue()->stripPointerCasts()->getName() << "\t";
+#endif
+
+        return c.bool_val(true);
     }
 
     void InstructionParser::print_z3_model(z3::model &mod) {
         for (int i = 0; i < mod.size(); i++) {
             z3::func_decl v = mod[i];
             assert(v.arity() == 0);
-            std::cout << v.name() << " = " << mod.get_const_interp(v) << "\n";
+            std::cout << v.name().str() << " = " << mod.get_const_interp(v) << "\n";
         }
     }
 
@@ -378,7 +423,6 @@ namespace sym_exe {
                 int real_val = std::get<INT>(payload);
                 e = c.int_val(real_val);
             } else if (std::get<0>(payload) == DOUBLE) {
-                double real_val = std::get<DOUBLE>(payload);
                 errs() << "can not calculate float value\n";
                 exit(-1);
             }
@@ -401,18 +445,206 @@ namespace sym_exe {
             }
             return index[name] = 0;
         } else {
-            return index[name];
+            if (index.count(name)) {
+                return index[name];
+            }
+            return 0;
         }
     }
 
     z3::expr InstructionParser::get_int_expr(const std::string& s, bool is_left_value) {
         auto name = get_indexed_name(s, is_left_value);
+        if (is_left_value) {
+            undefined_var.erase(name);
+        }
         return c.int_const(name.c_str());
     }
 
     std::string InstructionParser::get_indexed_name(const std::string &s, bool is_left_value) {
         auto name = std::to_string(get_index(s, is_left_value)) + "_" + s;
         return name;
+    }
+
+    bool InstructionParser::solve(std::vector<InsPtr> &ins_vec, std::vector<std::string> &branch_vec) {
+#if DEBUG
+        int n = 1;
+        for (auto& i : ins_vec) {
+            llvm::errs() << *i << "\n";
+            if (llvm::dyn_cast<llvm::BranchInst>(i)) {
+                llvm::errs() << "(to branch " << branch_vec[n ++] << ") " << *i << " ";
+            }
+        }
+        llvm::errs() << "\n";
+#endif
+        z3::expr final = c.bool_val("true");
+        int pos = 1;
+        for (auto &i : ins_vec) {
+            z3::expr e = c.bool_val(true);
+            check_errors(i, final);
+            if (const auto ins_ptr = dyn_cast<BranchInst>(i)) {
+                e = extract_constraints(ins_ptr, branch_vec[pos ++]);
+            } else {
+                e = get_constraint(i);
+            }
+            final = final & e;
+#if DEBUG
+            std::cout << ExecState::to_string(i) << "\t" << e.to_string() << std::endl;
+#endif
+        }
+        z3::solver solver(c);
+        std::cout << final.to_string() << std::endl;
+        solver.add(final);
+        if (solver.check() == z3::unsat) {
+            pos = 0;
+            std::cout << "\033[33mexecution path\n\t" << branch_vec[pos ++];
+            while (pos < branch_vec.size()) {
+                std::cout << " -> " << branch_vec[pos ++];
+            }
+            std::cout << "\nOK, unreachable path\033[0m" << std::endl;
+            return false;
+        }
+
+        auto model = solver.get_model();
+#if DEBUG
+        print_z3_model(model);
+#endif
+        get_model_info(model);
+
+        for (auto &i : return_var) {
+            if (i.second != "0") {
+                is_ok = false;
+            }
+        }
+        if (return_var.empty()) {
+            is_ok = false;
+        }
+        // print result
+        if (is_ok) {
+            pos = 0;
+            std::cout << "\033[92mOK, this path is fine:\nexecution path\n\t" << branch_vec[pos ++];
+            while (pos < branch_vec.size()) {
+                std::cout << " -> " << branch_vec[pos ++];
+            }
+            std::cout << "\n";
+            print_var_info();
+            std::cout <<"\033[0m" << std::endl;
+
+        } else {
+            pos = 0;
+            std::cout << "\033[91mCounter errors! This path is BAD!\nexecution path\n\t" << branch_vec[pos ++];
+            while (pos < branch_vec.size()) {
+                std::cout << " -> " << branch_vec[pos ++];
+            }
+            std::cout << "\n";
+            print_var_info();
+            std::cout <<"\033[0m" << std::endl;
+        }
+        return true;
+    }
+
+
+
+    void InstructionParser::extract_constraints(const UnreachableInst *unreachableInst) {
+        errs() << "Counter unreachable IR \n";
+    }
+
+    std::string InstructionParser::get_origin_name(const std::string &s) {
+        for (int i = 0; i < s.length(); ++ i) {
+            if (s[i] == '_') {
+                return s.substr(i + 1, s.length() - i);
+            }
+        }
+        return s;
+    }
+
+    void InstructionParser::get_model_info(z3::model &mod) {
+        for (int i = 0; i < mod.size(); i++) {
+            z3::func_decl v = mod[i];
+            assert(v.arity() == 0);
+            auto name = v.name().str();
+            if (input_var.count(name)) {
+                input_var[name] = mod.get_const_interp(v).to_string();
+            }
+            if (return_var.count(name)) {
+                return_var[name] = mod.get_const_interp(v).to_string();
+            }
+            if (undefined_var.count(name)) {
+                undefined_var[name] = mod.get_const_interp(v).to_string();
+            }
+        }
+    }
+
+    std::unordered_map<std::string, std::string> &InstructionParser::get_input_var() {
+        return input_var;
+    }
+
+    std::unordered_map<std::string, std::string> &InstructionParser::get_return_var() {
+        return return_var;
+    }
+
+    void InstructionParser::check_errors(InsPtr &ins_ptr, z3::expr &now_constraints) {
+        if (dyn_cast<BinaryOperator>(ins_ptr)) {
+            if (ins_ptr->getOpcode()==Instruction::SDiv) {
+                detect_divide_zero(ins_ptr, now_constraints);
+            }
+        }
+    }
+
+    void InstructionParser::detect_divide_zero(InsPtr ins_ptr, z3::expr &now_constraints) {
+        auto op2 = ins_ptr->getOperand(1);
+        auto num2 = get_int_expr(op2);
+        z3::solver solver(c);
+        solver.push();
+        solver.add(now_constraints && (num2 == 0));
+        if (solver.check() == z3::sat) {
+            is_ok = false;
+            auto mod = solver.get_model();
+            get_model_info(mod);
+            std::cout << "\033[91mMay cause divide zero error when input is: \n";
+            for (auto &i : input_var) {
+                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+            }
+            std::cout << "and uninitialized parameter:\n";
+            for (auto &i : undefined_var) {
+                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+            }
+            std::cout << "related param name: " << op2->getName().str() << "\033[0m" << std::endl;
+        }
+        solver.pop();
+    }
+
+
+    void InstructionParser::print_input_var() {
+        if (!input_var.empty()) {
+            std::cout << "input val: \n";
+            for (auto &i : input_var) {
+                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+            }
+        }
+    }
+
+    void InstructionParser::print_return_var() {
+        if (!return_var.empty()) {
+            std::cout << "return val: \n";
+            for (auto &i : return_var) {
+                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+            }
+        }
+    }
+
+    void InstructionParser::print_undefined_var() {
+        if (!undefined_var.empty()) {
+            std::cout << "undefined var: \n";
+            for (auto &i : undefined_var) {
+                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+            }
+        }
+    }
+
+    void InstructionParser::print_var_info() {
+        print_input_var();
+        print_return_var();
+        print_undefined_var();
     }
 
 }

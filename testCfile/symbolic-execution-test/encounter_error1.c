@@ -10,6 +10,9 @@ int main() {
         if (b == 0) {
             x = 2 * (a + b);
         }
-        assert(x - y != 0);
+        if (x - y == 0) {
+            return -1;
+        }
     }
+    return 0;
 }

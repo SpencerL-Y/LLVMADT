@@ -13,7 +13,7 @@ class Translator:
     def _get_file_name(self):
         return self.in_file.split('/')[-1]
 
-    def translate(self):
+    def translate(self, print_cfg=True):
         o_path = self.out_path + self.file_name
         command = "clang -O0 {} -fno-discard-value-names -emit-llvm -S -o {}_tmp.ll".format(self.in_file, o_path)
         print(command, os.system(command))
@@ -25,6 +25,15 @@ class Translator:
         print(command, os.system(command))
         command = "rm -rf {}_tmp.ll".format(o_path)
         print(command, os.system(command))
+        command = "cd {}".format(self.out_path)
+        print(command, os.system(command))
+        if print_cfg:
+            command = "opt -dot-cfg {}.ll".format(self.file_name)
+            print(command, os.system(command))
+            command = "dot .main.dot -Tpng -o {}.png".format(self.file_name)
+            print(command, os.system(command))
+            command = "rm -rf .main.dot"
+            print(command, os.system(command))
 
 
 if __name__ == "__main__":
