@@ -67,6 +67,7 @@ z3::expr* Translator::extractConstraints(Instruction *I, z3::context *C, Path* p
 
     z3::expr* E = new z3::expr(*C);
     *E = C->bool_val(true);
+
     return E;
 
     //std::cout << *E << '\n';

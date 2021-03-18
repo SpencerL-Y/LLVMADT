@@ -16,10 +16,14 @@ ADD_SUBDIRECTORY(cfa)
 ADD_SUBDIRECTORY(converter)
 ADD_SUBDIRECTORY(logic)
 ADD_SUBDIRECTORY(checker)
+ADD_SUBDIRECTORY(execution-tree)
 
 
 ADD_EXECUTABLE(exec Main.cpp)
+ADD_EXECUTABLE(sym_exc sym_exc.cpp)
 
 TARGET_INCLUDE_DIRECTORIES(exec PRIVATE ${Z3_CXX_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(sym_exc PRIVATE ${Z3_CXX_INCLUDE_DIRS})
 
 TARGET_LINK_LIBRARIES(exec converter  checker automata_lib  cfa logic_lib  LLVM-10 ${Z3_LIBRARIES} "/usr/local/lib/libspot.so" yaml-cpp)
+TARGET_LINK_LIBRARIES(sym_exc LLVM-10 ${Z3_LIBRARIES}  execution_tree)

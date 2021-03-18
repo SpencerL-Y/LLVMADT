@@ -38,7 +38,7 @@ int main(int argc, char** argv){
     std::cout << "...................var test begin................." << '\n';
     std::set<std::string> VarNames = cfa->getVarNames();
     std::set<std::string>::iterator i;
-  
+
     for (i = VarNames.begin(); i != VarNames.end(); i++)
     {
         std::string currVar = *i;
@@ -78,7 +78,7 @@ int main(int argc, char** argv){
             }
             else
             {
-                std::cout << " curr index: " <<  iter->second << '\n'; 
+                std::cout << " curr index: " <<  iter->second << '\n';
             }
         }
         if(letterI < states.size() - 1){
@@ -126,7 +126,7 @@ int main(int argc, char** argv){
 
 
     std::cout << "...............TLUtil.................." << std::endl;
-    
+
     z3::expr xe = c.int_const("x");
     z3::expr ap1 = (xe > 0);
     z3::expr ap2 = (xe == 1);
@@ -155,11 +155,11 @@ int main(int argc, char** argv){
     //     std::cout << "wtf" << std::endl;
     // }
     // std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
-    
+
     std::cout << "................sampleBasedChecker............" << std::endl;
     std::cout << ".......2Nested-1........" << std::endl;
     std::cout << ".....F x < 0....." << std::endl;
-    
+
     CheckerSampleBased csb(&sampler, cfa->getVarNames(), &c);
     // F
     //1. pass
@@ -174,14 +174,14 @@ int main(int argc, char** argv){
     csb.addBind(ap1str, &exp1);
     Path* ce = csb.checkProperty("Fa", 50, &c);
     std::cout << ce->toString();
-    
+
     delete(ut);
     */
-   ReachErrCheckerSampleBased rec;
-   rec.checkReachError(argv[1], 1);
-   /*
-    delete(converter);
-    delete(path);
-    */
+    ReachErrCheckerSampleBased rec;
+    rec.checkReachError(argv[1], 1);
+    /*
+     delete(converter);
+     delete(path);
+     */
     return 0;
 }
