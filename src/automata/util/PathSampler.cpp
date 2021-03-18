@@ -123,8 +123,6 @@ namespace llvmadt{
                 nl->setAlphabet(path->getWord()->getAlphabet());
                 path->getWord()->getAlphabet()->addLetter(z3content);
                 path->appendStemLetter(nl);
-                llvm::errs() << "center test : " << E->to_string() << "\n";
-
                 // std::cout << "ddddddd" << '\n';
                 bool x = recursiveSort(toState, path, Count, C);
                 return true;
