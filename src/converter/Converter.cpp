@@ -3,12 +3,11 @@
 
 
 
-
 namespace llvmadt{
 
 std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
 {
-    Translator translator;
+    Translator T;
 
 //     llvm::LLVMContext context;
 //     llvm::SMDiagnostic err;
@@ -72,20 +71,8 @@ std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
             for(llvm::BasicBlock::iterator b_iter = bb->begin(); b_iter != bb->end(); ++b_iter)
             {
                 llvm::Instruction* currInst = &*b_iter;
-                translator.extractVarName(currInst);
-                std::string varName = "";
-                if(const llvm::AllocaInst *AI = llvm::dyn_cast<llvm::AllocaInst>(currInst))
-                {
-                    varName = AI->getName();
-                    varName += "_Alloc";
-                }
-                if (const llvm::StoreInst *SI = llvm::dyn_cast<llvm::StoreInst>(currInst))
-                {
-                    auto *To = SI->getPointerOperand();
-                    varName = To->getName();
-                    varName += "_Store";
-                }
-                llvm::errs() << "Here!!!!!!!! " <<*currInst << " " << varName << "\n";
+                T.extractVarName(currInst);
+
                 if (currInst != bb->getTerminator())
                 {
                     int nextID = currID + 1;
@@ -101,7 +88,7 @@ std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
                         std::string nexName = succ->getName();
                         int nexID = std::stoi(BBID[nexName]);
                         currCFA->addEdge(brID, currInst, nexID);
-                        llvm::errs() << "successors: from ID: " << brID << " inst: " << *currInst << " to ID: " << nexID << '\n';
+                        llvm::errs() << "from ID: " << brID << " inst: " << *currInst << " to ID: " << nexID << '\n';
                     }
                 }
                 currID++;
@@ -109,12 +96,12 @@ std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
             
         }
         
-        std::set<std::string> varNames = translator.getVar();
+        std::set<std::string> varNames = T.getVar();
         currCFA->setVarNames(varNames);
 
         // std::cout << "..................varIndex..................." << '\n';
         // std::map<std::string, int>* v = new std::map<std::string, int>;
-        // *v = translator.getIndex();
+        // *v = T.getIndex();
         // std::map<std::string, int>::iterator i;
         // for(i = v->begin(); i != v->end(); ++i)
         // {
@@ -123,7 +110,6 @@ std::list<CFA*> Converter::convertLLVM2CFAs(llvm::Module* mod)
 
         functionId ++;
         cfaList.push_back(currCFA);
-        // Q: at if there's numbers of CFA
 
         std::cout << "................CFA INFORMATION......................" << '\n';
 

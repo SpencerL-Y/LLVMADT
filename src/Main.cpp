@@ -10,14 +10,13 @@
 #include "../include/checker/PathChecker.hpp"
 #include "../include/checker/CheckerSampleBased.hpp"
 #include "../include/checker/parser/SVCompParser.hpp"
-#include "../include/checker/ReachErrCheckerSampleBased.hpp"
 using namespace llvmadt;
 
 
 int main(int argc, char** argv){
-    // SVCompParser parser;
-    // parser.parseSVCompYamlFile(argv[1]);
-
+    SVCompParser parser;
+    parser.parseSVCompYamlFile(argv[1]);
+    /*
     srand(time(NULL));
     llvm::LLVMContext context;
     llvm::SMDiagnostic err;
@@ -28,8 +27,7 @@ int main(int argc, char** argv){
     z3::context c;
     Converter* converter = new Converter();
     std::list<CFA*> cfalist = converter->convertLLVM2CFAs(mod);
-    CFA *cfa = cfalist.back();
-    // Q： why only use the last one?
+    CFA *cfa = cfalist.front();
     std::set<CFAEdge*>::iterator it;
     std::set<CFAEdge*> Edges = cfa->getEdges();
 
@@ -39,7 +37,7 @@ int main(int argc, char** argv){
     std::cout << "...................var test begin................." << '\n';
     std::set<std::string> VarNames = cfa->getVarNames();
     std::set<std::string>::iterator i;
-
+  
     for (i = VarNames.begin(); i != VarNames.end(); i++)
     {
         std::string currVar = *i;
@@ -70,28 +68,26 @@ int main(int argc, char** argv){
     for (State* currState : path->getStemStates() )
     {
         std::cout << "states: " << currState->getId();
-        if(letterI < states.size() - 1)
+        if(letterI < states.size() - 1){
+        auto iter = path->getCurrentVarIndex(length).find("x");
+        if (iter == path->getCurrentVarIndex(length).end())
         {
-            auto iter = path->getCurrentVarIndex(length).find("a");
-            if (iter == path->getCurrentVarIndex(length).end())
-            {
-                std::cout << " not found till now" << '\n';
-            }
-            else
-            {
-                std::cout << " curr index: " <<  iter->second << '\n';
-            }
+            std::cout << "not found till now" << '\n';
+        }
+        else
+        {
+            std::cout << "curr index: " <<  iter->second << '\n'; 
+        }
         }
         if(letterI < states.size() - 1){
-            Letter* letter =  path->getStemLetter(letterI);
-            std::cout << " z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
+            //Letter* letter =  path->getStemLetter(letterI);
+            //std::cout << " z3:expr: " <<((LetterTypeZ3Expr*) letter->getContent())->getExpression()->to_string() << std::endl;
         }
         letterI++;
         length++;
 
     }
     std::cout << '\n';
-
     std::cout << "...............Path checker............" << std::endl;
     TLUtil* ut = new TLUtil(&c);
     PathChecker pc(ut, &c);
@@ -127,7 +123,7 @@ int main(int argc, char** argv){
 
 
     std::cout << "...............TLUtil.................." << std::endl;
-
+    
     z3::expr xe = c.int_const("x");
     z3::expr ap1 = (xe > 0);
     z3::expr ap2 = (xe == 1);
@@ -156,11 +152,11 @@ int main(int argc, char** argv){
     //     std::cout << "wtf" << std::endl;
     // }
     // std::cout << "dkdkd: " << strIntMap.find("ddd")->second << std::endl;
-
+    
     std::cout << "................sampleBasedChecker............" << std::endl;
     std::cout << ".......2Nested-1........" << std::endl;
     std::cout << ".....F x < 0....." << std::endl;
-
+    
     CheckerSampleBased csb(&sampler, cfa->getVarNames(), &c);
     // F
     //1. pass
@@ -175,16 +171,9 @@ int main(int argc, char** argv){
     csb.addBind(ap1str, &exp1);
     Path* ce = csb.checkProperty("Fa", 50, &c);
     std::cout << ce->toString();
-
     delete(ut);
-
-   ReachErrCheckerSampleBased rec;
-   rec.checkReachError(argv[1], 1);
-
-
-
     delete(converter);
     delete(path);
-
+    */
     return 0;
 }
