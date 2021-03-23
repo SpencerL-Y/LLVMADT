@@ -7,6 +7,8 @@
 namespace sym_exe {
     ExecutionTree::ExecutionTree() {
         roots.clear();
+        visited_num.clear();
+        loop_time = 5;
     }
 
     void ExecutionTree::build_tree(Module& module) {
@@ -16,6 +18,7 @@ namespace sym_exe {
             roots[function.getName()] = ptr;
         }
     }
+
 
     void ExecutionTree::print_names() {
         for (auto& i : roots) {
@@ -89,5 +92,64 @@ namespace sym_exe {
 
     NodePtr ExecutionTree::get_roots(const std::string& name) {
         return roots[name];
+    }
+
+    void ExecutionTree::print(BBPtr now_bb) {
+        static std::vector<std::shared_ptr<ExecState>> vec;
+        auto state_ptr = std::make_shared<ExecState>();
+        state_ptr->extract_info(now_bb);
+        vec.push_back(state_ptr);
+        visited_num[state_ptr->get_block_name()] ++;
+        auto set = llvm::successors(now_bb);
+        if (set.empty()) {
+            for (auto &i : vec) {
+                std::cout << i->get_block_name() << std::endl;
+            }
+            std::cout << "\n\n\n";
+            return;
+        }
+        for (auto to_bb : set) {
+            if (visited_num[to_bb->getName()] > get_loop_time()) {
+                continue;
+            }
+            print(to_bb);
+            visited_num[to_bb->getName()] --;
+            vec.pop_back();
+        }
+    }
+
+    int ExecutionTree::get_loop_time() const {
+        return loop_time;
+    }
+
+    void ExecutionTree::build_tree(BBPtr bb_ptr, const NodePtr& node_ptr) {
+        auto set = successors(bb_ptr);
+//        ExecState state;
+//        state.extract_info(bb_ptr);
+//        auto now_ptr = std::make_shared<Node>(state);
+        auto now_ptr = node_ptr->add_son(bb_ptr);
+        std::string now_name = bb_ptr->getName();
+        visited_num[now_name] ++;
+        if (set.empty()) {
+            return;
+        }
+        for (auto to_bb: set) {
+            std::string to_name = to_bb->getName();
+            if (visited_num[to_name] > get_loop_time()) {
+                continue;
+            }
+            build_tree(to_bb, now_ptr);
+            visited_num[to_name] --;
+        }
+    }
+
+    void ExecutionTree::build_tree_with_loop(Module &module) {
+        for (auto& function: module) {
+            auto ptr = std::make_shared<Node>();
+            if (!function.empty()) {
+                build_tree(&function.getEntryBlock(), ptr);
+            }
+            roots[function.getName()] = ptr;
+        }
     }
 }

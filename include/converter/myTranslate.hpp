@@ -45,10 +45,10 @@ class Translator {
     public:
 
         typedef std::map<std::string, std::string> BBMap;
-   
-        z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C, Path* path);
 
-        
+//        z3::expr* extractConstraints(llvm::Instruction* I, z3::context* C, Path* path);
+
+
         z3::expr* extractStore(const llvm::StoreInst *SI, z3::context *C, Path* path);
         z3::expr* extractLoad(const llvm::LoadInst *LI, z3::context *C, Path* path);
         z3::expr* extractBinaryOperator(const llvm::BinaryOperator *inst, z3::context *C, Path* path);
@@ -58,7 +58,7 @@ class Translator {
         z3::expr* extractTBranch(llvm::Instruction *brInst, std::string nexBBName, z3::context *C, Path* path);
 
         bool reachError(llvm::Instruction *inst);
-        
+
         std::string toString(const llvm::Value *v);
         std::string getName(const llvm::Value *v);
 
@@ -72,7 +72,7 @@ class Translator {
         // void setVarIndex(std::map<std::string, int>* varIndex);
         // std::map<std::string, int>& getIndex();
 
-        bool isNum(std::string str); 
+        bool isNum(std::string str);
 
         // z3::context &getContext(z3::config cfg) { return C(cfg); }
         // z3::context C;

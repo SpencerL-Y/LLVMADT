@@ -28,6 +28,8 @@ namespace sym_exe {
 
         static void print_z3_model(z3::model &mod);
 
+        void get_model_info(z3::model &mod);
+
         static std::string parse_llvm_value_to_string(const Value *val);
 
         z3::expr get_int_expr(const Value *val, bool is_left_value = false);
@@ -38,10 +40,31 @@ namespace sym_exe {
 
         std::string get_indexed_name(const std::string& s, bool is_left_value = false);
 
-    private:
-        z3::context c;
+        static std::string get_origin_name(const std::string& s);
 
+        bool solve(std::vector<InsPtr>& ins_vec, std::vector<std::string>& branch_vec);
+
+        std::unordered_map<std::string, std::string>& get_input_var();
+
+        std::unordered_map<std::string, std::string>& get_return_var();
+
+        void print_input_var();
+        void print_undefined_var();
+        void print_return_var();
+        void print_var_info();
+
+    private:
+        bool is_ok = true;
+        // z3 context
+        z3::context c;
+        // use to get variable index
         std::unordered_map<std::string, int> index;
+        // input variables
+        std::unordered_map<std::string, std::string> input_var;
+        // return variables
+        std::unordered_map<std::string, std::string> return_var;
+        // undefined variables
+        std::unordered_map<std::string, std::string> undefined_var;
 
         int get_index(const std::string& name, bool is_left_value);
 
@@ -74,13 +97,21 @@ namespace sym_exe {
 
         z3::expr extract_constraints(const ReturnInst *ins_ptr);
 
+        z3::expr extract_constraints(const CallInst* ins_ptr);
+
         // TODO: complete
         z3::expr extract_constraints(const BranchInst *ins_ptr, std::string& branch_name);
+
+        static void extract_constraints(const UnreachableInst * unreachableInst);
 
         // check llvm::Value is number or just a name
         static bool is_real_value(const Value *val);
 
         static std::tuple<int, int, double> get_real_value(const Value *val);
+
+        void check_errors(InsPtr& ins_ptr, z3::expr &now_constraints);
+
+        void detect_divide_zero(InsPtr ins_ptr, z3::expr &now_constraints);
     };
 }
 

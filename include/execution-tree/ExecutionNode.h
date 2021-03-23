@@ -9,7 +9,7 @@
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Function.h>
 #include <llvm/IR/BasicBlock.h>
-#define DEBUG 1
+#define DEBUG 0
 
 namespace sym_exe{
     typedef llvm::Module Module;

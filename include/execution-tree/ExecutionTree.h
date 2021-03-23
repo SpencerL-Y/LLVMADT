@@ -31,9 +31,18 @@ namespace sym_exe {
 
         NodePtr get_roots(const std::string& name);
 
+        void print(BBPtr bb_ptr);
+
+        int get_loop_time() const;
+
+        void build_tree(BBPtr bb_ptr, const NodePtr& node_ptr);
+
+        void build_tree_with_loop(Module& module);
+
     private:
         std::unordered_map<std::string, NodePtr> roots;
-
+        std::unordered_map<std::string, int> visited_num;
+        int loop_time;
     };
 }
 
