@@ -6,6 +6,7 @@
 #include "../include/execution-tree/InstructionParser.h"
 using namespace z3;
 using namespace std;
+using namespace sym_exe;
 
 void find_model_example1() {
     std::cout << "find_model_example1\n";
@@ -99,7 +100,7 @@ int symbolic_execution(int argc, char** argv) {
     llvm::Module* mod  = Mod.get();
 
     sym_exe::ExecutionTree tree;
-    tree.build_tree(*mod);
+    tree.build_tree_with_loop(*mod);
 #if DEBUG
     tree.print_names();
     tree.print_all_trees();
@@ -110,9 +111,24 @@ int symbolic_execution(int argc, char** argv) {
     return 0;
 }
 
+void test(int argc, char** argv) {
+    llvm::LLVMContext context;
+    llvm::SMDiagnostic err;
+    if (argc <= 1) {
+        std::cout << "Invalid path" << std::endl;
+        return;
+    }
+    std::string ll_path = argv[1];
+    std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
+    llvm::Module* mod  = Mod.get();
+    ExecutionTree tree;
+    tree.build_tree_with_loop(*mod);
+    tree.print_all_trees();
+}
 int main(int argc, char** argv) {
 //    find_model_example1();
 //    find_model_example();
     symbolic_execution(argc, argv);
+//    test(argc, argv);
     return 0;
 }

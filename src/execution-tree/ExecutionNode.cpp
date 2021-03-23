@@ -35,9 +35,7 @@ namespace sym_exe {
 
     ExecutionNode::NodePtr ExecutionNode::add_son(BB &bb) {
         ExecState states;
-        for (auto &instruction : bb) {
-            states.add_instruction(&instruction);
-        }
+        states.extract_info(&bb);
         std::shared_ptr<Node> son_ptr = std::make_shared<Node>(states);
         son[bb.getName()] = son_ptr;
         return son_ptr;
