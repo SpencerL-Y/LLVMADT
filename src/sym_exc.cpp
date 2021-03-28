@@ -4,6 +4,7 @@
 #include "../include/execution-tree/ExecutionTree.h"
 #include "z3++.h"
 #include "../include/execution-tree/InstructionParser.h"
+#include "execution-tree/TableBuilder.h"
 using namespace z3;
 using namespace std;
 using namespace sym_exe;
@@ -125,10 +126,33 @@ void test(int argc, char** argv) {
     tree.build_tree_with_loop(*mod);
     tree.print_all_trees();
 }
+
+void test_pointer(int argc, char** argv) {
+    llvm::LLVMContext context;
+    llvm::SMDiagnostic err;
+    if (argc <= 1) {
+        std::cout << "Invalid path" << std::endl;
+        return;
+    }
+    std::string ll_path = argv[1];
+    std::unique_ptr<llvm::Module> Mod = parseIRFile(ll_path, err, context);
+    llvm::Module* mod  = Mod.get();
+    TableBuilder tableBuilder;
+    for (auto& func : *mod) {
+        if (func.empty()) continue;
+        for (auto &bb : func) {
+            for (auto& ins : bb) {
+                tableBuilder.parse_single(&ins);
+//                tableBuilder.get_table().print_table();
+            }
+        }
+    }
+}
 int main(int argc, char** argv) {
 //    find_model_example1();
 //    find_model_example();
-    symbolic_execution(argc, argv);
+//    symbolic_execution(argc, argv);
 //    test(argc, argv);
+    test_pointer(argc, argv);
     return 0;
 }

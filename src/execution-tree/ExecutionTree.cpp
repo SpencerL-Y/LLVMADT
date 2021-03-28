@@ -4,6 +4,7 @@
 
 #include "../../include/execution-tree/ExecutionTree.h"
 #include "../../include/execution-tree/InstructionParser.h"
+#include "AbstractSymbolicTable.h"
 namespace sym_exe {
     ExecutionTree::ExecutionTree() {
         roots.clear();
