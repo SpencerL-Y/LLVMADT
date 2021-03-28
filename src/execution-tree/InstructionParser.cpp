@@ -12,7 +12,7 @@ namespace sym_exe {
 
 
     void InstructionParser::parse_single(InsPtr ins_ptr) {
-        get_constraint(ins_ptr);
+        errs() << *ins_ptr << "\n\t" << get_constraint(ins_ptr).to_string();
         errs() << "\n";
     }
 

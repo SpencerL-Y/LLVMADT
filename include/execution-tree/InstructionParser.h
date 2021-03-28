@@ -1,7 +1,7 @@
 //
 // Created by center on 2021/3/14.
 //
-
+#pragma once
 #ifndef LLVMADT_INSTRUCTIONPARSER_H
 #define LLVMADT_INSTRUCTIONPARSER_H
 
@@ -47,6 +47,11 @@ namespace sym_exe {
         std::unordered_map<std::string, std::string>& get_input_var();
 
         std::unordered_map<std::string, std::string>& get_return_var();
+
+        static std::tuple<int, int, double> get_real_value(const Value *val);
+
+        // check llvm::Value is number or just a name
+        static bool is_real_value(const Value *val);
 
         void print_input_var();
         void print_undefined_var();
@@ -104,14 +109,10 @@ namespace sym_exe {
 
         static void extract_constraints(const UnreachableInst * unreachableInst);
 
-        // check llvm::Value is number or just a name
-        static bool is_real_value(const Value *val);
-
-        static std::tuple<int, int, double> get_real_value(const Value *val);
-
         void check_errors(InsPtr& ins_ptr, z3::expr &now_constraints);
 
         void detect_divide_zero(InsPtr ins_ptr, z3::expr &now_constraints);
+
     };
 }
 
