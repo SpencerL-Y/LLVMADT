@@ -20,7 +20,7 @@ namespace sym_exe {
         if (InstructionParser::is_real_value(right)) {
             if (!table.count(left_name)) {
                 errs() << "can not found variable " << left_name << "\n";
-//                exit(1);
+                exit(1);
             }
             auto& left_val = table.get_value(left_name, 1);
             left_val = right_name;
@@ -68,18 +68,29 @@ namespace sym_exe {
 
     void TableBuilder::extract_info(const AllocaInst *ins_ptr) {
         auto op = ins_ptr->getValueName()->getValue();
-#if DEBUG
+#if not DEBUG
         errs() << op->getName() << " " << get_pointer_level(op) << "\n";
+        errs() << ins_ptr->getNumOperands() << "\n";
+        errs() << ins_ptr->getType()->getElementType()->isArrayTy() << "\n";
+        errs() << ins_ptr->getOperand(0)->getType()->isPointerTy() << "\n";
 #endif
-        auto level = get_pointer_level(ins_ptr);
-        if (level) {
-            Payload payload("Unknown", "U");
-            if (level > 1) {
-                payload.set_value("0");
+        // check if alloca an array
+        if (ins_ptr->getType()->getElementType()->isArrayTy()) {
+            int n = ins_ptr->getType()->getElementType()->getArrayNumElements();
+            string name = op->getName();
+            table.malloc(name, n, true);
+        } else {
+            auto level = get_pointer_level(ins_ptr);
+            if (level) {
+                Payload payload("Unknown", "U");
+                if (level > 1) {
+                    payload.set_value("0");
+                }
+
+                table.add_data(payload);
+                Payload now(op->getName(),to_string(table.get_size() - 1));
+                table.add_data(now);
             }
-            table.add_data(payload);
-            Payload now(op->getName(),to_string(table.get_size() - 1));
-            table.add_data(now);
         }
     }
 
@@ -152,7 +163,9 @@ namespace sym_exe {
             if (fn->getName() == "malloc") {
                 for (auto arg = ins_ptr->arg_begin(); arg != ins_ptr->arg_end(); ++ arg) {
                     if (auto val = dyn_cast<ConstantInt>(arg)) {
-                        errs() << val->getZExtValue() << "\n";
+                        auto name = ins_ptr->getName();
+                        malloc_info[name] = val->getZExtValue();
+                        errs() << "name: " << name << " " << val->getZExtValue() << "\n";
                     }
                 }
             }
@@ -160,7 +173,8 @@ namespace sym_exe {
             if (ins_ptr->getNumOperands() > 1) {
                 if (auto ce = dyn_cast<ConstantExpr>(ins_ptr->getOperand(1))) {
                     if (ce->getNumOperands() && ce->getOperand(0)->getName() == "free") {
-                        auto var = ins_ptr->getOperand(0)->getName();
+                        string var = ins_ptr->getOperand(0)->getName();
+                        table.free(var);
                         errs() << var << " is free!\n";
                     }
                 }
@@ -181,18 +195,55 @@ namespace sym_exe {
             auto right_width = right_type->getElementType()->getIntegerBitWidth();
             auto block_num = left_width / right_width;
             errs() << left_width << " " << right_width << " " << block_num << "\n";
-        }
+            string pointer_name = left_name;
+            table.malloc(pointer_name, block_num);
+            return;
+        };
+        errs() << "extract bitcast inst error!\n";
+        exit(1);
     }
 
     void TableBuilder::extract_info(const GetElementPtrInst *ins_ptr) {
-        auto left_name = ins_ptr->getName();
-        auto right_name = ins_ptr->getOperand(0)->getName();
-        auto delta = ins_ptr->getOperand(1);
-        auto delta_val = InstructionParser::parse_llvm_value_to_string(delta);
-        errs() << "\nnum operand: " << ins_ptr->getNumOperands() << "\n";
-        errs() << "left: " << left_name << "\n";
-        errs() << "right: " << right_name << "\n";
-        errs() <<  "delta: " << delta_val << "\n";
+        string left_name = ins_ptr->getName();
+        if (ins_ptr->getNumOperands() == 2) {
+            string right_name = ins_ptr->getOperand(0)->getName();
+            auto delta = ins_ptr->getOperand(1);
+            auto delta_val = InstructionParser::parse_llvm_value_to_string(delta);
+            int addr = table.get_address(right_name, 1);
+            addr += atoi(delta_val.c_str());
+            if (!table.check_out_bound(right_name, atoi(delta_val.c_str()))){
+                cout << get_related_var(right_name) << "\n";
+            }
+#if DEBUG
+            errs() << "\nnum operand: " << ins_ptr->getNumOperands() << "\n";
+            errs() << "left: " << left_name << "\n";
+            errs() << "right: " << right_name << "\n";
+            errs() <<  "delta: " << delta_val << "\n";
+#endif
+            Payload payload(left_name, to_string(addr));
+            table.add_data(payload);
+        } else if (ins_ptr->getNumOperands() == 3) {
+            string right_name = ins_ptr->getOperand(0)->getName();
+            auto delta = ins_ptr->getOperand(1);
+            auto delta_val = InstructionParser::parse_llvm_value_to_string(delta);
+            auto delta2 = ins_ptr->getOperand(2);
+            auto delta_val2 = InstructionParser::parse_llvm_value_to_string(delta2);
+            int addr = table.get_address(right_name, 1);
+            int offset = atoi(delta_val.c_str()) + atoi(delta_val2.c_str());
+            addr += offset;
+            if (!table.check_out_bound(right_name, offset)) {
+                cout << get_related_var(right_name) << "\n";
+            }
+#if DEBUG
+            errs() << "\nnum operand: " << ins_ptr->getNumOperands() << "\n";
+            errs() << "left: " << left_name << "\n";
+            errs() << "right: " << right_name << "\n";
+            errs() <<  "delta: " << delta_val << "\n";
+            errs() <<  "delta2: " << delta_val2 << "\n";
+#endif
+            Payload payload(left_name, to_string(addr));
+            table.add_data(payload);
+        }
     }
 
 };

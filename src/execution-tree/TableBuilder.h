@@ -27,7 +27,7 @@ namespace sym_exe {
         void extract_info(const AllocaInst *ins_ptr);
         void extract_info(const LoadInst *ins_ptr);
         void extract_info(const StoreInst* ins_ptr);
-        static void extract_info(const CallInst* ins_ptr);
+        void extract_info(const CallInst* ins_ptr);
         void extract_info(const BitCastInst* ins_ptr);
         void extract_info(const GetElementPtrInst* ins_ptr);
         static int get_pointer_level(const Value* value);

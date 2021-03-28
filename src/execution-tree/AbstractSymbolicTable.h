@@ -16,14 +16,16 @@ namespace sym_exe {
     struct Payload {
         string var_name;
         int abstract_address;
-        bool auto_generate;
+        bool auto_free;
         string value;
-        int up_bound;
-        int down_bound;
+        int _lower_bound;
+        int _upper_bound;
         explicit Payload(string var_name = "Unknown", string value = "U", bool auto_generated = true, int abstract_address = 0);
-        void set_bound(int up_bound, int down_bound);
+        void set_bound(int lower_bound, int upper_bound);
         void set_name(string name);
         void set_value(string value);
+        int get_lower_bound();
+        int get_upper_bound();
     };
 
     class AbstractSymbolicTable {
@@ -32,7 +34,7 @@ namespace sym_exe {
 
         void add_data(Payload &payload);
 
-        void check_memory_leak();
+        bool check_memory_leak();
 
         void print_table();
 
@@ -47,9 +49,18 @@ namespace sym_exe {
         string& get_value(string& name, int dereference_time = 0);
 
         int count(string s);
+
+        Payload get_data(int pos);
+
+        bool check_out_bound(string& pointer_name, int offset);
+
+        void malloc(string& pointer_name, int block_num, bool auto_free = false);
+
+        void free(string pointer_name);
     private:
         vector<Payload> table;
         unordered_map<string, int> abstract_address;
+        int unknown_num;
     };
 
 }

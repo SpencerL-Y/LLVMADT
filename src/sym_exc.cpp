@@ -147,6 +147,8 @@ void test_pointer(int argc, char** argv) {
             }
         }
     }
+    tableBuilder.get_table().print_table();
+    tableBuilder.get_table().check_memory_leak();
 }
 int main(int argc, char** argv) {
 //    find_model_example1();

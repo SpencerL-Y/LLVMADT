@@ -6,18 +6,20 @@
 #include <utility>
 #include <cstdio>
 #include "AbstractSymbolicTable.h"
+#include "iostream"
+#include <unordered_set>
 
 using namespace std;
 namespace sym_exe {
 
     Payload::Payload(string var_name, string value, bool auto_generated, int abstract_address) : var_name(
-            std::move(var_name)), abstract_address(abstract_address), auto_generate(auto_generated), value(value) {
-        up_bound = down_bound = 0;
+            std::move(var_name)), abstract_address(abstract_address), auto_free(auto_generated), value(value) {
+        _lower_bound = _upper_bound = -1;
     }
 
-    void Payload::set_bound(int u, int d) {
-        up_bound = u;
-        down_bound = d;
+    void Payload::set_bound(int lower_bound, int upper_bound) {
+        _lower_bound = lower_bound;
+        _upper_bound = upper_bound;
     }
 
     void Payload::set_name(string name) {
@@ -28,25 +30,55 @@ namespace sym_exe {
         value = std::move(name);
     }
 
+    int Payload::get_lower_bound() {
+        return _lower_bound;
+    }
+
+    int Payload::get_upper_bound() {
+        return _upper_bound;
+    }
+
     AbstractSymbolicTable::AbstractSymbolicTable() {
+        unknown_num = 0;
         table.emplace_back("nullptr", "U", true, 0);
     }
 
     void AbstractSymbolicTable::add_data(Payload &payload) {
         int sz = table.size();
         payload.abstract_address = sz;
+        if (payload.var_name == "Unknown") {
+            payload.var_name += to_string(unknown_num ++);
+        }
+        if (payload._lower_bound == payload._upper_bound && payload._lower_bound == -1) {
+            payload.set_bound(sz, sz);
+        }
         table.emplace_back(payload);
         abstract_address[payload.var_name] = sz;
     }
 
-    void AbstractSymbolicTable::check_memory_leak() {
-
+    bool AbstractSymbolicTable::check_memory_leak() {
+        unordered_set<string> s;
+        for (auto& i : table) {
+            if  (!i.auto_free) {
+                cout << "memory leak found: ";
+                cout << "\t" << i.var_name << " was not free!\n";
+                s.insert(to_string(i.abstract_address));
+            }
+        }
+//        cout << "related pointers: ";
+//        for (auto& i : table) {
+//            if (s.count(i.value)) {
+//                cout << i.var_name << " ";
+//            }
+//        }
+//        cout << endl;
+        return true;
     }
 
     void AbstractSymbolicTable::print_table() {
-        printf("%-15s%-15s%-15s%-15s\n", "address", "var_name", "value", "autonerated");
+        printf("%-15s%-15s%-15s%-15s%-15s%-15s\n", "address", "var_name", "value", "auto_free", "lower_bound", "upper_bound");
         for (auto& i : table) {
-            printf("%-15d%-15s%-15s%-15d\n", i.abstract_address, i.var_name.c_str(), i.value.c_str(), i.auto_generate);
+            printf("%-15d%-15s%-15s%-15d%-15d%-15d\n", i.abstract_address, i.var_name.c_str(), i.value.c_str(), i.auto_free, i._lower_bound, i._upper_bound);
         }
         puts("");
     }
@@ -79,6 +111,43 @@ namespace sym_exe {
 
     int AbstractSymbolicTable::count(string s) {
         return abstract_address.count(s);
+    }
+
+    bool AbstractSymbolicTable::check_out_bound(string &pointer_name, int offset) {
+        auto addr = get_address(pointer_name, 1);
+        auto p = addr + offset;
+        if (p < table[addr].get_lower_bound() || p > table[addr].get_upper_bound()) {
+            cout << "param " << pointer_name << " index out of range error found!\n";
+            return false;
+        }
+        return true;
+    }
+
+    Payload AbstractSymbolicTable::get_data(int pos) {
+        return table[pos];
+    }
+
+    void AbstractSymbolicTable::free(string pointer_name) {
+        int addr = get_address(pointer_name, 1);
+        int lower_bound = table[addr].get_lower_bound();
+        int upper_bound = table[addr].get_upper_bound();
+        for (int i = lower_bound; i <= upper_bound; ++ i) {
+            table[i].auto_free = true;
+        }
+    }
+
+    void AbstractSymbolicTable::malloc(string &pointer_name, int block_num, bool auto_free) {
+        int start_pos;
+        for (int i = 0; i < block_num; ++ i) {
+            if(!i) {
+                start_pos = get_size();
+            }
+            Payload payload("Unknown", "U", auto_free);
+            payload.set_bound(start_pos, start_pos + block_num - 1);
+            add_data(payload);
+        }
+        Payload payload(pointer_name, to_string(start_pos));
+        add_data(payload);
     }
 
 }
