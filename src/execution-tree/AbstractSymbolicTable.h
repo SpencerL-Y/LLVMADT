@@ -9,7 +9,8 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-
+#include <memory>
+#include "ErrorManager.h"
 using namespace std;
 
 namespace sym_exe {
@@ -57,10 +58,15 @@ namespace sym_exe {
         void malloc(string& pointer_name, int block_num, bool auto_free = false);
 
         void free(string pointer_name);
+
+        void set_error_manager(shared_ptr<ErrorManager>& error_manager);
+
+        void check();
     private:
         vector<Payload> table;
         unordered_map<string, int> abstract_address;
         int unknown_num;
+        shared_ptr<ErrorManager> error_ptr;
     };
 
 }

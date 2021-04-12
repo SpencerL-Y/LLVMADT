@@ -6,6 +6,7 @@
 #define LLVMADT_TABLEBUILDER_H
 #include "AbstractSymbolicTable.h"
 #include "../../include/execution-tree/ExecutionTree.h"
+#include "ErrorManager.h"
 
 using namespace llvm;
 namespace sym_exe {
@@ -18,10 +19,12 @@ namespace sym_exe {
     public:
         void parse_single(InsPtr ins_ptr);
         AbstractSymbolicTable& get_table();
+        void set_error_manager(shared_ptr<ErrorManager>& em_ptr);
     private:
         AbstractSymbolicTable table;
         unordered_map<string, point_to_node> pointer_map;
         unordered_map<string, unsigned long long> malloc_info;
+        shared_ptr<ErrorManager> error_ptr;
 
         void get_info(InsPtr ins_ptr);
         void extract_info(const AllocaInst *ins_ptr);

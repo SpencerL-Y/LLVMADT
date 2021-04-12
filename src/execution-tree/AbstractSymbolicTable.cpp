@@ -7,6 +7,7 @@
 #include <cstdio>
 #include "AbstractSymbolicTable.h"
 #include "iostream"
+#include "ErrorManager.h"
 #include <unordered_set>
 
 using namespace std;
@@ -58,12 +59,15 @@ namespace sym_exe {
 
     bool AbstractSymbolicTable::check_memory_leak() {
         unordered_set<string> s;
+        string info;
         for (auto& i : table) {
             if  (!i.auto_free) {
-                cout << "memory leak found: ";
-                cout << "\t" << i.var_name << " was not free!\n";
+                info += "\t" + i.var_name + " was not free!\n";
                 s.insert(to_string(i.abstract_address));
             }
+        }
+        if (s.size()) {
+            error_ptr->add_error("memory leak", "\n" + info);
         }
 //        cout << "related pointers: ";
 //        for (auto& i : table) {
@@ -117,7 +121,9 @@ namespace sym_exe {
         auto addr = get_address(pointer_name, 1);
         auto p = addr + offset;
         if (p < table[addr].get_lower_bound() || p > table[addr].get_upper_bound()) {
-            cout << "param " << pointer_name << " index out of range error found!\n";
+            string s;
+            s += "param " + pointer_name + " index out of range error found!\n";
+            error_ptr->add_error("index out of range", s);
             return false;
         }
         return true;
@@ -131,7 +137,12 @@ namespace sym_exe {
         int addr = get_address(pointer_name, 1);
         int lower_bound = table[addr].get_lower_bound();
         int upper_bound = table[addr].get_upper_bound();
-        for (int i = lower_bound; i <= upper_bound; ++ i) {
+        if (addr != lower_bound) {
+            string s;
+            s = "Error: free() Invalid pointer\n";
+            error_ptr->add_error("invalid free", s);
+        }
+        for (int i = addr; i <= upper_bound; ++ i) {
             table[i].auto_free = true;
         }
     }
@@ -148,6 +159,14 @@ namespace sym_exe {
         }
         Payload payload(pointer_name, to_string(start_pos));
         add_data(payload);
+    }
+
+    void AbstractSymbolicTable::set_error_manager(shared_ptr<ErrorManager> &error_manager) {
+        error_ptr = error_manager;
+    }
+
+    void AbstractSymbolicTable::check() {
+        check_memory_leak();
     }
 
 }

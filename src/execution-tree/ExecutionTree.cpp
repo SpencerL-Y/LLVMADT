@@ -137,6 +137,10 @@ namespace sym_exe {
         for (auto to_bb: set) {
             std::string to_name = to_bb->getName();
             if (visited_num[to_name] > get_loop_time()) {
+                if (visited_num[to_name] == visited_num[now_name]) {
+                    build_tree(to_bb, now_ptr);
+                    visited_num[to_name] --;
+                }
                 continue;
             }
             build_tree(to_bb, now_ptr);
@@ -153,4 +157,5 @@ namespace sym_exe {
             roots[function.getName()] = ptr;
         }
     }
+
 }

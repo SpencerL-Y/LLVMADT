@@ -3,6 +3,7 @@
 //
 
 #include "../../include/execution-tree/InstructionParser.h"
+#include "TableBuilder.h"
 
 namespace sym_exe {
 
@@ -445,10 +446,10 @@ namespace sym_exe {
             }
             return index[name] = 0;
         } else {
-            if (index.count(name)) {
-                return index[name];
-            }
-            return 0;
+//            if (index.count(name)) {
+//                return index[name];
+//            }
+            return index[name];
         }
     }
 
@@ -476,10 +477,14 @@ namespace sym_exe {
         }
         llvm::errs() << "\n";
 #endif
+        error_ptr = make_shared<ErrorManager>();
         z3::expr final = c.bool_val("true");
+        TableBuilder tableBuilder;
+        tableBuilder.set_error_manager(error_ptr);
         int pos = 1;
         for (auto &i : ins_vec) {
             z3::expr e = c.bool_val(true);
+            tableBuilder.parse_single(i);
             check_errors(i, final);
             if (const auto ins_ptr = dyn_cast<BranchInst>(i)) {
                 e = extract_constraints(ins_ptr, branch_vec[pos ++]);
@@ -504,6 +509,9 @@ namespace sym_exe {
             return false;
         }
 
+        tableBuilder.get_table().print_table();
+        tableBuilder.get_table().check();
+
         auto model = solver.get_model();
 #if DEBUG
         print_z3_model(model);
@@ -512,14 +520,14 @@ namespace sym_exe {
 
         for (auto &i : return_var) {
             if (i.second != "0") {
-                is_ok = false;
+                error_ptr->add_error("return non zero", "return " + i.second);
             }
         }
         if (return_var.empty()) {
-            is_ok = false;
+            error_ptr->add_error("return nothing", "return value is empty");
         }
         // print result
-        if (is_ok) {
+        if (!error_ptr->have_error()) {
             pos = 0;
             std::cout << "\033[92mOK, this path is fine:\nexecution path\n\t" << branch_vec[pos ++];
             while (pos < branch_vec.size()) {
@@ -528,7 +536,6 @@ namespace sym_exe {
             std::cout << "\n";
             print_var_info();
             std::cout <<"\033[0m" << std::endl;
-
         } else {
             pos = 0;
             std::cout << "\033[91mCounter errors! This path is BAD!\nexecution path\n\t" << branch_vec[pos ++];
@@ -538,6 +545,7 @@ namespace sym_exe {
             std::cout << "\n";
             print_var_info();
             std::cout <<"\033[0m" << std::endl;
+            error_ptr->print_error();
         }
         return true;
     }
@@ -596,20 +604,22 @@ namespace sym_exe {
         z3::solver solver(c);
         solver.push();
         solver.add(now_constraints && (num2 == 0));
+        string error_info;
         if (solver.check() == z3::sat) {
             is_ok = false;
             auto mod = solver.get_model();
             get_model_info(mod);
-            std::cout << "\033[91mMay cause divide zero error when input is: \n";
+            error_info += "\033[91mMay cause divide zero error when input is: \n";
             for (auto &i : input_var) {
-                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+                error_info += "\t" + get_origin_name(i.first) + " = " + i.second + "\n";
             }
-            std::cout << "and uninitialized parameter:\n";
-            for (auto &i : undefined_var) {
-                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
-            }
-            std::cout << "related param name: " << op2->getName().str() << "\033[0m" << std::endl;
+//            std::cout << "and uninitialized parameter:\n";
+//            for (auto &i : undefined_var) {
+//                std::cout << "\t" << get_origin_name(i.first) << " = " << i.second << std::endl;
+//            }
+            error_info += "related param name: " + op2->getName().str() + "\033[0m" + "\n";
         }
+        error_ptr->add_error("divide zero error", error_info);
         solver.pop();
     }
 
@@ -645,6 +655,10 @@ namespace sym_exe {
         print_input_var();
         print_return_var();
         print_undefined_var();
+    }
+
+    void InstructionParser::set_error_manager_ptr(shared_ptr<ErrorManager>& em_ptr) {
+        error_ptr = em_ptr;
     }
 
 }

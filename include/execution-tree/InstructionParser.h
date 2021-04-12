@@ -58,6 +58,8 @@ namespace sym_exe {
         void print_return_var();
         void print_var_info();
 
+        void set_error_manager_ptr(shared_ptr<ErrorManager>& em_ptr);
+
     private:
         bool is_ok = true;
         // z3 context
@@ -70,6 +72,8 @@ namespace sym_exe {
         std::unordered_map<std::string, std::string> return_var;
         // undefined variables
         std::unordered_map<std::string, std::string> undefined_var;
+
+        std::shared_ptr<ErrorManager> error_ptr;
 
         int get_index(const std::string& name, bool is_left_value);
 
@@ -112,6 +116,7 @@ namespace sym_exe {
         void check_errors(InsPtr& ins_ptr, z3::expr &now_constraints);
 
         void detect_divide_zero(InsPtr ins_ptr, z3::expr &now_constraints);
+
 
     };
 }

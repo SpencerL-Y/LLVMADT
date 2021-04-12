@@ -7,6 +7,7 @@
 #include <iostream>
 #include "unordered_map"
 #include "ExecutionNode.h"
+#include "../../src/execution-tree/ErrorManager.h"
 
 namespace sym_exe {
     typedef ExecutionNode Node;

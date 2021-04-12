@@ -7,9 +7,9 @@ using namespace llvm;
 namespace sym_exe {
 
     void TableBuilder::parse_single(TableBuilder::InsPtr ins_ptr) {
-        errs() << *ins_ptr << "\n\t";
+//        errs() << *ins_ptr << "\n\t";
         get_info(ins_ptr);
-        errs() << "\n";
+//        errs() << "\n";
     }
 
     void TableBuilder::extract_info(const StoreInst *ins_ptr) {
@@ -68,7 +68,7 @@ namespace sym_exe {
 
     void TableBuilder::extract_info(const AllocaInst *ins_ptr) {
         auto op = ins_ptr->getValueName()->getValue();
-#if not DEBUG
+#if DEBUG
         errs() << op->getName() << " " << get_pointer_level(op) << "\n";
         errs() << ins_ptr->getNumOperands() << "\n";
         errs() << ins_ptr->getType()->getElementType()->isArrayTy() << "\n";
@@ -165,7 +165,9 @@ namespace sym_exe {
                     if (auto val = dyn_cast<ConstantInt>(arg)) {
                         auto name = ins_ptr->getName();
                         malloc_info[name] = val->getZExtValue();
+#if DEBUG
                         errs() << "name: " << name << " " << val->getZExtValue() << "\n";
+#endif
                     }
                 }
             }
@@ -175,7 +177,9 @@ namespace sym_exe {
                     if (ce->getNumOperands() && ce->getOperand(0)->getName() == "free") {
                         string var = ins_ptr->getOperand(0)->getName();
                         table.free(var);
+#if DEBUG
                         errs() << var << " is free!\n";
+#endif
                     }
                 }
             }
@@ -185,16 +189,20 @@ namespace sym_exe {
     void TableBuilder::extract_info(const BitCastInst *ins_ptr) {
         auto left_name = ins_ptr->getName();
         auto right_name = ins_ptr->getOperand(0)->getName();
+#if DEBUG
         errs() << "\nnum operand: " << ins_ptr->getNumOperands() << "\n";
         errs() << "left name: " << left_name << "\n";
         errs() << "right name: " << right_name << "\n";
+#endif
         auto right_type = dyn_cast<PointerType>(ins_ptr->getOperand(0)->getType());
         auto left_type = dyn_cast<PointerType>(ins_ptr->getValueName()->getValue()->getType());
         if (right_type && left_type) {
             auto left_width = left_type->getElementType()->getIntegerBitWidth();
             auto right_width = right_type->getElementType()->getIntegerBitWidth();
             auto block_num = left_width / right_width;
+#if DEBUG
             errs() << left_width << " " << right_width << " " << block_num << "\n";
+#endif
             string pointer_name = left_name;
             table.malloc(pointer_name, block_num);
             return;
@@ -244,6 +252,11 @@ namespace sym_exe {
             Payload payload(left_name, to_string(addr));
             table.add_data(payload);
         }
+    }
+
+    void TableBuilder::set_error_manager(shared_ptr<ErrorManager> &em_ptr) {
+        error_ptr = em_ptr;
+        table.set_error_manager(em_ptr);
     }
 
 };
